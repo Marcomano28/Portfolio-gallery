@@ -1,12 +1,19 @@
+import { useRef, useEffect } from "react";
 import { ScreenContainer, Title, Title1, Title2, Title3, Title4, SomeVideo, Pane } from "./VideoStyled"
 import PropTypes from 'prop-types';
 export const Video = ({ src, title, title1, title2, title3, title4}) => {
+    const videoRef = useRef(null);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.muted = true;
+        }
+    }, []);
   return (
     <>
         <ScreenContainer>
             <Pane></Pane>
-            <SomeVideo src={src} controls>
-                {/* <source src={src} type="video/mp4"/> */}
+            <SomeVideo ref={videoRef} src={src} controls>
             </SomeVideo>
         </ScreenContainer>
         <div>

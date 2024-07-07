@@ -6,6 +6,7 @@ import {AboutMe } from './pages/about/AboutMe.jsx';
 import pagesData from "./pages/pagesData.js";
 import { GenericPage } from './components/genericPage/GenericPage.jsx';
 import { WeatherProvider } from "./contexts/weatherContext.jsx";
+
 function App() {
   return ( 
       <ThemeProvider >

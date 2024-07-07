@@ -1,5 +1,15 @@
 import styled from "styled-components";
 
+export const Wrapper = styled.div`
+     position: relative;
+     margin-left: 0.5;
+     /* display: flex;
+     justify-content: center;
+     align-items: center;
+     flex-direction:column; */
+     margin-top:0.7rem;
+     padding-bottom: 1.8rem;
+`
 export const InputContainer = styled.div`
      display:flex;
      justify-content:center;

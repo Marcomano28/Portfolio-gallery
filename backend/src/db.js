@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
 const mongoDbUri = process.env.MONGO_URI;
 

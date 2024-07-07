@@ -60,7 +60,7 @@ export const Btn = styled.button`
             }
 `
 export const BtnLink = styled(Link)`
-             color: rgba(215, 214, 187, 0.617);
+             color: ${props => props.theme.navButtonColor};
              text-shadow: 1px 1px #68523a;
              padding: 0 0.1rem;
              text-decoration: none;

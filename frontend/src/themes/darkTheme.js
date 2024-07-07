@@ -59,4 +59,5 @@ export const darkTheme = {
     inputBackgroundOnHover: 'rgba(75, 63, 82, 0.39)', 
     inputColorOnHover: 'rgba(215, 214, 187, 0.617)',
     inputButtonColor: 'rgba(215, 214, 187, 0.617)',
+    navButtonColor: 'rgba(160, 157, 66, 0.617)',
 };

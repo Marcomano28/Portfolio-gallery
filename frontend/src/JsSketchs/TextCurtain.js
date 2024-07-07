@@ -71,23 +71,15 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     const updateWeatherData = (weatherData) => {
         if (weatherData) {
             onWeather = true;
-            console.log(weatherData);
             cloudsAll = weatherData.clouds.all;//0,100
             const localTime = weatherData.localTime;
             const temp = weatherData.main.temp;
             const humidity = weatherData.main.humidity;//79
-            const pressure = weatherData.main.pressure;//1016
-            // const rainH = weatherData.rain.1h;//0.75
-            windSpeed = p.map(weatherData.wind.speed, 0, 10, 100, 5);//4.25
+            windSpeed = p.map(weatherData.wind.speed, 0, 10, 50, 5);//4.25
             const windAng = weatherData.wind.deg;//190
             const currentTime = timeToMinutes(localTime);
             const sunriseTime = timeToMinutes(weatherData.sunriseHour);
             const sunsetTime = timeToMinutes(weatherData.sunsetHour);
-            console.log(sunriseTime);
-            console.log(sunsetTime);
-            console.log("Tipo de localTime:", typeof currentTime, "Valor:", currentTime);
-            console.log("Tipo de sunriseHour:", typeof sunriseTime, "Valor:", sunriseTime);
-            console.log("Tipo de sunsetHour:", typeof sunsetTime, "Valor:", sunsetTime);
             const { intensity, reddishTone } = calculateLightIntensity(currentTime, sunriseTime, sunsetTime);
             bgColor = p.color(intensity, intensity - reddishTone*0.2, intensity - reddishTone*0.2);
             console.log(`Color RGB: ${bgColor.levels}`); 
@@ -229,7 +221,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
 
         this.show = () => {         
              //p.fill(255, 255, 255);
-            night ? p.fill((darkLight*185) + lightMore * this.dis/2, (20 * darkLight)+ lightMore * this.dis, (45*darkLight) * p.pow(lightMore , this.dis)):
+            night ? p.fill((darkLight*185) + lightMore * this.dis/3.5, (10 * darkLight)+ lightMore * this.dis/1.7, (45*darkLight) * p.pow(lightMore , this.dis/1.9)):
             p.fill((darkLight/20) + lightMore * this.dis, (20 * darkLight)+ lightMore * this.dis, (darkLight) * p.pow(lightMore / 2, this.dis));
             p.strokeWeight(0.4);
             night ? p.stroke(255,20): p.noStroke();

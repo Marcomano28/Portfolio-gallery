@@ -67,7 +67,7 @@ export const PanelNav = styled.nav`
      & a:hover{
        margin: 0.7rem 0;
        /* color: rgba(242, 178, 83,0.8); */
-       text-shadow:-1px -1px 0 #fcf8f5, 1px -1px 0 #859667,-1px 1px 0 #d46f64,1px 1px 0 #6f537a; 
+       text-shadow:1px 1px 0 #2d1f13, 1px -1px 1px #859667,1px 1px 1px #e6978e,1px 1px 0 #877090; 
        color: ${props => props.theme.onHoverColorAbout};
      }
         @media (min-width: 375px) {         

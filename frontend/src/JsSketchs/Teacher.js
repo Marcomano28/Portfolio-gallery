@@ -1,8 +1,10 @@
 import p5 from "p5";
 import {  timeToMinutes, latinAlphabet } from "./utils/utilsSketchs";
-
+import "@fontsource/noto-sans";
 import fnt5 from "../assets/images/fnt5.ttf";
 import fnt7 from "../assets/images/EraserRegular.ttf";
+import fntS from "../assets/images/NotoSans-Regular.ttf";
+import fntSS from "../assets/images/NotoSans.ttf";
 const p5SketchTeacher = (p , theme, weatherData) => {
     let canvas;
     let body_size = 70;
@@ -14,7 +16,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     const subStep = 8;
     const ballAmount = 8;
     const minRadius = 5;
-    const maxRadius = 20;
+    const maxRadius = 22;
     const speedLimit = 3.4;
     const forceMultiplier = 40;
     const ballArray = [];
@@ -22,9 +24,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     //Fórmula Integral de Cauchy para Funciones Analíticas
     let letra = "";  
     let pg;
-    let fn;
     let fn5;
-    let myFont;
+    let notoFont;
     let xx;
     let yy;
     let stp = 5;
@@ -39,12 +40,14 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     let ballCol, backCol, bodyCol, textCol, frameColor, speedBodyReact, legColor;
     let day;
     let onWeather = false;
+    let funFont, allFont, allFonts;
     let isDayCity;
-    let textFun = false;
     let colorFromTemp;
     let language;
     let desckCol;
     let showBalls=true;
+    let selectedWord = '';
+
     const updateTheme = (newTheme) => {
       if(newTheme === 'dark'){
          lighter = 1;
@@ -98,32 +101,32 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         const sunsetTime = timeToMinutes(weatherData.sunsetHour);
         colorFromTemp = p.color(tempMin, temp, tempMax, humidity);
         language = weatherData.language;
-        latinAlphabet.includes(language)? textFun = true : textFun = false; 
+        const name = weatherData.name.toUpperCase(); 
+        const poem = weatherData.frase.text; 
         if(currentTime > sunriseTime && currentTime < sunsetTime){
           isDayCity = true;
           //desckCol = windAng;
         }else{
           isDayCity = false;
           //desckCol = humidity;
-        } 
-        const name = weatherData.name.toUpperCase(); 
-        const poem = weatherData.frase.text;
-        const text = extractWords(poem);
-        console.log(text);
-        letra = `You are now in ${name}, having arrived precisely at ${localTime} during the ${isDayCity ? 'day' : 'night'}, when the magic begins. The temperature is around ${temp}°C, and someone is singing: ${text}.`;
+        }       
+        //const text = extractWords(poem);    
+        letra = `You are now in ${name}, having arrived precisely at ${localTime} during the ${isDayCity ? 'day' : 'night'}, when the magic begins. The temperature is around ${temp}°C, and someone is singing: ${poem}.`;
+      }
+    };
+    if (weatherData) {
+        updateWeatherData(weatherData);  
+    } else {
+        updateTheme(theme);
+        letra ="ζ(s) = Σ(1/n^s), n=1 hasta ∞ | e^πi + 1 = 0 | ∫ e^(-x^2) dx, -∞ a ∞ | lim (n→∞) (1 + 1/n)^n = e | f(z) = 1/(2πi) ∮c f(w)/(w-z) dw";
+    }     
+    p.preload = () => {
+      fn5 = p.loadFont(fnt5);
+      funFont = p.loadFont(fnt7);
+      notoFont = 'Noto Sans';
+      allFont = p.loadFont(fntS);
+      allFonts = p.loadFont(fntSS);
     }
-};
-if (weatherData) {
-    updateWeatherData(weatherData);  
-} else {
-    updateTheme(theme);
-    letra ="ζ(s) = Σ(1/n^s), n=1 hasta ∞ | e^πi + 1 = 0 | ∫ e^(-x^2) dx, -∞ a ∞ | lim (n→∞) (1 + 1/n)^n = e | f(z) = 1/(2πi) ∮c f(w)/(w-z) dw";
-}     
-p.preload = () => {
-  fn5 = p.loadFont(fnt5);//**** */
-  myFont = p.loadFont(fnt7);
-}
- 
     let tieX = new Array(6).fill(0);
     let tieY = new Array(6).fill(0);
     let tieLength = 15;
@@ -133,19 +136,37 @@ p.preload = () => {
       const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
+
       b = new body(body_size);
       p.rectMode(p.CENTER);
-      for (let i = 0; i < ballAmount; i++) {
-        ballArray.push(new Ball());
-      }
+      
       pg = p.createGraphics(780, 550);
       pg.background(weatherData?colorFromTemp:desckCol);
       pg.textAlign(p.LEFT);
-      if(onWeather && textFun){
-        pg.textFont(myFont);
-      } 
+      if(onWeather){
+        latinAlphabet.includes(language) ? pg.textFont(funFont): p.textFont(notoFont);       
+      }
       pg.noStroke();
       //pg.fill(255, 220);
+      if(weatherData){
+        const frase = weatherData.frase.text;
+        const words = frase.split(/\s+/);
+
+        for (let word of words) {
+          if (word.length === ballAmount) {
+            selectedWord = word;
+            break;
+          }
+        }
+        if (selectedWord === '') {
+          selectedWord = frase.replace(/\s+/g, '').slice(0, ballAmount);
+        }
+      }
+      for (let i = 0; i < ballAmount; i++) {
+        let ball = new Ball();
+            ball.letter = selectedWord[i] || ' '; // Asigna un espacio si no hay letra
+            ballArray.push(ball);
+      }
       xx = b.handL_mov.x + p.width / 2;
       yy = b.handL_mov.y + p.height / 2;
     };
@@ -220,9 +241,9 @@ p.preload = () => {
             if (onWeather) {
              if( Math.cos(ang) > 0 ){
               pg.rotate(0);
-              pg.strokeWeight(0.4);
+              pg.strokeWeight(0.1);
               //pg.fill(255,120/d);
-              isDayCity? pg.noStroke() && pg.fill(255,40+d):pg.stroke(25+d,alphaValue/d);             
+              isDayCity ? pg.noStroke() && pg.fill(255,40+d):pg.stroke(25+d,alphaValue/d);             
               pg.text(nwl, 0, 0);
              } 
              
@@ -296,6 +317,8 @@ p.preload = () => {
             b.position.z + b.bdy_size * 0.5 - this.r
           )
         );
+        p.textFont(allFonts);
+        this.letter = '';
       }
       update() {
         this.vel.add(this.acc.div(subStep));
@@ -348,11 +371,22 @@ p.preload = () => {
       }
   
       show() {
-        p.fill(weatherData? colorFromTemp:ballCol);
+        //p.fill(weatherData? colorFromTemp:ballCol);
         p.strokeWeight(0.4);
         p.push();
         p.translate(this.pos.x, this.pos.y, this.pos.z);
-        p.sphere(this.r, 5, 5);
+        let v = p.createVector(p.camera.eyeX - this.pos.x, p.camera.eyeY - this.pos.y, p.camera.eyeZ - this.pos.z);
+        let rotY = p.atan2(-v.z, v.x);
+        let rotX = p.atan2(v.y, p.sqrt(v.x * v.x + v.z * v.z));
+      
+        // Aplica la rotación
+        p.rotateY(rotY);
+        p.rotateX(rotX);
+        // p.sphere(this.r,5,5);
+        p.fill(120,100,127,120); 
+        p.textAlign(p.CENTER, p.CENTER);
+        p.textSize(this.r * 1.8); 
+        onWeather ? p.text(this.letter, 0, 0):p.sphere(this.r,5,5);
         p.pop();
       }
     }

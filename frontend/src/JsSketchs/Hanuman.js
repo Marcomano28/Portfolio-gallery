@@ -118,25 +118,23 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
     let ti = p.millis() / 1000; 
     function f1(x, y, n = 0) {
         t = 0.8;
-
         const d = x * x + y * y;
         if(theme === 'dark'){
             a = 1/4;
             b = 1/6;
-            const mx = p.map(p.mouseX, 0, p.width, 1.5, 3);  //2.5 ***  
-            const my = p.map(p.mouseY,0,p.height,-1.5,1);   
+            const mx = p.map(p.mouseX, 0, p.width, 1.5, 5.3);  //2.5 ***  
+            const my = p.map(p.mouseY,0,p.height,-1.5,1.5);   
             if (d < 9 && n<8) {
-                return Math.floor(f1(x * x + y * y - a * x / d*my, my*Math.tan(b*x*y)-1/2, n + 1));
+                return Math.floor(f1(x * x + y * y - a * x / d*my, my*Math.tan(b*x*y)-1/mx, n + 1));
             } else {
                 // return (Math.cos(n / 8) + 1) * 128;
                 return (Math.cos(n / 18 + Math.sqrt(x/t)) + 1) * mx/traslucid;
             }
         }else if(theme === 'light'){
             a = 1/4;
-            b = 1/9;
-            
-            const mx = p.map(p.mouseX, 0, p.width, 1.0, 1.5);  //2.5 ***        
-            const my = p.map(p.mouseY,0,p.height,0.1,0.6);
+            b = 1/9;           
+            const mx = p.map(p.mouseX, 0, p.width, 0.2, 0.5);  //2.5 ***        
+            const my = p.map(p.mouseY,0,p.height,0.9,1.6);
             const smx  = 41.3;
             const smy = 0.2
             //console.log('mi mx y my:',mx, my);

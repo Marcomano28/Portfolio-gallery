@@ -56,6 +56,7 @@ export const Image = styled.img`
       }   */
 `;
 export const Button = styled.button`
+
        color: rgb(112, 112, 67);
        position: absolute;
        bottom: 0;
@@ -70,5 +71,6 @@ export const Button = styled.button`
        &:hover{
        color: rgb(155, 155, 90);
        box-shadow: inset 0 8px 10px -6px #774747;
+       cursor: pointer;
        }
 `

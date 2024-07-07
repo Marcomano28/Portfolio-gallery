@@ -24,13 +24,26 @@ function getClimateZone(lat) {
 }
 const p5SketchForest = (p, theme, weatherData) => {
     
-    const N = 100;//
+    let N = 150;
+    let A = 20;
     const num_trees = 102;
+    let cloudsAll;
+    let rain;
+    if (weatherData) {
+        if (weatherData.clouds && typeof weatherData.clouds.all === 'number') {
+            cloudsAll = weatherData.clouds.all; // Ejemplo: 0 a 100
+            N = Math.ceil(p.map(cloudsAll, 0, 100, 300, 50));
+            N > 250 ? A = 1 : 10;
+            console.log(N);
+        }
+        if (weatherData.rain && typeof weatherData.rain.lh === 'number') {
+            rain = Math.ceil(p.map(weatherData.rain.lh, 0, 10, 0, 30)); // Ejemplo: 0.75
+            N = N - rain;  // Reducir N en función de rain
+            A = A + rain;  // Aumentar A en función de rain
+        }
+    }
     const grid = Array.from(new Array(N), () => new Array(N).fill(0));
-    const agents = Array(10)
-        .fill()
-        .map(() => ({ x: 0, y: 0 }));
-
+    const agents = Array(A).fill().map(() => ({ x: 0, y: 0 }));
     let glass;
     let mySvg;
     let mySvg1;
@@ -45,7 +58,6 @@ const p5SketchForest = (p, theme, weatherData) => {
     let numDrops;
     let intensity;
     let bgColor;
-    let cloudsAll;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
 
     p.preload = () => {
@@ -80,7 +92,6 @@ const p5SketchForest = (p, theme, weatherData) => {
         if (weatherData) {
             onWeather = true;
             console.log(weatherData);
-            cloudsAll = weatherData.clouds.all;//0,100
             const localTime = weatherData.localTime;
             const temp = weatherData.main.temp;
             const humidity = weatherData.main.humidity;//79
@@ -91,11 +102,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             const currentTime = timeToMinutes(localTime);
             const sunriseTime = timeToMinutes(weatherData.sunriseHour);
             const sunsetTime = timeToMinutes(weatherData.sunsetHour);
-            console.log(sunriseTime);
-            console.log(sunsetTime);
-            console.log("Tipo de localTime:", typeof currentTime, "Valor:", currentTime);
-            console.log("Tipo de sunriseHour:", typeof sunriseTime, "Valor:", sunriseTime);
-            console.log("Tipo de sunsetHour:", typeof sunsetTime, "Valor:", sunsetTime);
+            
             const { intensity, reddishTone } = calculateLightIntensity(currentTime, sunriseTime, sunsetTime);
             if(currentTime > sunriseTime && currentTime < sunsetTime){
                 isDayCity = true;
@@ -103,15 +110,14 @@ const p5SketchForest = (p, theme, weatherData) => {
                 isDayCity = false;
             } 
             bgColor = p.color(intensity, intensity - reddishTone*0.2, intensity - reddishTone*0.2);
-            console.log(`Color RGB: ${bgColor.levels}`); 
             // const daytime = isCurrentlyDaytime(localTime, sunriseHour, sunsetHour);
             // console.log(daytime ? 'Es de día' : 'Es de noche');
-            traslucid = p.map(humidity, 0, 100, 0, 255);
+            traslucid = p.map(humidity, 0, 100, 50, 255);
             // col = p.map(temp, -10, 40, 0.5, 6.5);
             bgR = humidity;
             bgG = cloudsAll;
             bgB = weatherData.main.temp_min;
-            col = weatherData.wind.speed;
+            
             // console.log(col);
             // numDrops = p.map(humidity, 0, 100, 1, 5);
             // day = temp > 20;  // Example: assume day if temp > 20 degrees
@@ -251,14 +257,21 @@ const p5SketchForest = (p, theme, weatherData) => {
                 grid[x][y] = (sum == numDrops) + (sum == 4/col);
             }
         }
-       
-        glass.background(46 * col, 56 * col, 56 * col, traslucid);
+        if(onWeather){
+            let addLight = isDayCity ? 100 : -20;
+            let r = Math.ceil(p.red(bgColor)) + addLight;
+            let g = Math.ceil(p.green(bgColor)) + addLight;
+            let b = Math.ceil(p.blue(bgColor)) + addLight;
+            glass.background(r , g , b , 20);
+        }
+        glass.background(46 * col , 56 * col , 63 * col , traslucid);
+        
         glass.loadPixels();
         for (let x = N; x--;) {
             for (let y = N; y--;) {
                 const index = (x + y * N) * 4;
-                glass.pixels[index + 3] = grid[x][y] ? 255 : 40*col;
-                if (grid[x][y] > p.frameCount % 400) {
+                glass.pixels[index + 3] = grid[x][y] ? 255 : onWeather?10:40*col;
+                if (grid[x][y] > p.frameCount % 200) {
                     grid[x][y] = 0; // Reset si la gota ha estado demasiado tiempo
                 }
             }

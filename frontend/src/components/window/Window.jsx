@@ -6,7 +6,6 @@ import { Slider } from "../sliders/Slider";
 import { InteractiveSketch } from "../interactiveCanvas/InteractiveSketch";
 import {HeadTextPage} from '../headtext/HeadTextPage';
 import { useEffect, useState } from "react";
-import moment from "moment-timezone";
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json'; 
 import { Message } from "./WindowStyled";
@@ -52,7 +51,7 @@ export const Window = ({showNav, videoData, slidesData, id, VideoComponent, head
     <GridContainer>
       <GridLayout
         nav={showNav ? <Nav /> : null}
-        headText={shouldShowInput ? <HeadTextPage text={headText} showInput={true} onCityChange={setCity} fetchWeather={fetchWeather} displayContent={displayContent}/> : null}
+        headText={shouldShowInput ? <HeadTextPage text={headText} showInput={true} onCityChange={setCity} fetchWeather={fetchWeather} displayContent={displayContent}/> : <HeadTextPage text={headText}/>}
         videoSection={<VideoComponentToRender {...videoData} weatherData={weatherData}/>}
         slidswrapper={<Slider slides={slidesData} windowId={id} />}                
       />

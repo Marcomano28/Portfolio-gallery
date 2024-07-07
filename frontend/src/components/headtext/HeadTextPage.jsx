@@ -1,4 +1,4 @@
-import { InputContainer, Input, InputButton } from "./HeadTextPageStyled";
+import { InputContainer, Input, InputButton, Wrapper } from "./HeadTextPageStyled";
 import { WeatherContext } from "../../contexts/weatherContext";
 import { useContext } from "react";
 
@@ -12,7 +12,7 @@ export const HeadTextPage = ({text, showInput, displayContent}) => {
     fetchWeather();  // Llama a la función fetchWeather del contexto
   };
   return (
-    <div>
+    <Wrapper>
       <p>{text}</p>
       {showInput && (
       <InputContainer>
@@ -25,6 +25,6 @@ export const HeadTextPage = ({text, showInput, displayContent}) => {
       </InputContainer>  
       )}
       {displayContent}  
-    </div>
+    </Wrapper>
   )
 }

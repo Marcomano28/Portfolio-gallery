@@ -1,9 +1,49 @@
 // ContactModal.js
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { StyledModal, StyledModalContent, Input, TexTarea, ModalButton, HeaderContact } from './ContactModalStyled';
 
 const ContactModal = ({ isOpen, toggleModal }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const handleChange = (e) => {
+    const {name, value} = e.target;
+    setFormData(prev => ({
+    ...prev,
+    [name]: value
+    }));
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    sendEmail();
+  };
 
+  const sendEmail = () => {
+    fetch('http://localhost:4000/api/send-email', {
+      method: 'POST',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+      
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+        return response.json();
+    })
+    .then(data => {
+      alert('Message sent successfully: ' + data.message);
+      setFormData({ name: '', email: '', message: '' });
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+      alert('There was a problem sending the message.');
+    });
+  }
   const handleModalTransition = () => {
     const modalContent = document.querySelector('.ReactModal__Content');
     if (modalContent) {
@@ -31,12 +71,12 @@ const ContactModal = ({ isOpen, toggleModal }) => {
       >
         <StyledModalContent>
           <HeaderContact>Contact Me</HeaderContact>
-          <form>
-            <Input type="text" placeholder="Your name" required /><br />
-            <Input type="email" placeholder="Your email" required /><br />
-            <TexTarea placeholder="Your message" required /><br />
+          <form onSubmit={handleSubmit}>
+            <Input type="text" name="name" placeholder="Your name" value={formData.name} onChange={handleChange} required /><br />
+            <Input type="email" name="email" placeholder="Your email" value={formData.email} onChange={handleChange} required /><br />
+            <TexTarea name='message' placeholder="Your message" value={formData.message} onChange={handleChange} required /><br />
             <ModalButton type="submit">Send Message</ModalButton>
-            <ModalButton onClick={toggleModal}>Close</ModalButton>
+            <ModalButton type="button" onClick={toggleModal}>Close</ModalButton>
           </form>
         </StyledModalContent>
       </StyledModal>
