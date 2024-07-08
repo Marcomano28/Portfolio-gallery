@@ -103,6 +103,12 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         language = weatherData.language;
         const name = weatherData.name.toUpperCase(); 
         const poem = weatherData.frase.text; 
+        const sepPoem = poem.split('').reduce((result, char, index) => {
+          if (index > 0 && char.toLowerCase() !== char) {
+            return result + ' ' + char;
+          }
+          return result + char;
+        }, '');
         if(currentTime > sunriseTime && currentTime < sunsetTime){
           isDayCity = true;
           //desckCol = windAng;
@@ -111,7 +117,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
           //desckCol = humidity;
         }       
         //const text = extractWords(poem);    
-        letra = `You are now in ${name}, having arrived precisely at ${localTime} during the ${isDayCity ? 'day' : 'night'}, when the magic begins. The temperature is around ${temp}°C, and someone is singing: ${poem}.`;
+        letra = `You are now in ${name}, having arrived precisely at ${localTime} during the ${isDayCity ? 'day' : 'night'}, when the magic begins. The temperature is around ${temp}°C, and someone is singing: ${sepPoem}.`;
       }
     };
     if (weatherData) {
