@@ -60,4 +60,5 @@ export const darkTheme = {
     inputColorOnHover: 'rgba(215, 214, 187, 0.617)',
     inputButtonColor: 'rgba(215, 214, 187, 0.617)',
     navButtonColor: 'rgba(160, 157, 66, 0.617)',
+    textCityColor: 'linear-gradient(180deg, rgb(121, 111, 22),rgb(40, 38, 144) )',
 };
