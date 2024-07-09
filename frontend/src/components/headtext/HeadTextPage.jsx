@@ -18,7 +18,7 @@ export const HeadTextPage = ({text, showInput, displayContent}) => {
       <InputContainer>
       <Input 
          type="text" 
-         placeholder="The city of you dreams"
+         placeholder="Enter your dream city..."
          onChange={e => handleCityChange(e.target.value)}
          />
       <InputButton onClick={handleFetchWeather}>dream</InputButton>

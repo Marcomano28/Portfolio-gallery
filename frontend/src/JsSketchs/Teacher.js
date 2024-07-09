@@ -92,10 +92,10 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         const tempMin = weatherData.main.temp_min;
         const tempMax = weatherData.main.temp_max;
         const humidity = weatherData.main.humidity;//79
-        const pressure = weatherData.main.pressure;//1016
+        // const pressure = weatherData.main.pressure;//1016
         // const rainH = weatherData.rain.1h;//0.75
-        const windSpeed = weatherData.wind.speed;//4.25
-        const windAng = weatherData.wind.deg;//190
+        // const windSpeed = weatherData.wind.speed;//4.25
+        // const windAng = weatherData.wind.deg;//190
         const currentTime = timeToMinutes(localTime);
         const sunriseTime = timeToMinutes(weatherData.sunriseHour);
         const sunsetTime = timeToMinutes(weatherData.sunsetHour);

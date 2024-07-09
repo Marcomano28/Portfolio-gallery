@@ -38,6 +38,9 @@ export const Input = styled.input`
      &:hover{
        background-color: ${props => props.theme.inputBackgroundOnHover}; 
      }
+     &::placeholder{
+          color: ${props => props.theme.inputButtonColor};   
+     }
 `
 export const InputButton = styled.button`
      z-index:10;
@@ -47,9 +50,10 @@ export const InputButton = styled.button`
      flex-shrink: 0;
      border: none;
      color: ${props => props.theme.inputButtonColor};
-     padding: 0.2rem 0.5rem;
+     padding: 0.25rem 0.5rem;
      background-color: transparent;
      box-shadow: ${props => props.theme.inputButtonShadow};
+     border-bottom: 2px solid #1e2e1f; 
      transition-duration: 0.4s;
      &:hover{
              box-shadow: ${props => props.theme.inputButtonShadowOnHover};

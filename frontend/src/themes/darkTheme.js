@@ -58,7 +58,7 @@ export const darkTheme = {
     inputButtonShadowOnHover: 'inset 0 8px 7px -5px rgb(91, 89, 116)',
     inputBackgroundOnHover: 'rgba(75, 63, 82, 0.39)', 
     inputColorOnHover: 'rgba(215, 214, 187, 0.617)',
-    inputButtonColor: 'rgba(215, 214, 187, 0.617)',
+    inputButtonColor: 'rgba(175, 164, 187, 0.417)',
     navButtonColor: 'rgba(160, 157, 66, 0.617)',
     textCityColor: 'linear-gradient(180deg, rgb(121, 111, 22),rgb(40, 38, 144) )',
 };
