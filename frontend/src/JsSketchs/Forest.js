@@ -2,7 +2,7 @@
 import BezierEasing from 'bezier-easing';
 import { calculateLightIntensity, timeToMinutes } from './utils/utilsSketchs';
 
-const baseUrl = "import.meta.env.VITE_API_URL/svg";
+const baseUrl = `${import.meta.env.VITE_API_URL}/svg`;
 const imageMap = {
     calida: [`${baseUrl}/3T`, `${baseUrl}/3SL`, `${baseUrl}/4RL`, `${baseUrl}/3SD`, `${baseUrl}/4RD`],
     media: [`${baseUrl}/5T`, `${baseUrl}/5SL`, `${baseUrl}/6RL`, `${baseUrl}/5SD`, `${baseUrl}/6RD`],
