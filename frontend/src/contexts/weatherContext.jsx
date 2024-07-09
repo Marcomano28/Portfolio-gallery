@@ -31,7 +31,7 @@ async function fetchTimeZone(lat, lon) {
 }
 
 async function getLanguage(countryCode) {
-  const url = `http://localhost:4000/api/languages/${countryCode}`; 
+  const url = `http://localhost:artcode.onrender.com/api/languages/${countryCode}`; 
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -91,7 +91,7 @@ export const WeatherProvider = ({children}) => {
             let firstFrase = null; 
             let matchedFrase = null;
             for (let lang of languages) {
-                const baseUrl = `http://localhost:4000/api/frase/${lang}`;
+                const baseUrl = `http://localhost:artcode.onrender.com/api/frase/${lang}`;
                 const fraseResponse = await fetch(baseUrl);
                 if (fraseResponse.ok) {
                     const fraseData = await fraseResponse.json();
