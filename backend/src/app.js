@@ -6,8 +6,15 @@ import fraseRouter from './routes/fraseRoutes.js';
 import contactRouter from './routes/contactRoutes.js'
 
 const app = express();
+const allowedOrigins = ['http://localhost:5174', 'https://artcode.onrender.com'];
 app.use(cors({
-    origin: ['http://localhost:5174', 'https://artcode.onrender.com']  
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('CORS not allowed from this origin'));
+        }
+    }
 }));
 
 app.use(express.json());

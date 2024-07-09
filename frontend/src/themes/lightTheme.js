@@ -68,5 +68,5 @@ export const lightTheme = {
     inputColorOnHover: 'rgba(57, 49, 22, 0.617)',
     inputButtonColor: 'rgba(87, 83, 8, 0.617)',
     navButtonColor: 'rgba(215, 214, 187, 0.617)',
-    textCityColor: 'linear-gradient(180deg, rgb(195, 163, 56),rgb(94, 110, 188))',
+    textCityColor: 'linear-gradient(180deg, rgb(225, 163, 96),rgb(24, 50, 88))',
 };	

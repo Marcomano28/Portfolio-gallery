@@ -268,11 +268,11 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         }
       }
       p.image(pg, -p.width / 3, -p.height / 2.1);
-      p.strokeWeight(2);
+      p.strokeWeight(5);
       p.stroke(125, 120);
       p.noFill();
       p.fill(240,120,120,20);
-      p.rect(75, -72, pg.width, pg.height);
+      p.rect(pg.width*0.095, -pg.height*0.11, pg.width, pg.height);
     };
     p.mouseOver = () => {
       xx = b.handL_mov.x + p.width / 2;

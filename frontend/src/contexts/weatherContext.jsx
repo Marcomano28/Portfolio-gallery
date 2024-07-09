@@ -31,16 +31,15 @@ async function fetchTimeZone(lat, lon) {
        return null;
     }
 }
-
 async function getLanguage(countryCode) {
-  const url = `${baseUrl}/api/languages/${countryCode}`; 
+  const url = `${baseUrl}/languages/${countryCode}`; 
   try {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log('Languages:', data);
+    //console.log('Languages:', data);
     return data; 
   } catch (error) {
     console.error('Could not fetch languages:', error);
@@ -61,6 +60,7 @@ export const WeatherProvider = ({children}) => {
           return;
         }
         const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=es&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+        console.log(import.meta.env.VITE_API_URL);
           try {
               const response = await fetch(URL);
               if (!response.ok) {
@@ -73,6 +73,7 @@ export const WeatherProvider = ({children}) => {
               }
               const data = await response.json();
               const localTime = calculateLocalTime(data.timezone);
+              console.log(localTime);
               const lat = data.coord.lat;
               const lon = data.coord.lon;
               const timeZone = await fetchTimeZone(lat, lon);
@@ -82,19 +83,13 @@ export const WeatherProvider = ({children}) => {
               const sunsetLocalTime = getLocalTimeFromUnix(sunsetUnix, timeZone);
               const country = data.sys.country;
               const languages = await getLanguage(country);
-              console.log(languages);
-            //   const baseUrl = `http://localhost:4000/api/frase/${languages}`;
-            //   const fraseResponse = await fetch(baseUrl);
-            //   if (!fraseResponse.ok) {
-            //       throw new Error(`HTTP error! status: ${fraseResponse.status}`);
-            //   }
-            //   const fraseData = await fraseResponse.json();
-            //  const frase = fraseData[0];
+ 
             let firstFrase = null; 
             let matchedFrase = null;
             for (let lang of languages) {
-                const baseUrl = `${baseUrl}/frase/${lang}`;
-                const fraseResponse = await fetch(baseUrl);
+                const Url = `${baseUrl}/frase/${lang}`;
+                const fraseResponse = await fetch(Url);
+                console.log();
                 if (fraseResponse.ok) {
                     const fraseData = await fraseResponse.json();
                     if (!firstFrase) {
