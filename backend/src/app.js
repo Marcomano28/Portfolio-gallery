@@ -7,7 +7,7 @@ import contactRouter from './routes/contactRoutes.js'
 
 const app = express();
 app.use(cors({
-    origin: ['http://localhost:5174']  
+    origin: ['http://localhost:5174', 'https://artcode.onrender.com']  
 }));
 
 app.use(express.json());
