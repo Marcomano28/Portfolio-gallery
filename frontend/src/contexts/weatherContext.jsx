@@ -3,6 +3,8 @@ import moment from "moment-timezone";
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 countries.registerLocale(enLocale);
 
 const calculateLocalTime = (utcOffset) => {
@@ -31,7 +33,7 @@ async function fetchTimeZone(lat, lon) {
 }
 
 async function getLanguage(countryCode) {
-  const url = `http://localhost:artcode.onrender.com/api/languages/${countryCode}`; 
+  const url = `${baseUrl}/api/languages/${countryCode}`; 
   try {
     const response = await fetch(url);
     if (!response.ok) {
@@ -91,7 +93,7 @@ export const WeatherProvider = ({children}) => {
             let firstFrase = null; 
             let matchedFrase = null;
             for (let lang of languages) {
-                const baseUrl = `http://localhost:artcode.onrender.com/api/frase/${lang}`;
+                const baseUrl = `${baseUrl}/frase/${lang}`;
                 const fraseResponse = await fetch(baseUrl);
                 if (fraseResponse.ok) {
                     const fraseData = await fraseResponse.json();
