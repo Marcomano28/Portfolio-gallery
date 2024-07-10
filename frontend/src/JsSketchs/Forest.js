@@ -3,7 +3,6 @@ import BezierEasing from 'bezier-easing';
 import { calculateLightIntensity, timeToMinutes } from './utils/utilsSketchs';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}/svg`;
-console.log(baseUrl);
 const imageMap = {
     calida: [`${baseUrl}/3T`, `${baseUrl}/3SL`, `${baseUrl}/4RL`, `${baseUrl}/3SD`, `${baseUrl}/4RD`],
     media: [`${baseUrl}/5T`, `${baseUrl}/5SL`, `${baseUrl}/6RL`, `${baseUrl}/5SD`, `${baseUrl}/6RD`],
@@ -35,7 +34,6 @@ const p5SketchForest = (p, theme, weatherData) => {
             cloudsAll = weatherData.clouds.all; // Ejemplo: 0 a 100
             N = Math.ceil(p.map(cloudsAll, 0, 100, 300, 50));
             N > 250 ? A = 1 : 10;
-            console.log(N);
         }
         if (weatherData.rain && typeof weatherData.rain.lh === 'number') {
             rain = Math.ceil(p.map(weatherData.rain.lh, 0, 10, 0, 30)); // Ejemplo: 0.75
@@ -92,7 +90,6 @@ const p5SketchForest = (p, theme, weatherData) => {
     const updateWeatherData = (weatherData) => {
         if (weatherData) {
             onWeather = true;
-            console.log(weatherData);
             const localTime = weatherData.localTime;
             const temp = weatherData.main.temp;
             const humidity = weatherData.main.humidity;//79
@@ -137,11 +134,12 @@ const p5SketchForest = (p, theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height);
+        p.pixelDensity(1);
         p.noStroke();
         glass = p.createGraphics(N / 2, N / 2);
         bosque.init();
         lastMouseY = p.mouseY;
-        console.log(weatherData);
+        //console.log(weatherData);
     };
     const updateBackground = () => {
         if(!onWeather){

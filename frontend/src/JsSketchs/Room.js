@@ -45,7 +45,6 @@ const p5SketchRoom = (p, theme, weatherData) => {
     const updateWeatherData = (weatherData) => {
         if (weatherData) {
             onWeather = true;
-            console.log(weatherData);
             cloudsAll = weatherData.clouds.all;//0,100
             const localTime = weatherData.localTime;
             const temp = weatherData.main.temp;
@@ -59,7 +58,7 @@ const p5SketchRoom = (p, theme, weatherData) => {
             const sunsetTime = timeToMinutes(weatherData.sunsetHour);
             const { intensity, reddishTone } = calculateLightIntensity(currentTime, sunriseTime, sunsetTime);
             bgColor = p.color(intensity, intensity - reddishTone*0.2, intensity - reddishTone*0.2);
-            console.log(`Color RGB: ${bgColor.levels}`); 
+            //console.log(`Color RGB: ${bgColor.levels}`); 
             // traslucid = p.map(humidity, 0, 100, 0, 255);
             colStroke = p.map(intensity, 0, 255, 170, 0)+temp;
             if(currentTime > sunriseTime && currentTime < sunsetTime){
@@ -69,8 +68,8 @@ const p5SketchRoom = (p, theme, weatherData) => {
                 isDayCity = false;
                 windSpeed < 2.5 ? pathToDraw = 2 : pathToDraw = 1;
             }         
-            console.log('en la ciudad es de dia?',isDayCity);
-            console.log(colStroke);
+            //console.log('en la ciudad es de dia?',isDayCity);
+           // console.log(colStroke);
             bgR = colStroke/humidity;
             bgG = colStroke/windSpeed;
             bgB = colStroke/temp;
@@ -90,7 +89,7 @@ const p5SketchRoom = (p, theme, weatherData) => {
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height, p.WEBGL);
         initSubdivision();
-        p.pixelDensity(2);
+        p.pixelDensity(1);
         p5.disableFriendlyErrors = true;
         p.smooth();
         lastMouse = p.createVector(p.mouseX, p.mouseY);

@@ -8,7 +8,6 @@ if (!mongoDbUri) {
     console.log('MONGODB_URI environment variable is not defined');
     process.exit(1);
 }
-console.log(mongoDbUri);
 const connect = async () => await mongoose.connect(mongoDbUri);
 const close = async () => await mongoose.connection.close();
 

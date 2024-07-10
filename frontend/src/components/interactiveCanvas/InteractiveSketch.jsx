@@ -24,7 +24,6 @@ export const InteractiveSketch = ({ src, buttonId, canvasId, weatherData, script
             // Siempre actualiza el tema inmediatamente después de instanciar o cuando cambia el tema
             if (p5InstanceRef.current.updateTheme) {
                 p5InstanceRef.current.updateTheme(theme);
-                console.log("Tema actualizado inmediatamente después de la creación:", theme);
             }
     
             return () => {

@@ -71,7 +71,7 @@ export const WeatherProvider = ({children}) => {
               }
               const data = await response.json();
               const localTime = calculateLocalTime(data.timezone);
-              console.log(localTime);
+              // console.log(localTime);
               const lat = data.coord.lat;
               const lon = data.coord.lon;
               const timeZone = await fetchTimeZone(lat, lon);

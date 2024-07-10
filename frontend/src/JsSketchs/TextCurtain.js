@@ -82,7 +82,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
             const sunsetTime = timeToMinutes(weatherData.sunsetHour);
             const { intensity, reddishTone } = calculateLightIntensity(currentTime, sunriseTime, sunsetTime);
             bgColor = p.color(intensity, intensity - reddishTone*0.2, intensity - reddishTone*0.2);
-            console.log(`Color RGB: ${bgColor.levels}`); 
+            //console.log(`Color RGB: ${bgColor.levels}`); 
             traslucid = p.map(humidity, 0, 100, 0, 255);
             // col = p.map(temp, -10, 40, 0.5, 6.5);
             bgR = humidity;
@@ -110,6 +110,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height, p.webgl);
+        p.pixelDensity(1);
         p.randomSeed(seed);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);
@@ -134,7 +135,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         }
         wind = p.createVector(0,0);
         windAngle = 0;
-        console.log(weatherData);
+        //console.log(weatherData);
     }
     p.draw = () => { 
         p.randomSeed(seed);     

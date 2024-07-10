@@ -42,7 +42,6 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
         if (weatherData) {
             t=0.8;
             onWeather = true;
-            console.log(weatherData);
             cloudsAll = weatherData.clouds.all;//0,100
             const localTime = weatherData.localTime;
             const temp = weatherData.main.temp;
@@ -72,7 +71,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
                 traslucid = 0.5;
                 scalar = Math.floor(p.map(windAng, 0, 360, 2, 4));
             }         
-            console.log('en la ciudad es de dia?',isDayCity);
+            //console.log('en la ciudad es de dia?',isDayCity);
           
             // col = weatherData.wind.speed; 
         }
@@ -94,6 +93,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height);
+        p.pixelDensity(1);
     }
     function f(x, y, n = 0) {
         const d = x * x + y * y;

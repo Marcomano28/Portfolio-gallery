@@ -85,7 +85,6 @@ const p5SketchTeacher = (p , theme, weatherData) => {
   const updateWeatherData = (weatherData) => {
     if (weatherData) {
         onWeather = true;
-        console.log(weatherData);
         const cloudsAll = weatherData.clouds.all;//0,100
         const localTime = weatherData.localTime;
         const temp = weatherData.main.temp;
@@ -142,7 +141,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
-
+      p.pixelDensity(1);
       b = new body(body_size);
       p.rectMode(p.CENTER);
       
