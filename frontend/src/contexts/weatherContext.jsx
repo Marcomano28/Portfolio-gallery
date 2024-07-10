@@ -45,7 +45,6 @@ async function getLanguage(countryCode) {
     console.error('Could not fetch languages:', error);
   }
 }
-
 export const WeatherContext = createContext();
 
 export const WeatherProvider = ({children}) => {
@@ -60,7 +59,6 @@ export const WeatherProvider = ({children}) => {
           return;
         }
         const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=es&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
-        console.log(import.meta.env.VITE_API_URL);
           try {
               const response = await fetch(URL);
               if (!response.ok) {
@@ -101,14 +99,11 @@ export const WeatherProvider = ({children}) => {
                     }
                 }
             }
-    
             const finalFrase = matchedFrase || firstFrase; // Use matched phrase or the first one if no match found
     
             if (!finalFrase) {
                 throw new Error("No valid phrase found for the given languages.");
-            }
-             
-              
+            }         
               const enhancedWeatherData = {
                 ...data,
                 localTime: localTime,

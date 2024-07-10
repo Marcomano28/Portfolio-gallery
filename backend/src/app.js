@@ -16,9 +16,7 @@ app.use(cors({
         }
     }
 }));
-
 app.use(express.json());
-
 app.use('/api', svgRoutes);
 app.use('/api', languageRouter);
 app.use('/api', fraseRouter);
