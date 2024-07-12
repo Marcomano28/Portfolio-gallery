@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react';
 import { StyledModal, StyledModalContent, Input, TexTarea, ModalButton, HeaderContact } from './ContactModalStyled';
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 const ContactModal = ({ isOpen, toggleModal }) => {
   const [formData, setFormData] = useState({
     name: '',
@@ -21,13 +23,12 @@ const ContactModal = ({ isOpen, toggleModal }) => {
   };
 
   const sendEmail = () => {
-    fetch('http://localhost:4000/api/send-email', {
+    fetch(`${baseUrl}/send-email`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(formData),
-      
+      body: JSON.stringify(formData),  
     })
     .then(response => {
       if (!response.ok) {
