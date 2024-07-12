@@ -93,7 +93,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height);
-        p.pixelDensity(1);
+        p.pixelDensity(p.displayDensity());
     }
     function f(x, y, n = 0) {
         const d = x * x + y * y;

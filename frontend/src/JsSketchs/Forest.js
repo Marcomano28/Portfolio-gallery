@@ -58,20 +58,65 @@ const p5SketchForest = (p, theme, weatherData) => {
     let intensity;
     let bgColor;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
+    let loadedImages = new Map();
+    let imagesLoaded = false;
 
-    p.preload = () => {
-        if(!weatherData){
-            const selected = selectImagesBasedOnCondition(theme);
-            mySvg = p.loadImage(selected[0]);//arbol
-            mySvg1 = p.loadImage(selected[1]);//sombra
-            mySvg2 = p.loadImage(selected[2]);//reflejo
-        }else{
+    const loadImage = (url) => {
+        if (loadedImages.has(url)) {
+            //console.log(`Using cached image: ${url}`);
+            return Promise.resolve(loadedImages.get(url));
+        }
+        //console.log(`Loading new image: ${url}`);
+        return fetch(url)
+            .then(response => response.text())
+            .then(svgText => {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const p5Img = p.createImage(img.width, img.height);
+                        p5Img.drawingContext.drawImage(img, 0, 0);
+                        loadedImages.set(url, p5Img);
+                        resolve(p5Img);
+                    };
+                    img.onerror = reject;
+                    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
+                });
+            })
+            .catch(error => {
+                console.error(`Failed to load image: ${url}`, error);
+                throw error;  // Propagate the error forward
+            });
+    };
+    const loadImages = async (selectedImages) => {
+       // console.log('Loading images:', selectedImages);
+        try {
+            [mySvg, mySvg1, mySvg2] = await Promise.all([
+                loadImage(selectedImages[0]),
+                loadImage(selectedImages[1]),
+                loadImage(selectedImages[2])
+            ]);
+            imagesLoaded = true;
+            //console.log('All images loaded successfully');
+        } catch (error) {
+            //console.error('Error loading images:', error);
+        }
+    };
+    p.preload = async () => {
+        let selectedImages;
+        if (!weatherData) {
+            selectedImages = selectImagesBasedOnCondition(theme);
+        } else {
             const zone = getClimateZone(weatherData.coord.lat);
-            const selectedImages = imageMap[zone];
-            mySvg = p.loadImage(isDayCity ? selectedImages[0]:selectedImages[0]);
-            mySvg1 = p.loadImage(isDayCity ? selectedImages[1]:selectedImages[3]);
-            mySvg2 = p.loadImage(isDayCity ? selectedImages[2] : selectedImages[4]);
-        }       
+            selectedImages = imageMap[zone];
+            selectedImages = isDayCity ? [selectedImages[0], selectedImages[1], selectedImages[2]]
+                                       : [selectedImages[0], selectedImages[3], selectedImages[4]];
+        }
+        try {
+            await loadImages(selectedImages);
+            //console.log('All images loaded successfully');
+        } catch (error) {
+           // console.error('Error loading images:', error);
+        }
     };
      const updateTheme = (newTheme) => {
         if(newTheme === 'dark'){
@@ -134,7 +179,7 @@ const p5SketchForest = (p, theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height);
-        p.pixelDensity(1);
+        p.pixelDensity(p.displayDensity());
         p.noStroke();
         glass = p.createGraphics(N / 2, N / 2);
         bosque.init();
@@ -151,6 +196,9 @@ const p5SketchForest = (p, theme, weatherData) => {
         }   
     };
     p.draw = () => {
+        if (!imagesLoaded) {
+            return;  // Evita dibujar hasta que todas las imágenes estén cargadas
+        }
         // p.background(day ? p.color(237,240,220,180) : 'black');
         updateBackground();
         p.updateForest();

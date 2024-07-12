@@ -110,7 +110,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height, p.webgl);
-        p.pixelDensity(1);
+        p.pixelDensity(p.displayDensity());
         p.randomSeed(seed);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);

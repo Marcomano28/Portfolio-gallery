@@ -89,7 +89,7 @@ const p5SketchRoom = (p, theme, weatherData) => {
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
         canvas = p.createCanvas(width, height, p.WEBGL);
         initSubdivision();
-        p.pixelDensity(1);
+        p.pixelDensity(p.displayDensity());
         p5.disableFriendlyErrors = true;
         p.smooth();
         lastMouse = p.createVector(p.mouseX, p.mouseY);
