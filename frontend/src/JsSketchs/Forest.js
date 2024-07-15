@@ -56,7 +56,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     const easing = BezierEasing(0.42, 0, 0.58, 1);
 
     p.preload = () => {
-        const baseUrl = '../../public/';
+        const baseUrl = '/assets/';
         let svgFileName = '1.svg';
         let modificationSet = modifications.base;
         if(weatherData){
