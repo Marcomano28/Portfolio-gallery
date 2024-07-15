@@ -68,7 +68,7 @@ const p5SketchForest = (p, theme, weatherData) => {
         const svgUrl = baseUrl + svgFileName;
 
         mySvg = p.loadImage(svgUrl, () => {
-            console.log('Original SVG loaded successfully');
+            //console.log('Original SVG loaded successfully');
         }, (err) => {
             console.error('Failed to load the original SVG:', err);
         });
@@ -91,7 +91,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     
             mySvg1 = p.loadImage(modifiedSvg1, () => {
                 URL.revokeObjectURL(modifiedSvg1);
-                console.log('Modified SVG 1 loaded successfully');
+                //console.log('Modified SVG 1 loaded successfully');
             }, (err) => {
                 console.error('Failed to load modified SVG 1:', err);
             });
@@ -106,7 +106,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     
             mySvg2 = p.loadImage(modifiedSvg2, () => {
                 URL.revokeObjectURL(modifiedSvg2);
-                console.log('Modified SVG 2 loaded successfully');
+                //console.log('Modified SVG 2 loaded successfully');
             }, (err) => {
                 console.error('Failed to load modified SVG 2:', err);
             });
