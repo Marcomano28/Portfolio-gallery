@@ -61,6 +61,7 @@ const p5SketchRoom = (p, theme, weatherData) => {
             //console.log(`Color RGB: ${bgColor.levels}`); 
             // traslucid = p.map(humidity, 0, 100, 0, 255);
             colStroke = p.map(intensity, 0, 255, 170, 0)+temp;
+
             if(currentTime > sunriseTime && currentTime < sunsetTime){
                 isDayCity = true;
                 pathToDraw = 3;
@@ -113,9 +114,13 @@ const p5SketchRoom = (p, theme, weatherData) => {
             }
         }
         if(onWeather){
-        // p.ambientMaterial(255); 
+        // p.ambientMaterial(255);
+        let tono = isDayCity ? 0.2:1.7; 
+        let r = bgColor.red * tono;
+        let g = bgColor.green * tono;
+        let b = bgColor.blue * tono;
         p.strokeWeight(1.75);
-        p.stroke(110 , 170 , 200, 80);
+        p.stroke(r*tono,g*tono,b*tono,180);
         p.noFill();
         p.push();
         p.translate(-L, -L, -L / 2);

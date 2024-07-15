@@ -1,24 +1,19 @@
 
 import BezierEasing from 'bezier-easing';
-import { calculateLightIntensity, timeToMinutes } from './utils/utilsSketchs';
+import { calculateLightIntensity, timeToMinutes, loadAndModifySVG} from './utils/utilsSketchs';
+import { modifications } from './utils/utilsSketchs';
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/svg`;
-const imageMap = {
-    calida: [`${baseUrl}/3T`, `${baseUrl}/3SL`, `${baseUrl}/4RL`, `${baseUrl}/3SD`, `${baseUrl}/4RD`],
-    media: [`${baseUrl}/5T`, `${baseUrl}/5SL`, `${baseUrl}/6RL`, `${baseUrl}/5SD`, `${baseUrl}/6RD`],
-    fria: [`${baseUrl}/7T`, `${baseUrl}/7SL`, `${baseUrl}/8RL`, `${baseUrl}/7SD`, `${baseUrl}/8RD`],
-    dark: [`${baseUrl}/0T`, `${baseUrl}/1SD`, `${baseUrl}/2RD`],
-    light: [`${baseUrl}/0T`, `${baseUrl}/1SL`, `${baseUrl}/2RL`],
-}
-function selectImagesBasedOnCondition(theme) {
-        return theme === 'dark' ? imageMap.dark : imageMap.light;
+function selectImagesBasedOnTheme(theme) {
+    return theme === 'dark' ? modifications.base.dark : modifications.base.light;
 }
 function getClimateZone(lat) {
-    if (lat >= -23.5 && lat <= 23.5) {
+    if (lat >= -13.5 && lat <= 13.5) {
+        return 'desierto';
+    } else if (lat >= -23.5 && lat <= 23.5) {
         return 'calida';
-    } else if (lat >= -40 && lat <= 40) {
+    } else if(lat >= -40 && lat <= 40){
         return 'media';
-    } else {
+    }else {
         return 'fria';
     }
 }
@@ -27,6 +22,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     let N = 150;
     let A = 20;
     const num_trees = 102;
+    const wordSpeed =1200;
     let cloudsAll;
     let rain;
     if (weatherData) {
@@ -58,66 +54,75 @@ const p5SketchForest = (p, theme, weatherData) => {
     let intensity;
     let bgColor;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
-    let loadedImages = new Map();
-    let imagesLoaded = false;
 
-    const loadImage = (url) => {
-        if (loadedImages.has(url)) {
-            //console.log(`Using cached image: ${url}`);
-            return Promise.resolve(loadedImages.get(url));
-        }
-        //console.log(`Loading new image: ${url}`);
-        return fetch(url)
-            .then(response => response.text())
-            .then(svgText => {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const p5Img = p.createImage(img.width, img.height);
-                        p5Img.drawingContext.drawImage(img, 0, 0);
-                        loadedImages.set(url, p5Img);
-                        resolve(p5Img);
-                    };
-                    img.onerror = reject;
-                    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgText)));
-                });
-            })
-            .catch(error => {
-                console.error(`Failed to load image: ${url}`, error);
-                throw error;  // Propagate the error forward
+    p.preload = () => {
+        const baseUrl = '../../public/';
+        let svgFileName = '1.svg';
+        let modificationSet = modifications.base;
+        if(weatherData){
+            const climateZone = getClimateZone(weatherData.coord.lat);
+            svgFileName = getSvgForClimateZone(climateZone);
+            console.log(svgFileName);
+            modificationSet = modifications[climateZone];
+        }     
+        const svgUrl = baseUrl + svgFileName;
+
+        mySvg = p.loadImage(svgUrl, () => {
+            console.log('Original SVG loaded successfully');
+        }, (err) => {
+            console.error('Failed to load the original SVG:', err);
+        });
+        p.loadStrings(svgUrl, (svgLines) => {
+            let originalSvgText = svgLines.join('\n');
+
+            let modsToApply = weatherData
+            ? (isDayCity ? modificationSet.light : modificationSet.dark)
+            : selectImagesBasedOnTheme(theme);
+
+            const mod1 = modsToApply[0] || modifications.base.light[0];
+            const mod2 = modsToApply[1] || modifications.base.light[1];    
+            const modifiedSvg1 = loadAndModifySVG(
+                originalSvgText,
+                mod1.gradientId,
+                mod1.newStops,
+                mod1.elementId,
+                mod1.newTransform
+            );
+    
+            mySvg1 = p.loadImage(modifiedSvg1, () => {
+                URL.revokeObjectURL(modifiedSvg1);
+                console.log('Modified SVG 1 loaded successfully');
+            }, (err) => {
+                console.error('Failed to load modified SVG 1:', err);
             });
-    };
-    const loadImages = async (selectedImages) => {
-       // console.log('Loading images:', selectedImages);
-        try {
-            [mySvg, mySvg1, mySvg2] = await Promise.all([
-                loadImage(selectedImages[0]),
-                loadImage(selectedImages[1]),
-                loadImage(selectedImages[2])
-            ]);
-            imagesLoaded = true;
-            //console.log('All images loaded successfully');
-        } catch (error) {
-            //console.error('Error loading images:', error);
+
+            const modifiedSvg2 = loadAndModifySVG(
+                originalSvgText,
+                mod2.gradientId,
+                mod2.newStops,
+                mod2.elementId,
+                mod2.newTransform
+            );
+    
+            mySvg2 = p.loadImage(modifiedSvg2, () => {
+                URL.revokeObjectURL(modifiedSvg2);
+                console.log('Modified SVG 2 loaded successfully');
+            }, (err) => {
+                console.error('Failed to load modified SVG 2:', err);
+            });
+        }, (err) => {
+            console.error('Failed to load the original SVG text:', err);
+        });
+    }   
+    function getSvgForClimateZone(zone) {
+        switch (zone) {
+            case 'desierto': return '5.svg';
+            case 'calida': return '2.svg';
+            case 'media': return '3.svg';
+            case 'fria': return '4.svg';
+            default: return '1.svg';
         }
-    };
-    p.preload = async () => {
-        let selectedImages;
-        if (!weatherData) {
-            selectedImages = selectImagesBasedOnCondition(theme);
-        } else {
-            const zone = getClimateZone(weatherData.coord.lat);
-            selectedImages = imageMap[zone];
-            selectedImages = isDayCity ? [selectedImages[0], selectedImages[1], selectedImages[2]]
-                                       : [selectedImages[0], selectedImages[3], selectedImages[4]];
-        }
-        try {
-            await loadImages(selectedImages);
-            //console.log('All images loaded successfully');
-        } catch (error) {
-           // console.error('Error loading images:', error);
-        }
-    };
+    }
      const updateTheme = (newTheme) => {
         if(newTheme === 'dark'){
            traslucid = 5;
@@ -196,9 +201,6 @@ const p5SketchForest = (p, theme, weatherData) => {
         }   
     };
     p.draw = () => {
-        if (!imagesLoaded) {
-            return;  // Evita dibujar hasta que todas las imágenes estén cargadas
-        }
         // p.background(day ? p.color(237,240,220,180) : 'black');
         updateBackground();
         p.updateForest();
@@ -238,7 +240,7 @@ const p5SketchForest = (p, theme, weatherData) => {
                 if (arbol.x > p.width / 1.8) arbol.x = -p.width / 2;
                 if (arbol.x < -p.width / 1.8) arbol.x = p.width / 2;
                 const my = p.constrain(lastMouseY, 0, p.height);
-                arbol.z -= p.log(1 + my) / 900;
+                arbol.z -= p.log(1 + my) / wordSpeed;
                 if (arbol.z < 0) arbol.z = 6;
             }
             this.bosque.sort((arbol1, arbol2) => (arbol1.z > arbol2.z ? -1 : 1));
