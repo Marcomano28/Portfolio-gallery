@@ -222,7 +222,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
 
         this.show = () => {         
              //p.fill(255, 255, 255);
-            night ? p.fill((darkLight*185) + lightMore * this.dis/3.5, (10 * darkLight)+ lightMore * this.dis/1.7, (45*darkLight) * p.pow(lightMore , this.dis/1.9)):
+            night ? p.fill((darkLight*185) + lightMore * this.dis/1.5, (10 * darkLight)+ lightMore * this.dis/4.7, (45*darkLight) * p.pow(lightMore , this.dis/1.9)):
             p.fill((darkLight/20) + lightMore * this.dis, (20 * darkLight)+ lightMore * this.dis, (darkLight) * p.pow(lightMore / 2, this.dis));
             p.strokeWeight(0.4);
             night ? p.stroke(255,20): p.noStroke();

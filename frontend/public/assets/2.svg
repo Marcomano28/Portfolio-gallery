@@ -3,7 +3,7 @@
         preserveAspectRatio="xMidYMid meet"><g transform="translate(0.000000,1280.000000) scale(0.100000,-0.100000)"
        ><defs><linearGradient id="miGradiente" x1="100%" y1="100%" x2="30%" y2="1%">
        <stop offset="20%" style="stop-color:rgba(155,185,90,0.8); stop-opacity:1" />
-       <stop offset="70%" style="stop-color:rgba(23,14,27,0.9); stop-opacity:1" />
+       <stop offset="70%" style="stop-color:rgba(33,24,37,0.8); stop-opacity:1" />
        </linearGradient></defs><path fill="url(#miGradiente)" d="M3172 12407 c-11 -40 -1 -81 42 -162 9 -16 13 -38 10 -47 -3 -9 2
        -31 10 -47 18 -33 21 -55 6 -31 -9 13 -10 13 -10 0 -1 -8 -8 -3 -16 13 -8 15
        -12 32 -9 37 8 12 -54 130 -68 130 -5 0 -2 -10 7 -22 25 -36 58 -100 53 -104

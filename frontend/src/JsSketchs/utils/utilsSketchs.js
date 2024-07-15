@@ -132,7 +132,7 @@ export const modifications = {
        {
         gradientId: 'miGradiente',
         newStops: `<stop offset="10%" style="stop-color:rgba(92,100,102,0.93);stop-opacity:1" />
-                   <stop offset="90%" style="stop-color:rgba(240,230,255,0.93);stop-opacity:1" />`,
+                   <stop offset="90%" style="stop-color:rgba(240,230,255,0.13);stop-opacity:1" />`,
         elementId: 'Layer_1',
         newTransform: "rotate(-90 0 -4) scale(0.4, 1) translate(8.62 0)"
        },
@@ -147,10 +147,10 @@ export const modifications = {
     dark:[
         {
          gradientId: 'miGradiente',
-         newStops: `<stop offset="10%" style="stop-color:rgba(142,180,102,0.93);stop-opacity:1" />
-                    <stop offset="90%" style="stop-color:rgba(11,12,55,0.93);stop-opacity:1" />`,
+         newStops: `<stop offset="10%" style="stop-color:rgba(142,180,102,0.73);stop-opacity:1" />
+                    <stop offset="90%" style="stop-color:rgba(11,12,55,0.03);stop-opacity:1" />`,
          elementId: 'Layer_1',
-         newTransform: "rotate(-90 0 -4) scale(0.4, 1) translate(13.62 0)"
+         newTransform: "rotate(-90 0 -4) scale(0.4, 1) translate(23.62 0)"
         },
         {
          gradientId: 'miGradiente',
@@ -166,14 +166,14 @@ export const modifications = {
        {
         gradientId: 'miGradiente',
         newStops: `<stop offset="10%" style="stop-color:rgba(155,189,220,0.3); stop-opacity:1" />
-                   <stop offset="70%" style="stop-color:rgba(100,64,82,0.25); stop-opacity:1" />`,
+                   <stop offset="70%" style="stop-color:rgba(100,64,82,0.05); stop-opacity:1" />`,
         elementId: 'Layer_1',
         newTransform: "translate(112.00,-324.00) scale(-1.0,-0.70) rotate(90 0 0)"
        },
        {
         gradientId: 'miGradiente',
         newStops: `<stop offset="20%" style="stop-color:rgba(210,216,200,0.53); stop-opacity:1" />
-                   <stop offset="70%" style="stop-color:rgba(65,80,60,0.38); stop-opacity:1" />`,
+                   <stop offset="70%" style="stop-color:rgba(65,80,60,0.08); stop-opacity:1" />`,
         elementId: 'Layer_1',
         newTransform: "translate (-44.00, -178.00) scale(0.90,-0.90)"
         }
@@ -240,7 +240,7 @@ export const modifications = {
        },
        {
         gradientId: 'miGradiente',
-        newStops: `<stop offset="30%" style="stop-color:rgba(120,160,180,0.73); stop-opacity:1" />
+        newStops: `<stop offset="30%" style="stop-color:rgba(170,160,160,0.23); stop-opacity:1" />
                    <stop offset="70%" style="stop-color:rgba(35,60,50,0.22); stop-opacity:1" />`,
         elementId: 'Layer_1',
         newTransform: "translate(-50.00 -29.00) scale(-0.60 -.90) "
