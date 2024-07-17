@@ -116,7 +116,7 @@ const pagesData = [
             headText: `Dreamscapes of Light and Shadow: Each sketch comes alive in its own way,...discover how sketch uniquely interacts. Capture snapshots of your journey—'s' is the key. Daydreams and night visions`,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: miImagen,
+              src: 0,
               buttonId: "start-button1",
               canvasId: "myCanvas-container0",
               onStart: () => console.log("Button Clicked"),
@@ -131,7 +131,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: miImagen1,
+              src: 1,
               buttonId: "start-button2",
               canvasId: "myCanvas-container1",
               onStart: () => console.log("Button Clicked"),
@@ -147,7 +147,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: miImagen4,
+              src: 2,
               buttonId: "start-button3",
               canvasId: "myCanvas-container2",
               onStart: () => console.log("Button Clicked"),
@@ -162,7 +162,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: miImagen5,
+              src: 4,
               buttonId: "start-button4",
               canvasId: "myCanvas-container3",
               onStart: () => console.log("Button Clicked"),
@@ -178,7 +178,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: miImagenMan,
+              src: 5,
               buttonId: "start-button5",
               canvasId: "myCanvas-container4",
               onStart: () => console.log("Button Clicked"),

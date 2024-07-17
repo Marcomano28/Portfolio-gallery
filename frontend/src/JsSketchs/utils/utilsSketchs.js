@@ -234,16 +234,16 @@ export const modifications = {
        {
         gradientId: 'miGradiente',
         newStops: `<stop offset="10%" style="stop-color:rgba(215,245,255,0.49); stop-opacity:1" />
-                   <stop offset="70%" style="stop-color:rgba(45,34,23,0.03); stop-opacity:1" />`,
+                   <stop offset="60%" style="stop-color:rgba(45,34,23,0.03); stop-opacity:1" />`,
         elementId: 'Layer_1',
-        newTransform: "translate(-288.00 -40.00) scale(1.810 -0.27) rotate(-90)"
+        newTransform: "translate(-288.00 -190.00) scale(1.810 -0.30) rotate(-90) skewX(37)"
        },
        {
         gradientId: 'miGradiente',
         newStops: `<stop offset="30%" style="stop-color:rgba(170,160,160,0.23); stop-opacity:1" />
                    <stop offset="70%" style="stop-color:rgba(35,60,50,0.22); stop-opacity:1" />`,
         elementId: 'Layer_1',
-        newTransform: "translate(-50.00 -29.00) scale(-0.60 -.90) "
+        newTransform: "translate(-50.00 -109.00) scale(-0.50 -0.810) "
         }
      ],
     dark: [
