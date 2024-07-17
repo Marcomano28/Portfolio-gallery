@@ -6,12 +6,10 @@ import {AboutMe } from './pages/about/AboutMe.jsx';
 import pagesData from "./pages/pagesData.js";
 import { GenericPage } from './components/genericPage/GenericPage.jsx';
 import { WeatherProvider } from "./contexts/weatherContext.jsx";
-import { ImageProvider } from "./contexts/ImageContext.jsx";
 
 function App() {
   return ( 
       <ThemeProvider >
-       <ImageProvider>
         <Routes>
           <Route path="/" element={<Home />}/>
             {pagesData.map(page =>(
@@ -27,7 +25,6 @@ function App() {
           {/* <Route path="/interact"element={<Interact/>}/> */}
           <Route path="/aboutme"element={<AboutMe/>}/>
         </Routes>
-       </ImageProvider>
       </ThemeProvider>
   );
 }

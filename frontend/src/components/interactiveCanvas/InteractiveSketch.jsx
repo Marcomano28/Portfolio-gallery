@@ -1,12 +1,10 @@
 import { useContext, useEffect, useRef, useState} from 'react';
 import { Imag, Button, CanvasSection, Canvas } from './InteractiveSketchStyled';
 import { ThemeContext } from '../../contexts/ThemeProvider';
-import { ImageContext } from '../../contexts/ImageContext';
 import p5 from 'p5';
 
 export const InteractiveSketch = ({ src, buttonId, canvasId, weatherData, scriptSrc }) => {
 
-    const { images, loading, error } = useContext(ImageContext);
     const p5InstanceRef  = useRef(null);
     const sketchRef = useRef(null);
     const [sketchStarted, setSketchStarted] = useState(false); 
@@ -37,13 +35,9 @@ export const InteractiveSketch = ({ src, buttonId, canvasId, weatherData, script
         setSketchStarted(!sketchStarted);
     };
 
-    if (loading) return <div>Loading images...</div>;
-    if (error) return <div>Error loading images: {error}</div>;
-    if (!images[src]) return <div>No image found</div>;
-
     return (
         <CanvasSection>
-            <Imag src={`data:image/jpeg;base64,${images[src]}`} alt="Interactive Image" style={{ opacity: sketchStarted ? 0 : 1, transition: 'opacity 1.5s' }}/>
+            <Imag src={src} alt="Interactive Image" style={{ opacity: sketchStarted ? 0 : 1, transition: 'opacity 1.5s' }}/>
             <Button id={buttonId} onClick={handleButtonClick}>{sketchStarted ? 'Stop' : 'Run'}</Button>
             <Canvas ref={sketchRef} id={canvasId} style={{display: sketchStarted ? 'block' : 'none' }} ></Canvas>
         </CanvasSection>

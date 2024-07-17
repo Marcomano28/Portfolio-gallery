@@ -9,6 +9,8 @@ import p5SketchCurtain from '../JsSketchs/TextCurtain'
 // import miImagen5 from '../assets/images/miImagen5.jpg';
 // import miImagenMan from '../assets/images/miImagenMan.jpg';
 
+const baseUrl = import.meta.env.VITE_API_URL;
+
 const pagesData = [
     {
       path: "/bycode",
@@ -116,7 +118,7 @@ const pagesData = [
             headText: `Dreamscapes of Light and Shadow: Each sketch comes alive in its own way,...discover how sketch uniquely interacts. Capture snapshots of your journey—'s' is the key. Daydreams and night visions`,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 0,
+              src: `${baseUrl}/imageurl/ima0`,
               buttonId: "start-button1",
               canvasId: "myCanvas-container0",
               onStart: () => console.log("Button Clicked"),
@@ -131,7 +133,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 1,
+              src: `${baseUrl}/imageurl/ima1`,
               buttonId: "start-button2",
               canvasId: "myCanvas-container1",
               onStart: () => console.log("Button Clicked"),
@@ -147,7 +149,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 2,
+              src: `${baseUrl}/imageurl/ima2`,
               buttonId: "start-button3",
               canvasId: "myCanvas-container2",
               onStart: () => console.log("Button Clicked"),
@@ -162,7 +164,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 3,
+              src: `${baseUrl}/imageurl/ima3`,
               buttonId: "start-button4",
               canvasId: "myCanvas-container3",
               onStart: () => console.log("Button Clicked"),
@@ -178,7 +180,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 4,
+              src: `${baseUrl}/imageurl/ima4`,
               buttonId: "start-button5",
               canvasId: "myCanvas-container4",
               onStart: () => console.log("Button Clicked"),
