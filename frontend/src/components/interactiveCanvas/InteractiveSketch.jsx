@@ -5,6 +5,7 @@ import { ImageContext } from '../../contexts/ImageContext';
 import p5 from 'p5';
 
 export const InteractiveSketch = ({ src, buttonId, canvasId, weatherData, scriptSrc }) => {
+
     const { images, loading, error } = useContext(ImageContext);
     const p5InstanceRef  = useRef(null);
     const sketchRef = useRef(null);
@@ -35,9 +36,11 @@ export const InteractiveSketch = ({ src, buttonId, canvasId, weatherData, script
     const handleButtonClick = () => {
         setSketchStarted(!sketchStarted);
     };
+
     if (loading) return <div>Loading images...</div>;
     if (error) return <div>Error loading images: {error}</div>;
     if (!images[src]) return <div>No image found</div>;
+
     return (
         <CanvasSection>
             <Imag src={`data:image/jpeg;base64,${images[src]}`} alt="Interactive Image" style={{ opacity: sketchStarted ? 0 : 1, transition: 'opacity 1.5s' }}/>
