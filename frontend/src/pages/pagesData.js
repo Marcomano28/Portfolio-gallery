@@ -162,7 +162,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 4,
+              src: 3,
               buttonId: "start-button4",
               canvasId: "myCanvas-container3",
               onStart: () => console.log("Button Clicked"),
@@ -178,7 +178,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: 5,
+              src: 4,
               buttonId: "start-button5",
               canvasId: "myCanvas-container4",
               onStart: () => console.log("Button Clicked"),
