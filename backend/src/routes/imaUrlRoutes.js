@@ -10,7 +10,7 @@ router.get('/imageurl/:title', async ( req,res) => {
             return res.status(404).send('Image not found');
         }
         //res.send('Received title: ' + req.params.title);
-        res.redirect(image.url);
+        res.json({ url: image.url });
     } catch (error) {
         console.error('Error fetching image:', error);
         res.status(500).send('Internal server error');
