@@ -3,11 +3,11 @@ import p5SketchHanuman from "../JsSketchs/Hanuman";
 import p5SketchHome from '../JsSketchs/Room'
 import p5SketchTeacher from '../JsSketchs/Teacher';
 import p5SketchCurtain from '../JsSketchs/TextCurtain'
-// import miImagen from '../assets/images/miImagen.jpg';
-// import miImagen1 from '../assets/images/miImagen1.jpg';
-// import miImagen4 from '../assets/images/miImagen4.jpg';
-// import miImagen5 from '../assets/images/miImagen5.jpg';
-// import miImagenMan from '../assets/images/miImagenMan.jpg';
+import miImagen from '../assets/images/miImagen.jpg';
+import miImagen1 from '../assets/images/miImagen1.jpg';
+import miImagen4 from '../assets/images/miImagen4.jpg';
+import miImagen5 from '../assets/images/miImagen5.jpg';
+import miImagenMan from '../assets/images/miImagenMan.jpg';
 
 const pagesData = [
     {
@@ -116,7 +116,7 @@ const pagesData = [
             headText: `Dreamscapes of Light and Shadow: Each sketch comes alive in its own way,...discover how sketch uniquely interacts. Capture snapshots of your journey—'s' is the key. Daydreams and night visions`,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: `ima0`,
+              src: miImagen,
               buttonId: "start-button1",
               canvasId: "myCanvas-container0",
               onStart: () => console.log("Button Clicked"),
@@ -131,7 +131,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: `ima1`,
+              src: miImagen1,
               buttonId: "start-button2",
               canvasId: "myCanvas-container1",
               onStart: () => console.log("Button Clicked"),
@@ -147,7 +147,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: `ima2`,
+              src: miImagen4,
               buttonId: "start-button3",
               canvasId: "myCanvas-container2",
               onStart: () => console.log("Button Clicked"),
@@ -162,7 +162,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: `ima3`,
+              src: miImagen5,
               buttonId: "start-button4",
               canvasId: "myCanvas-container3",
               onStart: () => console.log("Button Clicked"),
@@ -178,7 +178,7 @@ const pagesData = [
             showNav: false,
             videoComponent: "InteractiveSketch",
             videoData: {
-              src: `ima4`,
+              src: miImagenMan,
               buttonId: "start-button5",
               canvasId: "myCanvas-container4",
               onStart: () => console.log("Button Clicked"),
