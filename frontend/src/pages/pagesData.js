@@ -3,11 +3,11 @@ import p5SketchHanuman from "../JsSketchs/Hanuman";
 import p5SketchHome from '../JsSketchs/Room'
 import p5SketchTeacher from '../JsSketchs/Teacher';
 import p5SketchCurtain from '../JsSketchs/TextCurtain'
-import miImagen from '../assets/images/miImagen.jpg';
-import miImagen1 from '../assets/images/miImagen1.jpg';
-import miImagen4 from '../assets/images/miImagen4.jpg';
-import miImagen5 from '../assets/images/miImagen5.jpg';
-import miImagenMan from '../assets/images/miImagenMan.jpg';
+import miImagen from '../assets/images/miImagen.webp';
+import miImagen1 from '../assets/images/miImagen1.webp';
+import miImagen4 from '../assets/images/miImagen4.webp';
+import miImagen5 from '../assets/images/miImagen5.webp';
+import miImagenMan from '../assets/images/miImagenMan.webp';
 
 const pagesData = [
     {

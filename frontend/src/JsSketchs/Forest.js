@@ -62,7 +62,6 @@ const p5SketchForest = (p, theme, weatherData) => {
         if(weatherData){
             const climateZone = getClimateZone(weatherData.coord.lat);
             svgFileName = getSvgForClimateZone(climateZone);
-            console.log(svgFileName);
             modificationSet = modifications[climateZone];
         }     
         const svgUrl = baseUrl + svgFileName;
