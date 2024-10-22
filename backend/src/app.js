@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
+import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
 import languageRouter from './routes/languageRoutes.js';
@@ -26,13 +26,31 @@ app.use('/api', contactRouter);
 app.use('/api', imaUrlRoutes);
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+// Verificar si la carpeta 'dist' del frontend existe
+const distPath = path.join(__dirname, '../frontend/dist');
+if (!fs.existsSync(distPath)) {
+  console.warn('Warning: The dist folder does not exist. Make sure to build the frontend correctly.');
+} else {
+  console.log('Dist folder found. Proceeding to serve static files.');
+}
+// Configura el servidor para servir los archivos del frontend desde 'frontend/dist'
+console.log('Setting up static middleware to serve frontend files from frontend/dist');
+app.use(express.static(distPath));
 
+// Ruta para manejar todas las peticiones y servir index.html del frontend
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
-});
+    console.log(`Received request for: ${req.originalUrl}`);
+    res.sendFile(path.join(distPath, 'index.html'), (err) => {
+      if (err) {
+        console.error('Error serving index.html:', err);
+        res.status(500).send('Error loading the page');
+      }
+    });
+  });
+
+// Log para verificar que el servidor está listo para exportar
+console.log('Express app setup complete. Ready to export.');
 
 export default app;
-

@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "cd ../frontend && npm install",
+    "heroku-postbuild": "cd ../frontend && npm run build && cp -r ../frontend/dist/* ./public/"
   },
   "keywords": [],
   "author": "",
