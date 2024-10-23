@@ -17,5 +17,4 @@ ENV PORT $PORT
 # Exponemos el puerto (opcional, Heroku lo gestiona automáticamente)
 EXPOSE $PORT
 # Comando de inicio que genera el nginx.conf y lanza Nginx
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
-
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/templates/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
