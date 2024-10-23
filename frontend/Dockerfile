@@ -9,9 +9,10 @@ FROM nginx:alpine
 # Elimina la configuración predeterminada de Nginx
 RUN rm /etc/nginx/conf.d/default.conf
 # Copia la plantilla de configuración de Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 COPY nginx.conf.template /etc/nginx/templates/nginx.conf.template
-# Copiamos los archivos de la carpeta dist generados por Vite al directorio de Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY build/ /usr/share/nginx/html
+# COPY --from=build /app/dist /usr/share/nginx/html
 # Establece la variable de entorno PORT
 ENV PORT $PORT
 # Exponemos el puerto (opcional, Heroku lo gestiona automáticamente)
