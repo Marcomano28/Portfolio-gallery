@@ -4,13 +4,13 @@ FROM node:14
 WORKDIR /app
 
 # Copiar package.json y package-lock.json
-COPY backend/package*.json /app/
+COPY package*.json /app/
 
 # Instalar las dependencias
 RUN npm install
 
 # Copiar el resto de la aplicación
-COPY backend/ /app/
+COPY . /app/
 
 # Exponer el puerto en el que la aplicación escuchará
 ENV PORT=4000
