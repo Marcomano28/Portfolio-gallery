@@ -2,11 +2,11 @@ FROM node:18 AS build
 
 WORKDIR /app
 
-COPY frontend/package*.json ./
+COPY package*.json ./
 
 RUN npm install
 
-COPY frontend/ ./
+COPY . .
 
 RUN npm run build
 # Etapa 2: Servir los archivos estáticos con Nginx
