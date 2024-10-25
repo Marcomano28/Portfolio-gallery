@@ -7,7 +7,7 @@ import contactRouter from './routes/contactRoutes.js';
 import imaUrlRoutes from './routes/imaUrlRoutes.js';
 
 const app = express();
-const allowedOrigins = ['http://localhost:5174', 'https://artcode.onrender.com','https://artcode-gallery-5e436c47bf98.herokuapp.com','https://artcode-gallery.herokuapp.com'];
+const allowedOrigins = ['http://localhost:5174', 'https://artcode.onrender.com','https://artbycode-gallery-228f649ce407.herokuapp.com/'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
