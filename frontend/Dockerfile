@@ -6,7 +6,16 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . ./
+COPY . .
+
+# Asegurarse de que las variables de entorno estén disponibles durante el build
+ARG VITE_API_KEY
+ARG VITE_API_URL
+ARG VITE_API_KEY_TZ
+
+ENV VITE_API_KEY=$VITE_API_KEY
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_API_KEY_TZ=$VITE_API_KEY_TZ
 
 RUN npm run build
 # Etapa 2: Servir los archivos estáticos con Nginx
