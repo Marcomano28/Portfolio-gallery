@@ -14,6 +14,12 @@ const EnvCheck = () => {
         ...vars,
         VITE_API_KEY: vars.VITE_API_KEY ? 'Present' : 'Missing'
       });
+      console.log('Environment Variables:', {
+        VITE_API_KEY: import.meta.env.VITE_API_KEY,
+        MODE: import.meta.env.MODE,
+        DEV: import.meta.env.DEV,
+        PROD: import.meta.env.PROD
+      });
 
       // Hacer una petición de prueba a OpenWeatherMap
       const testUrl = `https://api.openweathermap.org/data/2.5/weather?q=london&lang=es&units=metric&appid=${vars.VITE_API_KEY}`;
