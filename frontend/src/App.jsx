@@ -6,12 +6,10 @@ import {AboutMe } from './pages/about/AboutMe.jsx';
 import pagesData from "./pages/pagesData.js";
 import { GenericPage } from './components/genericPage/GenericPage.jsx';
 import { WeatherProvider } from "./contexts/weatherContext.jsx";
-import EnvCheck
- from "./components/EnvCheck.jsx";
+
 function App() {
   return ( 
       <ThemeProvider >
-        <EnvCheck />
         <Routes>
           <Route path="/" element={<Home />}/>
             {pagesData.map(page =>(
