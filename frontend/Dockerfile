@@ -6,9 +6,8 @@ COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY . ./
 
-# Asegurarse de que las variables de entorno estén disponibles durante el build
 ARG VITE_API_KEY
 ARG VITE_API_URL
 ARG VITE_API_KEY_TZ

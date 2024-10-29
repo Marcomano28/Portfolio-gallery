@@ -3,26 +3,25 @@ import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    // Asegura que las variables de entorno estén disponibles
+    'process.env': process.env
+  },
   build: {
-    chunkSizeWarningLimit: 3000, // Aumentamos el límite de advertencia
+    sourcemap: true,
+    // Asegura que el build se realice correctamente
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          // Separar las fuentes en su propio chunk
-          // fonts: [
-          //   /assets.*\.ttf$/,
-          //   /assets.*\.woff$/,
-          //   /assets.*\.woff2$/
-          // ]
-        }
+        manualChunks: undefined
       }
     }
   },
-  // define: {
-  //   // Aseguramos que las variables de entorno estén disponibles
-  //   'import.meta.env.VITE_API_KEY': JSON.stringify(process.env.VITE_API_KEY),
-  //   'import.meta.env.VITE_API_URL': JSON.stringify(process.env.VITE_API_URL),
-  //   'import.meta.env.VITE_API_KEY_TZ': JSON.stringify(process.env.VITE_API_KEY_TZ)
-  // }
+  server: {
+    // Configuración para desarrollo
+    port: 5174,
+    // Habilita los logs detallados
+    hmr: {
+      overlay: true
+    }
+  }
 })
