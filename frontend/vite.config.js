@@ -5,7 +5,8 @@ export default defineConfig({
   plugins: [react()],
   define: {
     // Asegura que las variables de entorno estén disponibles
-    'process.env': process.env
+    'process.env': process.env,
+    'import.meta.env.VITE_API_KEY': JSON.stringify(process.env.VITE_API_KEY)
   },
   build: {
     sourcemap: true,
