@@ -26,7 +26,12 @@ app.use(express.json());
 //manejar la solicitud a la API de zona horaria
 app.get('/api/timezone', async (req, res) => {
     const { lat, lon } = req.query;
-    const apiKey = process.env.API_KEY_TZ;
+    const apiKey = process.env.API_KEY_TZ; // Actualizado aquí
+
+    if (!apiKey) {
+        console.error('La clave de API no está definida.');
+        return res.status(500).json({ message: 'Clave de API faltante en el servidor.' });
+    }
 
     if (!lat || !lon) {
         return res.status(400).json({ message: 'Latitud y longitud son requeridas.' });
@@ -42,6 +47,7 @@ app.get('/api/timezone', async (req, res) => {
             res.status(400).json({ message: response.data.message });
         }
     } catch (error) {
+        console.error('Error al obtener la zona horaria:', error);
         res.status(500).json({ message: 'Error al obtener la zona horaria.', error: error.message });
     }
 });
