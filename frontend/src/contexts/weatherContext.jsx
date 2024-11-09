@@ -15,21 +15,19 @@ const calculateLocalTime = (utcOffset) => {
     return moment.unix(unixTimestamp).tz(timezone).format('HH:mm');
 }
 async function fetchTimeZone(lat, lon) {
-    const apiKey = import.meta.env.VITE_API_KEY_TZ;
-    const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
+  const url = `/api/timezone?lat=${lat}&lon=${lon}`;
 
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        if (data.status === "OK") {
-            return data.zoneName;  
-        } else {
-            throw new Error(data.message);
-        }
-    } catch (error) {
-       console.error('Error fetching timezone data:', error);
-       return null;
-    }
+  try {
+      const response = await fetch(url);
+      const data = await response.json();
+      if (response.ok) {
+          return data.zoneName;  
+      } else {
+          throw new Error(data.message);
+      }
+  } catch (error) {
+      console.error('Error fetching time zone:', error);
+  }
 }
 async function getLanguage(countryCode) {
   const url = `${baseUrl}/languages/${countryCode}`; 
