@@ -26,7 +26,7 @@ app.use(express.json());
 //manejar la solicitud a la API de zona horaria
 app.get('/api/timezone', async (req, res) => {
     const { lat, lon } = req.query;
-    const apiKey = process.env.VITE_API_KEY_TZ;
+    const apiKey = process.env.API_KEY_TZ;
 
     if (!lat || !lon) {
         return res.status(400).json({ message: 'Latitud y longitud son requeridas.' });
