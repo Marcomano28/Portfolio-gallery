@@ -1,6 +1,5 @@
 import express from 'express';
 import cors from 'cors';
-import axios from 'axios'; 
 import languageRouter from './routes/languageRoutes.js';
 import fraseRouter from './routes/fraseRoutes.js';
 import contactRouter from './routes/contactRoutes.js';
@@ -22,35 +21,6 @@ app.use(cors({
     }
 }));
 app.use(express.json());
-
-//manejar la solicitud a la API de zona horaria
-app.get('/api/timezone', async (req, res) => {
-    const { lat, lon } = req.query;
-    const apiKey = process.env.API_KEY_TZ; // Actualizado aquí
-
-    if (!apiKey) {
-        console.error('La clave de API no está definida.');
-        return res.status(500).json({ message: 'Clave de API faltante en el servidor.' });
-    }
-
-    if (!lat || !lon) {
-        return res.status(400).json({ message: 'Latitud y longitud son requeridas.' });
-    }
-
-    const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
-
-    try {
-        const response = await axios.get(url);
-        if (response.data.status === "OK") {
-            res.json({ zoneName: response.data.zoneName });
-        } else {
-            res.status(400).json({ message: response.data.message });
-        }
-    } catch (error) {
-        console.error('Error al obtener la zona horaria:', error);
-        res.status(500).json({ message: 'Error al obtener la zona horaria.', error: error.message });
-    }
-});
 
 app.use('/api', languageRouter);
 app.use('/api', fraseRouter);

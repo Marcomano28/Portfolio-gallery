@@ -15,18 +15,20 @@ const calculateLocalTime = (utcOffset) => {
     return moment.unix(unixTimestamp).tz(timezone).format('HH:mm');
 }
 async function fetchTimeZone(lat, lon) {
-  const url = `/api/timezone?lat=${lat}&lon=${lon}`;
+  const apiKey = import.meta.env.VITE_API_KEY_TZ;
+  const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
       const response = await fetch(url);
       const data = await response.json();
-      if (response.ok) {
+      if (data.status === "OK") {
           return data.zoneName;  
       } else {
           throw new Error(data.message);
       }
   } catch (error) {
-      console.error('Error fetching time zone:', error);
+     console.error('Error fetching timezone data:', error);
+     return null;
   }
 }
 async function getLanguage(countryCode) {
