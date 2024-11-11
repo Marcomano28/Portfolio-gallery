@@ -188,6 +188,12 @@ const p5SketchForest = (p, theme, weatherData) => {
         glass = p.createGraphics(N / 2, N / 2);
         bosque.init();
         lastMouseY = p.mouseY;
+        let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobileDevice) {
+            canvas.elt.addEventListener("touchmove", handleTouchMove, { passive: false });
+        } else {
+            canvas.elt.addEventListener("mousemove", handleMouseMove);
+        }
         //console.log(weatherData);
     };
     const updateBackground = () => {
@@ -204,6 +210,21 @@ const p5SketchForest = (p, theme, weatherData) => {
         updateBackground();
         p.updateForest();
         p.updateGlass();
+    };
+
+    const handleMouseMove = (event) => {
+        if (bosque.isRunning) {
+            lastMouseY = event.clientY; 
+        }
+    };
+
+    const handleTouchMove = (event) => {
+        event.preventDefault(); // Prevenir el scroll de la página
+
+        if (bosque.isRunning) {
+            const touch = event.touches[0];
+            lastMouseY = touch.clientY; // Actualizar `lastMouseY` según la posición del toque
+        }
     };
     p.updateTheme = (newTheme) => {
         if (!weatherData) {
@@ -228,12 +249,15 @@ const p5SketchForest = (p, theme, weatherData) => {
     });
     const bosque = {
         bosque: [],
+        isRunning: true,
+
         init() {
             for (let i = num_trees; i--;) {
                 this.bosque.push(arbol());
             }
         },
         update() {
+            if (!this.isRunning) return;
             for (const arbol of this.bosque) {
                 arbol.x -= (p.mouseX - p.width / 2) * 0.008;
                 if (arbol.x > p.width / 1.8) arbol.x = -p.width / 2;
@@ -245,6 +269,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             this.bosque.sort((arbol1, arbol2) => (arbol1.z > arbol2.z ? -1 : 1));
         },
         showく() {
+            if (!this.isRunning) return;
             p.fill(120, 102);
             lastMouseY = p.lerp(lastMouseY, p.mouseY, lerpFactor);
             for (const arbol of this.bosque) {
@@ -260,6 +285,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             }
         },
         drwく() {
+            if (!this.isRunning) return;
             lastMouseY = p.lerp(lastMouseY, p.mouseY, lerpFactor);
             for (const arbol of this.bosque) {
                 let mx = ((lastMouseY) - p.width / 2) * 0.3;
