@@ -7,8 +7,9 @@ import fntS from "../assets/images/NotoSans-Regular.ttf";
 import fntSS from "../assets/images/NotoSans.ttf";
 const p5SketchTeacher = (p , theme, weatherData) => {
     let canvas;
-    let body_size = 70;
+    let body_size;
     let b;
+    let w, h;
     let t = 0;
     let tension = 0.01;
     const gravity = 0.75;
@@ -142,7 +143,10 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
       p.pixelDensity(1);
-      b = new body(body_size);
+      body_size = width / 17;
+      w = body_size * 0.7;
+      h = body_size * 0.4;
+      b = new body(body_size, w, h);
       p.rectMode(p.CENTER);
       
       pg = p.createGraphics(780, 550);
@@ -273,6 +277,34 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       p.fill(240,120,120,20);
       p.rect(pg.width*0.095, -pg.height*0.11, pg.width, pg.height);
     };
+
+    p.windowResized = () => {
+      initializeCanvas();
+      body_size = p.width / 17;
+      w = body_size * 0.7;
+      h = body_size * 0.4;
+      // Si 'b' depende del tamaño, actualízalo o recrea el objeto
+      // b.updateSize(body_size); // Si tienes un método para actualizar el tamaño
+    };
+  
+    function initializeCanvas() {
+      const renderTarget = p._userNode;
+      const computedStyle = getComputedStyle(renderTarget);
+  
+      const width = renderTarget.offsetWidth - (
+        parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight)
+      );
+  
+      const height = renderTarget.offsetHeight - (
+        parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom)
+      );
+  
+      if (canvas) {
+        p.resizeCanvas(width, height);
+      } else {
+        canvas = p.createCanvas(width, height, p.WEBGL);
+      }
+    }
     p.mouseOver = () => {
       xx = b.handL_mov.x + p.width / 2;
       yy = b.handL_mov.y + p.height / 2;
@@ -397,7 +429,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     }
   
     class body {
-      constructor(size) {
+      constructor(size, w, h) {
         this.bdy_size = size;
         this.position = p.createVector(
           p.width / 2,
@@ -413,8 +445,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.dc = 0;
         this.mrc = 0;
         this.rd = 0;
-        this.w = 0;
-        this.h = 0;
+        // this.w = 0;
+        // this.h = 0;
         this.fs = [1];
         this.legL = [1];
         this.legR = [1];
@@ -433,8 +465,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.tm = 0;
         this.foots = [new Foot(), new Foot(), new Foot()];
         this.decay = 0.8;
-        this.w = 40;
-        this.h = 30;
+        this.w = w;  //40
+        this.h = h; //30
         for (let i = 0; i < 2; i++) {
           this.dt[i] = [];
           for (let j = 0; j < 2; j++) {
