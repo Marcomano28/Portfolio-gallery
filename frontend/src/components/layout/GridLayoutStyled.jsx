@@ -11,7 +11,7 @@ export const Container = styled.div`
   z-index: 2;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3% 12% 58% 1fr;
+  grid-template-rows: 3% 14% 56% 1fr;
   grid-template-areas:
     "nav"
     "text"
