@@ -23,7 +23,7 @@ export const Container = styled.div`
        grid-template-columns: 1fr;
        grid-template-rows: 1fr;
        grid-template-areas: "video";
-       padding: 0;
+       padding: 0.5rem;
   `}
   ${props => !props.$isLandscapeMobile && `
     @media ${device.mobileL} { // 425
@@ -161,32 +161,31 @@ export const PanelVideo = styled.div.attrs({ 'data-area': 'video' })`
         z-index: 2;
         padding-bottom: 0rem;
         margin-bottom: 0rem;
-      ${(props) => props.$isLandscapeMobile &&
-    `
+      ${(props) => props.$isLandscapeMobile &&`
          width: 100%;
-         height: 100vh;
+         height: 100%;
          margin:0;
          position: relative;
-         padding-bottom: 1rem;
+         padding-bottom: 1.4rem;
     ` }
+
      ${(props) => !props.$isLandscapeMobile && `
+       @media ${device.mobileL} { // 425
       
-     @media ${device.mobileL} { // 425
-    
-     }
-     @media ${device.tablet} { // 768
-     
-     } 
-     @media ${device.laptop} { // 1024
-     
-     }
-     @media ${device.laptopL} { // 1440
-        margin-bottom: 2rem;
-        padding-bottom: 0.5rem;
-     }
-     @media ${device.desktop} { // 2560
-     
-     }
+       }
+       @media ${device.tablet} { // 768
+       
+       } 
+       @media ${device.laptop} { // 1024
+       
+       }
+       @media ${device.laptopL} { // 1440
+          margin-bottom: 2rem;
+          padding-bottom: 0.5rem;
+       }
+       @media ${device.desktop} { // 2560
+       
+       }
   `}  
 `;
 
@@ -212,7 +211,6 @@ export const PanelSlides = styled.div.attrs({ 'data-area': 'slides' })`
      
      } 
      @media ${device.laptop} { // 1024
-       
        overflow-y: auto;
        
      }
