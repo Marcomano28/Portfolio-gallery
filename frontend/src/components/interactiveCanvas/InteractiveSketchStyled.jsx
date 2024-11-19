@@ -77,7 +77,8 @@ export const Button = styled.button`
       
       }
 `;
-export const Canvas = styled.div`     
+export const Canvas = styled.div` 
+  touch-action: none;    
   position: absolute;
   top: 50%;
   left: 50%;

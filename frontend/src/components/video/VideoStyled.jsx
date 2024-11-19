@@ -10,7 +10,7 @@ export const ScreenContainer = styled.div`
        justify-content: center;
        border-radius: 10px;
        background: rgb(56, 72, 72);
-       box-shadow: 20px 20px 20px rgba(16, 15, 15, 0.689), 20px 30px 50px rgba(17, 18, 18, 0.9);
+       box-shadow: 20px 20px 20px rgba(16, 15, 15, 0.7), 20px 30px 50px rgba(17, 18, 18, 0.9);
        z-index: 6;
        ${(props) => props.$isLandscapeMobile && `
          width: 100%;
