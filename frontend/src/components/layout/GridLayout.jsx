@@ -1,21 +1,22 @@
-import { Container, PanelNav, PanelText, PanelVideo, PanelSlides } from "./GridLayoutStyled"
+import { Container, PanelNav, PanelText, PanelVideo, PanelSlides } from './GridLayoutStyled';
+import { useDeviceOrientation } from '../customHooks/useDeviceOrientation.jsx';
 
+export const GridLayout = ({ nav, headText, videoSection, slidswrapper }) => {
+  const isLandscapeMobile = useDeviceOrientation();
 
-export const GridLayout = ({nav, headText, videoSection, slidswrapper}) => {
   return (
-    <Container>
-        <PanelNav >
-           {nav}
-        </PanelNav>
-        <PanelText >
-           {headText}
-        </PanelText>
-        <PanelVideo >
-           {videoSection}
-        </PanelVideo>
-        <PanelSlides >
-           {slidswrapper}
-        </PanelSlides>
-    </Container>
-  )
-}
+   <Container $isLandscapeMobile={isLandscapeMobile}>
+     {!isLandscapeMobile && (
+       <>
+         <PanelNav>{nav}</PanelNav>
+         <PanelText>{headText}</PanelText>
+         <PanelSlides>{slidswrapper}</PanelSlides>
+       </>
+     )}
+     <PanelVideo $isLandscapeMobile={isLandscapeMobile}>{videoSection}</PanelVideo>
+   </Container>
+ );
+};
+
+
+  

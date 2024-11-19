@@ -1,15 +1,29 @@
 import styled from "styled-components";
+import { device } from "../../utils/breakPoints";
 
 export const Section = styled.section`
-            margin-top: 2rem;
+            /* border: 2px solid salmon; */
+            margin-top: 0;
             height: 45vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding-inline: clamp(1rem, 2rem,8rem );
+            padding-inline: 2rem;
             gap: clamp(0.5rem ,1rem ,2.5rem);
-            
+
+            @media ${device.mobileL} { // 425
+            }
+            @media ${device.tablet} { // 768
+            } 
+            @media ${device.laptop} { // 1024
+              margin-top: 2rem;
+              height: 45vh;
+            }
+            @media ${device.laptopL} { // 1440
+            }
+            @media ${device.desktop} { // 2560
+            }            
 `
 export const IntroContainer = styled.div`
             display: flex;
@@ -43,26 +57,25 @@ export const Span = styled.span`
             background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: ${props => props.theme.introTextShadow}; 
-           
-            @media (min-width: 375px) {
-              font-size: 1.7rem;
+          
+            @media ${device.mobileL} { // 425
             }
-            @media (min-width: 768px) {
-              font-size: 1.75rem;
-              margin-bottom: 2rem;  
+            @media ${device.tablet} { // 768
+            } 
+            @media ${device.laptop} { // 1024
+              font-size: 2rem; 
             }
-            @media (min-width: 1024px) {
-              font-size: 2rem;           
+            @media ${device.laptopL} { // 1440
+              font-size: 2.3rem; 
             }
-            @media (min-width: 1280px) {
-              font-size: 2.1rem;            
-            }
-            @media (min-width: 1440px) {
-              font-size: 2.3rem;            
+            @media ${device.desktop} { // 2560
             }
 `
 export const Text = styled.p`
             text-align: center;
+            font-size: 0.8rem;
+            padding-inline: 0;
+            padding-bottom: 2rem;
             background-image:repeating-linear-gradient(112.5deg, rgba(83,105,141, 0.2) 0px,
                    rgba(83,105,141, 0.2) 0px,transparent 0px, transparent 1px,rgba(83,105,141, 0.2) 1px,
                    rgba(83,105,141, 0.2) 4px,transparent 4px, transparent 5px,rgba(83,105,141, 0.2) 5px,
@@ -76,31 +89,18 @@ export const Text = styled.p`
             /* font-size: clamp(0.8rem,1.3vw ,3.5rem); */
             text-shadow: ${props => props.theme.introTextShadow};
              
-            @media (min-width: 375px) {
-              font-size: 0.7rem;
-              padding-inline: 0.74rem;
-              margin-bottom:2.5rem;
+            @media ${device.mobileL} { // 425
             }
-            @media (min-width: 768px) {
-              font-size: 1.3rem; 
-              padding-inline: 3rem; 
-              margin-bottom: 1.2rem; 
-            }
-            @media (min-width: 1024px) {
+            @media ${device.tablet} { // 768
+            } 
+            @media ${device.laptop} { // 1024
               font-size: 1.3rem;
-              padding-inline: 2.2rem;           
+              padding-inline: 2.2rem; 
             }
-            @media (min-width: 1280px) {
-              font-size: 1.3rem;            
-            }
-            @media (min-width: 1440px) {
+            @media ${device.laptopL} { // 1440
               font-size: 1.5rem; 
-              padding-inline: 2.2rem;            
+              padding-inline: 2.2rem;
             }
-            @media (min-width: 1920px) {
-              font-size: 1.6rem; 
-              padding-inline: 2.7rem; 
-              margin-bottom: 0.5rem;           
-            }
-     
+            @media ${device.desktop} { // 2560
+            }    
 `

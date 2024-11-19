@@ -1,29 +1,27 @@
 import styled from "styled-components";
+import { device } from "../../utils/breakPoints";
 
 export const Box = styled.div`
-  position:relative;
-  width:100%;
-  height:100%;             
-  @media (min-width: 375px) {
-      margin-top: 0.5rem;
-      margin-right: 0rem;        
+    position:relative;
+    width:100%;
+    height:100%;
+    margin-top: 1.6rem; 
+    margin-right: 1rem;             
+
+    @media ${device.mobileL} { // 425
     }
-    @media (min-width: 768px) {
-      margin-top: 1rem;
-      margin-right: 1.4rem;
-    }
-    @media (min-width: 1024px) {
-      margin-top: 0.6rem; 
-      margin-right: 1.6rem;         
-    }
-    @media (min-width: 1280px) {
-      margin-top: 0.4rem;
-      margin-right: 1.8rem;            
-    }
-    @media (min-width: 1440px) {
-      margin-top: 0.2rem;
-      margin-right: 5rem;            
+    @media ${device.tablet} { // 768
     } 
+    @media ${device.laptop} { // 1024
+      margin-top: 0.6rem; 
+      margin-right: 1.6rem;
+    }
+    @media ${device.laptopL} { // 1440
+      margin-top: 0.2rem;
+      margin-right: 5rem;
+    }
+    @media ${device.desktop} { // 2560
+    }
 `
 export const Input = styled.input`
       position: absolute;
@@ -62,6 +60,8 @@ export const Label = styled.label`
        z-index: 1;
        padding: 0.1rem;
        margin: 0.1rem;
+       right: 1.4rem;
+       width: 1rem;
        transition: background-color 200ms ease-in-out;
        width: 1.9rem;
        height: 0.7rem;
@@ -69,28 +69,22 @@ export const Label = styled.label`
        text-align: center;
        background-color: #b78042;
        box-shadow: -2px 2px 5px 3px inset rgba(27, 0, 0, 0.8);
-       @media (min-width: 375px) {                
-          right: 1.4rem;
-          width: 1.4rem;        
+       
+        @media ${device.mobileL} { // 425
         }
-        @media (min-width: 768px) {
-          bottom: 1.2rem;
-          right: 2rem;
-          width: 1.7rem;
-        }
-        @media (min-width: 1024px) {
+        @media ${device.tablet} { // 768
+        } 
+        @media ${device.laptop} { // 1024
           bottom: 1.2rem;
           right: 2.1rem;
-          width: 2rem;         
+          width: 2rem; 
         }
-        @media (min-width: 1280px) {
-          right: 1.8rem;
-           bottom: 0.4rem;             */
-        }
-        @media (min-width: 1440px) {
+        @media ${device.laptopL} { // 1440
           right: 2.5rem; 
-          bottom: 0.4rem;           
-        } 
+          bottom: 0.4rem;
+        }
+        @media ${device.desktop} { // 2560
+        }
      
   &::before, &::after {
        font-size: clamp(0.5rem, 0.9rem, 1.2rem);
@@ -99,16 +93,16 @@ export const Label = styled.label`
        top: 50%;
   }
   &::before {
-       content: "☾";
+       content: "☼";
        right: 100%;
        margin-right: 0.5rem;
-       color: lightSlateGray;
+       color: orange;  
   }
     &::after {
-       content: "☼";
+       content: "☾";
        left: 100%;
        margin-left: 0.5rem;
-       color: orange;  
+       color: lightSlateGray;
   }
   span {
     
@@ -146,6 +140,6 @@ export const Span = styled.span`
 		border-radius: 50%;
 		background-color: lightBlue;
 		transition: transform 200ms, background-color 200ms;
-                box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.4);
-                }
+    box-shadow: -3px 3px 8px rgba(0, 0, 0, 0.4);
+    }
 `

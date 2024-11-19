@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { device } from "../../utils/breakPoints";
 
 export const Screen = styled.div`
        position: relative;
@@ -31,29 +32,35 @@ export const Screen = styled.div`
        
 `;
 export const Image = styled.img`
-       max-width: 100%;
-       height: auto;
+       /* max-width: 100%;
+       height: auto; */
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
        margin-top: 0.2rem;
        padding:1.5rem;
-       /* @media (min-width: 375px) {                
-         
-       }
-      @media (min-width: 768px) {
+       
+       @media ${device.mobileL} { // 425
     
        }
-      @media (min-width: 1024px) {
-       display: flex;
-       align-items:center;
-       justify-content:center;
-       width:100%;
-       height:100%; 
+       @media ${device.tablet} { // 768
+       
+       } 
+       @media ${device.laptop} { // 1024
+       border: 2px solid red; 
+       width: 100%;
+       height: 100%;
+       object-fit: cover;
        }
-      @media (min-width: 1280px) {
-        
+       @media ${device.laptopL} { // 1440
+       border: 2px solid red;
+       width: 100%;
+       height: 100%;
+       object-fit: cover; 
        }
-      @media (min-width: 1440px) {
-   
-      }   */
+       @media ${device.desktop} { // 2560
+         
+       }
 `;
 export const Button = styled.button`
 
