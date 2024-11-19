@@ -100,6 +100,8 @@ export const Title = styled.h1`
          font-size: 2.3rem;
          margin-top: 3.5rem;
          margin-left: 18.5rem;
+         color: hsl(190.91, 22.45%, 19.2%);
+         text-shadow: none;
 
        }
        @media ${device.laptopL} { // 1440
@@ -178,8 +180,8 @@ export const Title3 = styled.h3`
          font-size: 1rem;
          margin-right: 1rem;
          margin-top: 0.7rem;
-         color: hsl(191.66, 24.657%, 28.627%);
-         text-shadow: 2px 2px 4px black;
+         color: hsl(190.91, 22.45%, 19.2%);
+         text-shadow: none;
        }
        @media ${device.laptopL} { // 1440
        }
@@ -205,8 +207,10 @@ export const Title4 = styled.h3`
          font-size: 1.1rem;
          margin-right: 0;
          margin-top: 0.4rem;
-         color: hsl(191.66, 24.657%, 30%);
-         text-shadow: 2px 2px 4px black;
+         /* color: hsl(191.66, 24.657%, 30%);
+         text-shadow: 2px 2px 4px black; */
+         color: hsl(190.91, 22.45%, 19.2%);
+         text-shadow: none;
        }
        @media ${device.laptopL} { // 1440
        }

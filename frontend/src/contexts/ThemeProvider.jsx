@@ -17,7 +17,7 @@ export const ThemeProvider = ({children}) => {
 
   return (
     <ThemeContext.Provider value={{theme,toggleTheme}}>
-      <StyledThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+       <StyledThemeProvider theme={theme === 'dark' ? lightTheme : darkTheme}>
         <GlobalStyles/>
         {children}
       </StyledThemeProvider>
