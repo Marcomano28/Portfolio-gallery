@@ -85,7 +85,7 @@ export const Text = styled.div`
 
 `
 export const Title = styled.h1`
-       font-size: 1.8rem;
+       font-size: 1.4rem;
        margin-top: 0.5rem;
        margin-left: 9.5rem;
        color: hsl(193, 26%, 28%);
@@ -112,7 +112,7 @@ export const Title = styled.h1`
 `
 export const Title1 = styled.h1`
        padding-left: 0;
-       font-size: 1.8rem;
+       font-size: 1.4rem;
        margin-top: 0.2rem;
        margin-left: 13rem;
        color: hsl(193, 26%, 28%);
@@ -138,7 +138,7 @@ export const Title1 = styled.h1`
 `
 export const Title2 = styled.div`
        padding-left: 0;
-       font-size: 1.6rem;
+       font-size: 1.4rem;
        margin-top: 0.2rem;
        margin-left: 16rem;
        font-weight: bolder;
