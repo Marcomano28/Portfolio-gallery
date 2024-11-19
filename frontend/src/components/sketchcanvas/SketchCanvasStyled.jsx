@@ -10,6 +10,7 @@ export const Screen = styled.div`
        background: hsla(180, 17%, 12%, 0.692);
        box-shadow: 0 20px 20px rgba(0, 0, 0, 0.4), 0px 0px 50px rgba(0, 0, 0, 0.9);
        z-index: 2;
+       
        /* @media (min-width: 375px) {                
          
          }

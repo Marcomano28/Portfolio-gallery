@@ -5,7 +5,8 @@ export const CanvasSection = styled.div`
        width:100%;
        height:100%;
        /* border: 2px solid red; */
-       /* position:relative; */     
+       padding-bottom: 2rem;
+       position:relative;     
 `;
 
 export const Imag = styled.img`
@@ -43,7 +44,7 @@ export const Button = styled.button`
        position:absolute;
        left:50%;
        transform: translate(-50%, -50%);
-       top: 97%;
+       top: 98%;
        z-index:2;
        font-size:0.7rem;
        padding: 2px 15px;
@@ -67,7 +68,7 @@ export const Button = styled.button`
       
       } 
       @media ${device.laptop} { // 1024
-       top: 98%;
+       top: 99%;
       }
       @media ${device.laptopL} { // 1440
          
@@ -76,13 +77,11 @@ export const Button = styled.button`
       
       }
 `;
-export const Canvas = styled.div`
-       position:absolute;
-       top:0;
-       left:0;
-       right:0;
-       bottom:0;
-       width:100%;
-       height:100%;
-       padding:0.4rem;       
+export const Canvas = styled.div`     
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 97%;
+  height: 95%;
+  transform: translate(-50%, -50%);
 `;
