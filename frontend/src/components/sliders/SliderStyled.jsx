@@ -16,7 +16,7 @@ export const SlideWrapper = styled.div`
 
 export const CardSlide = styled.div`
        /* border: 2px solid lightblue; */
-       margin-top: 0.8rem;
+       margin-top: 0.4rem;
        z-index: 2;
        width: 87%; 
        height: 53%;

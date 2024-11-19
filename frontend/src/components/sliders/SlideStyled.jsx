@@ -121,11 +121,11 @@ export const Description = styled.div`
 `;
 export const DescriptP = styled.p`
          /* border: 2px solid red; */
-         padding-bottom: 0.4rem;
+         padding-bottom: 0;
          color: rgb(180, 190, 170);
          font-weight: 900;
          font-size: 0.8rem;
-         margin-bottom: 1.5rem;
+         margin-bottom: 0.5rem;
          text-shadow:
          -1px -1px 0 #3f3b27,  
           1px -1px 0 #000,

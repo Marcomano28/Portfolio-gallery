@@ -17,7 +17,7 @@ export const Container = styled.div`
     "text"
     "video"
     "slides"; 
-  padding: 0;
+  padding: 1rem 0;
 
   ${(props) =>props.$isLandscapeMobile &&`
        grid-template-columns: 1fr;
@@ -161,8 +161,16 @@ export const PanelVideo = styled.div.attrs({ 'data-area': 'video' })`
         z-index: 2;
         padding-bottom: 0rem;
         margin-bottom: 0rem;
-        
-
+      ${(props) => props.$isLandscapeMobile &&
+    `
+         width: 100%;
+         height: 100vh;
+         margin:0;
+         position: relative;
+         padding-bottom: 1rem;
+    ` }
+     ${(props) => !props.$isLandscapeMobile && `
+      
      @media ${device.mobileL} { // 425
     
      }
@@ -179,15 +187,7 @@ export const PanelVideo = styled.div.attrs({ 'data-area': 'video' })`
      @media ${device.desktop} { // 2560
      
      }
-     ${(props) =>props.$isLandscapeMobile &&
-    `
-         width: 100%;
-         height: 100vh;
-         margin:0;
-         position: relative;
-         padding-bottom: 1rem;
-  `}
-
+  `}  
 `;
 
 // Panel de slides
