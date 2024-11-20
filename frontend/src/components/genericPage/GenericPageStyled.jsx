@@ -4,7 +4,7 @@ export const WindowContainer = styled.div`
        position: relative;
        width: 100%;
        height: 100vh;
-       background: ${props => props.$isMobileDevice ? 'tomato' : props.theme.background};
+       background: ${props => props.$isMobileDevice ? props.theme.gradLight : props.theme.background};
        z-index: 0;
       &::before{
        content: '';
@@ -16,8 +16,9 @@ export const WindowContainer = styled.div`
        width: 100%;
        height: 100%;
        z-index: -1;
+       display: ${(props) => (props.$isMobileDevice ? 'none' : 'block')};
        background: ${props => props.$isMobileDevice ? 'none' : props.theme.backgroundImage};
        mix-blend-mode: difference;
-       display: ${(props) => (props.$isMobileDevice ? 'none' : 'block')};
+       
       }
 `
