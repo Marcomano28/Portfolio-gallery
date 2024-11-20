@@ -112,8 +112,8 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         canvas = p.createCanvas(width, height, p.webgl);
         p.pixelDensity(p.displayDensity());
         p.randomSeed(seed);
-        text_size = p.int(p.width / 63);
-        cutRadio = text_size;
+        text_size = p.int(p.width / 60);
+        cutRadio = p.int(p.width / 70);
         console.log( 'cutRadio', cutRadio);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);
@@ -169,8 +169,8 @@ const p5SketchCurtain = (p , theme, weatherData) => {
 
     p.windowResized = () => {
         initializeCanvas();
-        text_size = p.int(p.width / 63);
-        cutRadio = text_size;
+        text_size = p.int(p.width / 60);
+        cutRadio = p.int(p.width / 70);
       };
     
       function initializeCanvas() {
