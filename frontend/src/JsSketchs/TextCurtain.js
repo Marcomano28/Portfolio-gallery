@@ -14,7 +14,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     const gravity = 3.9;
     
     let letterIndex = 0;
-    let text_size = 18;
+    let text_size; //18
     let border = 40;
     // let x = 20;
     // let y = 20;
@@ -112,6 +112,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         canvas = p.createCanvas(width, height, p.webgl);
         p.pixelDensity(p.displayDensity());
         p.randomSeed(seed);
+        text_size = p.int(p.width / 63);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);
         xOff = -100;
@@ -163,6 +164,31 @@ const p5SketchCurtain = (p , theme, weatherData) => {
             link.show();
         });          
     }
+
+    p.windowResized = () => {
+        initializeCanvas();
+        text_size = p.int(p.width / 63);
+      };
+    
+      function initializeCanvas() {
+        const renderTarget = p._userNode;
+        const computedStyle = getComputedStyle(renderTarget);
+    
+        const width = renderTarget.offsetWidth - (
+          parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight)
+        );
+    
+        const height = renderTarget.offsetHeight - (
+          parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom)
+        );
+    
+        if (canvas) {
+          p.resizeCanvas(width, height);
+        } else {
+          canvas = p.createCanvas(width, height, p.WEBGL);
+        }
+      }
+
     p.updateTheme = (newTheme) => {
         if (!weatherData) {
             updateTheme(newTheme);

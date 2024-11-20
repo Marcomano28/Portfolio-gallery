@@ -16,8 +16,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     const friction = 0.96;
     const subStep = 8;
     const ballAmount = 8;
-    const minRadius = 5;
-    const maxRadius = 22;
+    let minRadius;  //5
+    let maxRadius; //22
     const speedLimit = 3.4;
     const forceMultiplier = 40;
     const ballArray = [];
@@ -135,7 +135,10 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     }
     let tieX = new Array(6).fill(0);
     let tieY = new Array(6).fill(0);
-    let tieLength = 15;
+    let tieLength; //15
+    let graphWidth;
+    let graphHeight;
+
     p.setup = () => {
       const renderTarget = p._userNode;
       const computedStyle = getComputedStyle(renderTarget);
@@ -143,13 +146,18 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
       p.pixelDensity(1);
-      body_size = width / 10;
+      body_size = p.width / 15;
       w = body_size * 0.7;
       h = body_size * 0.4;
-      b = new body(body_size, w, h);
+      b = new body(body_size);
+      tieLength = p.int(p.width * 0.013);
+      minRadius = p.int(p.width / 200); 
+      maxRadius = p.int(p.width / 48);
+      graphWidth = p.int(p.width/1.4);
+      graphHeight = p.int(p.width/2); 
       p.rectMode(p.CENTER);
       
-      pg = p.createGraphics(780, 550);
+      pg = p.createGraphics( graphWidth, graphHeight); //780, 550
       pg.background(weatherData?colorFromTemp:desckCol);
       pg.textAlign(p.LEFT);
       if(onWeather){
@@ -270,7 +278,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
           yy = yy + p.sin(ang) * stp;
         }
       }
-      p.image(pg, -p.width / 3, -p.height / 2.1);
+      p.image(pg, -p.width / 3.5, -p.height / 2.2);
       p.strokeWeight(5);
       p.stroke(125, 120);
       p.noFill();
@@ -280,9 +288,12 @@ const p5SketchTeacher = (p , theme, weatherData) => {
 
     p.windowResized = () => {
       initializeCanvas();
-      body_size = p.width / 10;
-      w = body_size * 0.7;
-      h = body_size * 0.4;
+      body_size = p.width / 15;
+      minRadius = p.floor(body_size / 200); 
+      maxRadius = p.floor(body_size / 48);
+      tieLength = p.int(p.width * 0.013);
+      graphWidth = p.int(p.width/1.4);
+      graphHeight = p.int(p.width/2); 
       // Si 'b' depende del tamaño, actualízalo o recrea el objeto
       // b.updateSize(body_size); // Si tienes un método para actualizar el tamaño
     };
@@ -429,13 +440,9 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     }
   
     class body {
-      constructor(size, w, h) {
+      constructor(size) {
         this.bdy_size = size;
-        this.position = p.createVector(
-          p.width / 2,
-          p.height / 2 - 2 * this.bdy_size,
-          0
-        );
+        this.position = p.createVector( p.width / 2, p.height / 2 - 2 * this.bdy_size, 0);
         this.velocity = p.createVector(0, 0, 0);
         this.aceleration = p.createVector(0, 0, 0);
         this.target = p.createVector(0, 0, 0);
@@ -445,8 +452,6 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.dc = 0;
         this.mrc = 0;
         this.rd = 0;
-        // this.w = 0;
-        // this.h = 0;
         this.fs = [1];
         this.legL = [1];
         this.legR = [1];
@@ -465,8 +470,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.tm = 0;
         this.foots = [new Foot(), new Foot(), new Foot()];
         this.decay = 0.8;
-        this.w = w;  //40
-        this.h = h; //30
+        this.w = size * 0.4;  //40
+        this.h = size * 0.6; //30
         for (let i = 0; i < 2; i++) {
           this.dt[i] = [];
           for (let j = 0; j < 2; j++) {
@@ -664,6 +669,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
   
         if (this.n < 0.5) {
           this.r1 = p.map(p.constrain(t, 0, 128), 1, 18, this.rr, 0);
+          
         } else {
           this.r1 = this.rr;
         }
@@ -712,9 +718,9 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.nwL = p5.Vector.sub(this.pupilPL, this.handL_mov);
         this.nwR = p5.Vector.sub(this.pupilPR, this.handL_mov);
         this.nwL.normalize();
-        this.nwL.setMag(9);
+        this.nwL.setMag(p.int(this.bdy_size/8));
         this.nwR.normalize();
-        this.nwR.setMag(9);
+        this.nwR.setMag(p.int(this.bdy_size/8));
         p.push();
         p.translate(
           this.pupilPL.x - this.nwL.x,
