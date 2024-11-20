@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { device } from "../../utils/breakPoints";
 
 export const Container = styled.div`
-  border: 2px solid saddlebrown;
+  // border: 2px solid saddlebrown;
   overflow: hidden;
   position: relative;
   width: 100%;

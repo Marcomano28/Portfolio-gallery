@@ -7,9 +7,9 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     let links = [];
     const cuts = [];
     const xGrid = 40;
-    const friction = 0.89;
-    const moreForce = 0.2;
-    const cutRadio = 8;
+    const friction = 0.9;
+    const moreForce = 0.1;
+    let cutRadio; //18
     const velmax = 8;
     const gravity = 3.9;
     
@@ -113,6 +113,8 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         p.pixelDensity(p.displayDensity());
         p.randomSeed(seed);
         text_size = p.int(p.width / 63);
+        cutRadio = text_size;
+        console.log( 'cutRadio', cutRadio);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);
         xOff = -100;
@@ -168,6 +170,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     p.windowResized = () => {
         initializeCanvas();
         text_size = p.int(p.width / 63);
+        cutRadio = text_size;
       };
     
       function initializeCanvas() {
@@ -294,7 +297,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         };
         this.show = () =>{
             p.stroke(colors_frames);
-            p.strokeWeight(0.2);
+            p.strokeWeight(0.3);
             p.line(this.node1.pos.x, this.node1.pos.y, this.node2.pos.x, this.node2.pos.y);
         }
     };

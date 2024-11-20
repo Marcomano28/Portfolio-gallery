@@ -5,8 +5,8 @@ export const Box = styled.div`
     position:relative;
     width:100%;
     height:100%;
-    margin-top: 1.6rem; 
-    margin-right: 1rem;             
+    margin-top: ${(props) => props.$isLandscapeMobile ? '0.2rem' : '2.2rem'}; 
+    margin-right: ${(props) => props.$isLandscapeMobile ? '2.5rem' : '1rem'}; ;             
 
     @media ${device.mobileL} { // 425
     }
