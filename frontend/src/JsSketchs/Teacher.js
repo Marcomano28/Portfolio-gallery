@@ -146,7 +146,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
       p.pixelDensity(1);
-      body_size = p.width / 15;
+      body_size = p.max(p.width, p.height) / 15;
       w = body_size * 0.7;
       h = body_size * 0.4;
       b = new body(body_size);
@@ -288,12 +288,12 @@ const p5SketchTeacher = (p , theme, weatherData) => {
 
     p.windowResized = () => {
       initializeCanvas();
-      body_size = p.width / 15;
+      body_size = p.max(p.width, p.height) / 15;
       minRadius = p.floor(body_size / 200); 
       maxRadius = p.floor(body_size / 48);
       tieLength = p.int(p.width * 0.013);
-      graphWidth = p.int(p.width/1.4);
-      graphHeight = p.int(p.width/2); 
+      graphWidth = p.int(p.widt / 1.4);
+      graphHeight = p.int(p.width / 2); 
       // Si 'b' depende del tamaño, actualízalo o recrea el objeto
       // b.updateSize(body_size); // Si tienes un método para actualizar el tamaño
     };
