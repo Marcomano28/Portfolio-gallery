@@ -2,6 +2,7 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Imag, Button, CanvasSection, Canvas } from './InteractiveSketchStyled';
 import { ThemeContext } from '../../contexts/ThemeProvider';
+import { useDeviceOrientation } from '../customHooks/useDeviceOrientation';
 import p5 from 'p5';
 
 export const InteractiveSketch = ({
@@ -16,6 +17,7 @@ export const InteractiveSketch = ({
   const { theme } = useContext(ThemeContext);
   const [isActive, setIsActive] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
+  const isLandscapeMobile = useDeviceOrientation();
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -89,6 +91,7 @@ export const InteractiveSketch = ({
         ref={sketchRef}
         id={canvasId}
         style={{ display: isActive ? 'block' : 'none' }}
+        $isLandscapeMobile={isLandscapeMobile}
       ></Canvas>
     </CanvasSection>
   );

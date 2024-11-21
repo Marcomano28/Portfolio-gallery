@@ -8,6 +8,7 @@ import fntSS from "../assets/images/NotoSans.ttf";
 const p5SketchTeacher = (p , theme, weatherData) => {
     let canvas;
     let body_size;
+    let legSize;
     let b;
     let w, h;
     let t = 0;
@@ -138,6 +139,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     let tieLength; //15
     let graphWidth;
     let graphHeight;
+    let textStartX;
+    let TextStartY;
 
     p.setup = () => {
       const renderTarget = p._userNode;
@@ -147,14 +150,17 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       p.createCanvas(width, height, p.WEBGL);
       p.pixelDensity(1);
       body_size = p.max(p.width, p.height) / 15;
+      legSize = body_size * 1.65; //1.65 * body_size;
       w = body_size * 0.7;
       h = body_size * 0.4;
-      b = new body(body_size);
+      b = new body(body_size, legSize);
       tieLength = p.int(p.width * 0.013);
       minRadius = p.int(p.width / 200); 
       maxRadius = p.int(p.width / 48);
       graphWidth = p.int(p.width/1.4);
       graphHeight = p.int(p.width/2); 
+      textStartX = p.width * 0.2; //160
+      TextStartY = p.width * 0.04; //30
       p.rectMode(p.CENTER);
       
       pg = p.createGraphics( graphWidth, graphHeight); //780, 550
@@ -254,7 +260,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
             b.handL_mov.x + (p.width / 2 - xx)
           );
             pg.push();
-            pg.translate(xx - 160, yy - 30);
+            pg.translate(xx - textStartX, yy - TextStartY);
             if (onWeather) {
              if( Math.cos(ang) > 0 ){
               pg.rotate(0);
@@ -289,13 +295,15 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     p.windowResized = () => {
       initializeCanvas();
       body_size = p.max(p.width, p.height) / 15;
+      legSize = body_size * 1.65; 
       minRadius = p.floor(body_size / 200); 
       maxRadius = p.floor(body_size / 48);
       tieLength = p.int(p.width * 0.013);
       graphWidth = p.int(p.widt / 1.4);
       graphHeight = p.int(p.width / 2); 
-      // Si 'b' depende del tamaño, actualízalo o recrea el objeto
-      // b.updateSize(body_size); // Si tienes un método para actualizar el tamaño
+      textStartX = p.width * 0.2; 
+      TextStartY = p.width * 0.04; 
+      
     };
   
     function initializeCanvas() {
@@ -440,7 +448,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
     }
   
     class body {
-      constructor(size) {
+      constructor(size, lz) {
         this.bdy_size = size;
         this.position = p.createVector( p.width / 2, p.height / 2 - 2 * this.bdy_size, 0);
         this.velocity = p.createVector(0, 0, 0);
@@ -453,6 +461,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         this.mrc = 0;
         this.rd = 0;
         this.fs = [1];
+        this.lz = lz;
         this.legL = [1];
         this.legR = [1];
         this.handL = [1];
@@ -573,19 +582,19 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         for (let i = 0; i < this.legL.length; i++) {
           this.legL[i] = new Leg(
             mid_point(this.dt[0][1][0], this.dt[0][1][1], 0.5),
-            1
+            1, this.lz
           );
           this.legR[i] = new Leg(
             mid_point(this.dt[1][1][0], this.dt[1][1][1], 0.5),
-            0
+            0, this.lz
           );
           this.handL[i] = new Leg(
             mid_point(this.dt[0][0][0], this.dt[0][0][1], 0.5),
-            0
+            0, this.lz
           );
           this.handR[i] = new Leg(
             mid_point(this.dt[1][0][0], this.dt[1][0][1], 0.5),
-            1
+            1, this.lz
           );
         }
   
@@ -673,8 +682,8 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         } else {
           this.r1 = this.rr;
         }
-        let mouthx = p.map(p.constrain(pointX(1.7, 10.9), 0, 120), 0, 120, 0, 45);
-        let mouthy = p.map(p.constrain(pointY(4.7, 10.2), 0, 120), 90, 10, 0, 15);
+        let mouthx = p.map(p.constrain(pointX(1.7, 10.9), 0, this.bdy_size * 1.8), 0, 120, 0, 45);
+        let mouthy = p.map(p.constrain(pointY(4.7, 10.2), 0, this.bdy_size * 1.62), 90, 10, 0, 15);
         p.push();
         p.translate(
           this.head_pos.x,
@@ -772,11 +781,11 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       return 70 * p.noise(x, y);
     }
     class Leg {
-      constructor(v, m) {
+      constructor(v, m, l) {
         this.vs = v;
         this.vm = p.createVector(0, 0, 0);
         this.ve = p.createVector(0, 0, 0);
-        this.l = 1.65 * body_size;
+        this.l =  l; //1.65 * body_size;
         this.md = m;
       }
   

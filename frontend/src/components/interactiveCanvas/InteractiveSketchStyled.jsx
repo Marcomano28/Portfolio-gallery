@@ -44,7 +44,7 @@ export const Button = styled.button`
        position:absolute;
        left:50%;
        transform: translate(-50%, -50%);
-       top: 98%;
+       bottom: 0;
        z-index:2;
        font-size:0.7rem;
        padding: 2px 15px;
@@ -55,7 +55,7 @@ export const Button = styled.button`
        box-shadow: inset 4px 5px 5px -4px #d3a065;
        transition: background-color 0.3s;
        transition-duration: 0.4s;
-       text-shadow: 2px 2px 4px black;
+       text-shadow: 2px 2px 3px black;
        cursor: pointer;
       &:hover{
         box-shadow: inset 1px 9px 8px -6px #312325;
@@ -68,7 +68,7 @@ export const Button = styled.button`
       
       } 
       @media ${device.laptop} { // 1024
-       top: 99%;
+       bottom: 0.5%;
       }
       @media ${device.laptopL} { // 1440
          
@@ -78,11 +78,33 @@ export const Button = styled.button`
       }
 `;
 export const Canvas = styled.div` 
-  touch-action: none;    
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 97%;
-  height: 95%;
-  transform: translate(-50%, -50%);
+       touch-action: none;    
+       position: absolute;
+       top: 50%;
+       left: 50%;
+       width: 97%;
+       height: 95%;
+       transform: translate(-50%, -50%);
+      ${(props) => props.$isLandscapeMobile && `
+       width: 100%;
+       height: 98%;
+       
+       `}
+
+      @media ${device.mobileL} { // 425
+    
+      }
+      @media ${device.tablet} { // 768
+      
+      } 
+      @media ${device.laptop} { // 1024
+       height: 94%;
+       transform: translate(-50%, -51%);
+      }
+      @media ${device.laptopL} { // 1440
+         
+      }
+      @media ${device.desktop} { // 2560
+      
+      }
 `;

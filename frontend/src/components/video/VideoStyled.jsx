@@ -168,7 +168,7 @@ export const Title3 = styled.h3`
        font-size: 1rem;
        text-align: center;
        margin-right: 0.2rem;
-       margin-top: 0.5rem;
+       margin-top: 0.2rem;
        color: hsl(192.4, 13.9%, 41%);
        border-end-end-radius: 20px;
        text-shadow: 2px 2px 4px hsl(192, 16.1%, 18.2%);
@@ -193,7 +193,7 @@ export const Title4 = styled.h3`
        font-size: 1rem;
        text-align: center;
        margin-right: 0;
-       margin-top: 0.2rem;
+       margin-top: 0;
        color: hsl(192.4, 13.9%, 41%);
        /* color: hsl(191.66, 24.65%, 28.62%); */
        border-end-end-radius: 20px;
