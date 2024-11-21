@@ -149,7 +149,10 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
       p.createCanvas(width, height, p.WEBGL);
       p.pixelDensity(1);
-      body_size = p.max(p.width, p.height) / 15;
+      body_size = p.height / 11;
+      if(p.width <= 768) {
+        body_size = p.height / 9;
+      }
       legSize = body_size * 1.65; //1.65 * body_size;
       w = body_size * 0.7;
       h = body_size * 0.4;
@@ -157,12 +160,11 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       tieLength = p.int(p.width * 0.013);
       minRadius = p.int(p.width / 200); 
       maxRadius = p.int(p.width / 48);
-      graphWidth = p.int(p.width/1.4);
-      graphHeight = p.int(p.width/2); 
+      graphWidth = p.int(p.width / 1.4);
+      graphHeight = p.int(p.height / 1.4); 
       textStartX = p.width * 0.2; //160
       TextStartY = p.width * 0.04; //30
       p.rectMode(p.CENTER);
-      
       pg = p.createGraphics( graphWidth, graphHeight); //780, 550
       pg.background(weatherData?colorFromTemp:desckCol);
       pg.textAlign(p.LEFT);
@@ -215,7 +217,6 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       p.background(backCol);
       p.lights();
       t = p.frameCount * 0.01;
-
         // Dibuja las bolas
         p.push();
         p.translate(0, 0, -40);
@@ -237,7 +238,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
             dragSegment(i + 1, tieX[i], tieY[i]);
           }
         }
-      
+
       if (isActive) {
         let d = p.dist(
           xx,
@@ -284,23 +285,29 @@ const p5SketchTeacher = (p , theme, weatherData) => {
           yy = yy + p.sin(ang) * stp;
         }
       }
+      
       p.image(pg, -p.width / 3.5, -p.height / 2.2);
       p.strokeWeight(5);
       p.stroke(125, 120);
       p.noFill();
+      //marco de la pizarra
       p.fill(240,120,120,20);
-      p.rect(pg.width*0.095, -pg.height*0.11, pg.width, pg.height);
+      p.rect(pg.width*0.1, -pg.height*0.1, pg.width, pg.height);
     };
 
     p.windowResized = () => {
       initializeCanvas();
-      body_size = p.max(p.width, p.height) / 15;
+      if(p.height <= 768){
+        body_size = p.height / 9;
+      } else {
+        body_size = p.height / 11;
+      }
       legSize = body_size * 1.65; 
       minRadius = p.floor(body_size / 200); 
       maxRadius = p.floor(body_size / 48);
       tieLength = p.int(p.width * 0.013);
-      graphWidth = p.int(p.widt / 1.4);
-      graphHeight = p.int(p.width / 2); 
+      graphWidth = p.int(p.width / 1.4);
+      graphHeight = p.int(p.height / 1.4); 
       textStartX = p.width * 0.2; 
       TextStartY = p.width * 0.04; 
       
