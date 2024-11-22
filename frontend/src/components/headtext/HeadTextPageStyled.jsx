@@ -8,7 +8,7 @@ export const Wrapper = styled.div`
      justify-content: center;
      align-items: center;
      flex-direction:column;
-     margin-top: 0.2rem;
+     margin-top: 0;
      padding: 0.2rem 0rem;
      
      @media ${device.mobileL} { // 425
@@ -59,8 +59,7 @@ export const InputContainer = styled.div`
      display:flex;
      justify-content:center;
      align-items: start;
-     margin-top:0.3rem;
-     font-size: 1rem;
+     margin-top:0.12rem;
      gap: 0.8rem;
      @media ${device.mobileL} { // 425
     
@@ -89,7 +88,7 @@ export const Input = styled.input`
      border-top:none;
      border-radius: 4px;
      padding:0.2rem 0.4rem; 
-     font-size: 0.7rem;
+     font-size: 16px;
      z-index:10;
      cursor: default;
      box-shadow:inset 0px -2px 7px rgba(75, 93, 152, 0.39);    
@@ -111,11 +110,11 @@ export const Input = styled.input`
      }
      @media ${device.tablet} { // 767
        margin-top:0.3rem; 
-       font-size: 0.8rem;
+       font-size: 1rem;
      } 
      @media ${device.laptop} { // 1024
        margin-top:1rem; 
-       font-size: 0.9rem;  
+       font-size: 1rem;  
      }
      /* @media ${device.laptopL} { // 1440
        margin-top:1rem;
