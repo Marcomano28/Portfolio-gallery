@@ -9,7 +9,7 @@ export const Navy = styled.nav`
              align-items: center;
              width:fit-content;
              /* box-shadow: inset 0 8px 10px -6px #000000; */
-             margin-top: 0.3rem;
+             margin-top: 0.1rem;
              z-index: 2;            
              box-shadow:${props => props.theme.navShadowBox};
 
