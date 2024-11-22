@@ -11,7 +11,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     const moreForce = 0.1;
     let cutRadio; //18
     const velmax = 8;
-    const gravity = 3.9;
+    let gravity; // 3.9;
     
     let letterIndex = 0;
     let text_size; //18
@@ -103,6 +103,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     }
     let wind;
     let windAngle;
+    let yGridFraction;
 
     p.setup = () => {   
         let renderTarget = p._userNode;
@@ -112,16 +113,17 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         canvas = p.createCanvas(width, height, p.webgl);
         p.pixelDensity(p.displayDensity());
         p.randomSeed(seed);
-        text_size = p.int(p.width / 60);
+        gravity = p.width / 150;
+        text_size = p.int(p.height / 38);
         cutRadio = p.int(p.width / 70);
-        console.log( 'cutRadio', cutRadio);
         color1 = p.random(ColoresNocturnos);
         color2 = p.random(ColoresB);
         xOff = -100;
         margin = 10;
         p.background(ColoresC[1]);
         filter = new makeFilter();
-        const yGrid = p.ceil(xGrid / 2);
+         yGridFraction = p.height <= 376 ? 1.4 : 2;
+        const yGrid = p.ceil(xGrid / yGridFraction);
         for (let j = 0; j <= yGrid; j++) {
             for (let i = 0; i <= xGrid; i++) {
                 let xx = p.map(i, 0, xGrid, border, p.width - border);
@@ -169,8 +171,10 @@ const p5SketchCurtain = (p , theme, weatherData) => {
 
     p.windowResized = () => {
         initializeCanvas();
-        text_size = p.int(p.width / 60);
+        gravity = p.width / 150;
+        text_size = p.int(p.height/ 38);
         cutRadio = p.int(p.width / 70);
+        yGridFraction = p.height <= 376 ? 1.4 : 2;
       };
     
       function initializeCanvas() {

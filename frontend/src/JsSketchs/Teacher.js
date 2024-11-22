@@ -292,7 +292,7 @@ const p5SketchTeacher = (p , theme, weatherData) => {
       p.noFill();
       //marco de la pizarra
       p.fill(240,120,120,20);
-      p.rect(pg.width*0.1, -pg.height*0.1, pg.width, pg.height);
+      p.rect(pg.width*0.1, -pg.height*0.13, pg.width, pg.height);
     };
 
     p.windowResized = () => {
