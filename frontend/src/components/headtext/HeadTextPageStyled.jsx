@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
      align-items: center;
      flex-direction:column;
      margin-top: 0;
-     padding: 0.2rem 0rem;
+     padding: 0rem 0rem;
      
      @media ${device.mobileL} { // 425
       display: flex;
@@ -59,7 +59,7 @@ export const InputContainer = styled.div`
      display:flex;
      justify-content:center;
      align-items: start;
-     margin-top:0.12rem;
+     margin-top:0;
      gap: 0.8rem;
      @media ${device.mobileL} { // 425
     
@@ -87,7 +87,7 @@ export const Input = styled.input`
      border-left:none;
      border-top:none;
      border-radius: 4px;
-     padding:0.2rem 0.4rem; 
+     padding: 0 0.4rem; 
      font-size: 16px;
      z-index:10;
      cursor: default;
@@ -109,7 +109,7 @@ export const Input = styled.input`
     
      }
      @media ${device.tablet} { // 767
-       margin-top:0.3rem; 
+       margin-top:0.2rem; 
        font-size: 1rem;
      } 
      @media ${device.laptop} { // 1024

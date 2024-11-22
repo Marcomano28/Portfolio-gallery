@@ -7,7 +7,7 @@ export const Message = styled.p`
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin-top:0.6rem;
+    margin-top:0.3rem;
     font-size: 0.7rem;
     @media ${device.mobileL} { // 425
     
