@@ -2,7 +2,9 @@
 import { useEffect, useState } from 'react';
 import { StyledModal, StyledModalContent, Input, TexTarea, ModalButton, HeaderContact } from './ContactModalStyled';
 
-const baseUrl = import.meta.env.VITE_API_URL;
+// Usar una URL relativa en lugar de la variable de entorno
+const baseUrl = '/api';
+console.log('API URL:', baseUrl); // Añadido para depuración
 
 const ContactModal = ({ isOpen, toggleModal }) => {
   const [formData, setFormData] = useState({
@@ -23,12 +25,13 @@ const ContactModal = ({ isOpen, toggleModal }) => {
   };
 
   const sendEmail = () => {
+    console.log('Sending email to:', `${baseUrl}/send-email`); // Añadido para depuración
     fetch(`${baseUrl}/send-email`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
       },
-      body: JSON.stringify(formData),  
+      body: JSON.stringify(formData),
     })
     .then(response => {
       if (!response.ok) {
@@ -66,7 +69,7 @@ const ContactModal = ({ isOpen, toggleModal }) => {
             backgroundColor: 'rgba(0, 0, 0, 0.15)',
             perspective: '1500px',
             zIndex: 10
-          },   
+          },
         }}
         contentLabel="Contact Form"
       >

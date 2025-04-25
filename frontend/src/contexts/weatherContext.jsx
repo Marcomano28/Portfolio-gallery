@@ -3,7 +3,11 @@ import moment from "moment-timezone";
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 
-const baseUrl = import.meta.env.VITE_API_URL;
+// Determinar la URL base según el entorno
+const isProduction = window.location.hostname !== 'localhost';
+const baseUrl = isProduction 
+  ? 'https://artcode-backend-production.up.railway.app/api'
+  : '/api';
 
 countries.registerLocale(enLocale);
 
@@ -22,7 +26,7 @@ async function fetchTimeZone(lat, lon) {
       const response = await fetch(url);
       const data = await response.json();
       if (data.status === "OK") {
-          return data.zoneName;  
+          return data.zoneName;
       } else {
           throw new Error(data.message);
       }
@@ -32,17 +36,27 @@ async function fetchTimeZone(lat, lon) {
   }
 }
 async function getLanguage(countryCode) {
-  const url = `${baseUrl}/languages/${countryCode}`; 
+  if (!countryCode) {
+    console.error('No country code provided');
+    return [];
+  }
+
+  const url = `${baseUrl}/languages/${countryCode}`;
   try {
+    console.log('Fetching languages from:', url);
     const response = await fetch(url);
     if (!response.ok) {
+      if (response.status === 404) {
+        console.warn(`No languages found for country: ${countryCode}`);
+        return ['en']; // Fallback to English if no languages found
+      }
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    //console.log('Languages:', data);
-    return data; 
+    return data;
   } catch (error) {
     console.error('Could not fetch languages:', error);
+    return ['en']; // Fallback to English in case of error
   }
 }
 export const WeatherContext = createContext();
@@ -63,7 +77,7 @@ export const WeatherProvider = ({children}) => {
               const response = await fetch(URL);
               if (!response.ok) {
                 if(response.status === 404){
-                 setError('City not found. Please enter a valid city.') 
+                 setError('City not found. Please enter a valid city.')
                 }else{
                   setError('Request error. Please try again.')
                 }
@@ -81,44 +95,50 @@ export const WeatherProvider = ({children}) => {
               const sunsetLocalTime = getLocalTimeFromUnix(sunsetUnix, timeZone);
               const country = data.sys.country;
               const languages = await getLanguage(country);
- 
-            let firstFrase = null; 
+
             let matchedFrase = null;
+            let firstFrase = null;
+
             for (let lang of languages) {
+              try {
                 const Url = `${baseUrl}/frase/${lang}`;
                 const fraseResponse = await fetch(Url);
-                console.log();
                 if (fraseResponse.ok) {
-                    const fraseData = await fraseResponse.json();
+                  const fraseData = await fraseResponse.json();
+                  if (fraseData && fraseData.length > 0) {
                     if (!firstFrase) {
-                        firstFrase = fraseData[0]; // Store the first available phrase
+                      firstFrase = fraseData[0];
                     }
                     if (!matchedFrase && languages.includes(fraseData[0].language)) {
-                        matchedFrase = fraseData[0]; 
-                        break; 
+                      matchedFrase = fraseData[0];
+                      break;
                     }
+                  }
                 }
+              } catch (error) {
+                console.error(`Error fetching phrase for language ${lang}:`, error);
+              }
             }
-            const finalFrase = matchedFrase || firstFrase; // Use matched phrase or the first one if no match found
-    
-            if (!finalFrase) {
-                throw new Error("No valid phrase found for the given languages.");
-            }         
-              const enhancedWeatherData = {
-                ...data,
-                localTime: localTime,
-                timezone: timeZone,
-                sunriseHour: sunriseLocalTime,
-                sunsetHour: sunsetLocalTime,
-                // language: languages[0],
-                // frase: frase
-                language: finalFrase.language, 
-                frase: finalFrase
-              };
-              setWeatherData(enhancedWeatherData);
-              setError('');
+
+            const finalFrase = matchedFrase || firstFrase || {
+              language: 'en',
+              text: 'Welcome to our weather app!'
+            };
+
+            const enhancedWeatherData = {
+              ...data,
+              localTime: localTime,
+              timezone: timeZone,
+              sunriseHour: sunriseLocalTime,
+              sunsetHour: sunsetLocalTime,
+              language: finalFrase.language,
+              frase: finalFrase
+            };
+            setWeatherData(enhancedWeatherData);
+            setError('');
           } catch (error) {
-              setError('Failed to fetch data', error);
+              console.error('Failed to fetch weather data:', error);
+              setError('Failed to fetch weather data. Please try again.');
           }
       };
    return(
