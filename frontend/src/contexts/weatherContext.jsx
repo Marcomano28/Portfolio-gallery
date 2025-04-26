@@ -6,9 +6,7 @@ import enLocale from 'i18n-iso-countries/langs/en.json';
 // Determinar la URL base según el entorno
 const isProduction = window.location.hostname !== 'localhost';
 const baseUrl = isProduction 
-  ? window.location.hostname.includes('herokuapp.com')
-    ? '/api' // Para Heroku, usa rutas relativas
-    : 'https://artcode-backend-production.up.railway.app/api' // Para otros entornos de producción
+  ? 'https://portfolio-backend-eu-3d0be158a30f.herokuapp.com/api' // URL directa a Heroku
   : '/api';
 
 countries.registerLocale(enLocale);
@@ -21,8 +19,10 @@ const calculateLocalTime = (utcOffset) => {
     return moment.unix(unixTimestamp).tz(timezone).format('HH:mm');
 }
 async function fetchTimeZone(lat, lon) {
-  const apiKey = import.meta.env.VITE_API_KEY_TZ;
-  const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
+  console.log('API Key TZ from env:', import.meta.env.VITE_API_KEY_TZ);
+  const apiKeyTZ = import.meta.env.VITE_API_KEY_TZ || '1NS12NOB6HLC';
+  console.log('API Key TZ used:', apiKeyTZ);
+  const url = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKeyTZ}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
   try {
       const response = await fetch(url);
@@ -74,7 +74,11 @@ export const WeatherProvider = ({children}) => {
           setError('Please enter a valid city, not a number.');
           return;
         }
-        const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=es&units=metric&appid=${import.meta.env.VITE_API_KEY}`;
+        console.log('API Key from env:', import.meta.env.VITE_API_KEY);
+        // Usar la API key hardcodeada temporalmente para pruebas
+        const apiKey = import.meta.env.VITE_API_KEY || '7ef103ddb6ee16d8dba03782126ba55a';
+        console.log('API Key used:', apiKey);
+        const URL = `https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=es&units=metric&appid=${apiKey}`;
           try {
               const response = await fetch(URL);
               if (!response.ok) {
