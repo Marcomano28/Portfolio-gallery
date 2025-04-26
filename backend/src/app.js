@@ -19,6 +19,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'https://artcode-gallery.vercel.app',
   'https://portfolio-gallery.vercel.app',
+  'https://portfolio-gallery-app-891376441044.herokuapp.com',
   // Añade aquí cualquier otro dominio que necesites permitir
 ];
 

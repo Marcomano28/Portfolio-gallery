@@ -6,7 +6,9 @@ import enLocale from 'i18n-iso-countries/langs/en.json';
 // Determinar la URL base según el entorno
 const isProduction = window.location.hostname !== 'localhost';
 const baseUrl = isProduction 
-  ? 'https://artcode-backend-production.up.railway.app/api'
+  ? window.location.hostname.includes('herokuapp.com')
+    ? '/api' // Para Heroku, usa rutas relativas
+    : 'https://artcode-backend-production.up.railway.app/api' // Para otros entornos de producción
   : '/api';
 
 countries.registerLocale(enLocale);
