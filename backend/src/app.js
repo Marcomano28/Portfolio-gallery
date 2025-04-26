@@ -55,7 +55,7 @@ app.get('/api/health', (req, res) => {
 // Servir archivos estáticos del frontend en producción
 if (process.env.NODE_ENV === 'production') {
     // Ruta a los archivos estáticos (dist de Vite)
-    const staticPath = path.resolve(__dirname, '../../public');
+    const staticPath = path.resolve(__dirname, '../../../frontend/dist');
     app.use(express.static(staticPath));
 
     // Para cualquier otra ruta, enviar el index.html
