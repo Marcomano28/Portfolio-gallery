@@ -54,6 +54,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     let numDrops;
     let intensity;
     let bgColor;
+    let isSafari;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
 
     p.preload = () => {
@@ -188,6 +189,10 @@ const p5SketchForest = (p, theme, weatherData) => {
         p.noStroke();
         bosque.init();
         lastMouseY = p.mouseY;
+
+        isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        console.log('Es Safari?', isSafari);
+
         let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobileDevice) {
             divisor = 4;
@@ -280,12 +285,25 @@ const p5SketchForest = (p, theme, weatherData) => {
                 let treeY = ((68 + mx) / arbol.z) - mx;
                 let treeWidth = (arbol.y / arbol.z) * 0.8;
                 let treeHeight = arbol.y / arbol.z;
-              //sombra
-              p.image(mySvg1, treeX-treeWidth * 0.7, treeY-treeHeight*0.06, treeWidth, treeHeight*0.2); 
-              //reflejo
-              p.image(mySvg2, treeX-treeWidth/5.6, treeY, treeWidth, treeHeight);
+              
+              if(isSafari){
+                p.push();
+                //sombra
+                p.image(mySvg1, treeX-treeWidth * 0.09, treeY-treeHeight*0.01, treeWidth, treeHeight*0.1); 
+                p.translate(treeX, treeY);
+                p.scale(1, -1);
+            //   p.image(mySvg2, treeX-treeWidth/5.6, treeY, treeWidth, treeHeight);
+                
+                p.image(mySvg2, -treeWidth/8.2, -treeHeight, treeWidth * 0.8, treeHeight);
+                p.pop();
+              }else{
+                p.image(mySvg1, treeX-treeWidth * 0.7, treeY-treeHeight*0.06, treeWidth, treeHeight*0.2); 
+                p.image(mySvg2, treeX-treeWidth/5.6, treeY, treeWidth, treeHeight);
+              }
+             
             }
         },
+
         drwく() {
             if (!this.isRunning) return;
             lastMouseY = p.lerp(lastMouseY, p.mouseY, lerpFactor);
