@@ -1,4 +1,4 @@
-
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 export const lightTheme = {
     s: "50px",
     c: "#D8E2F8",
@@ -23,19 +23,23 @@ export const lightTheme = {
     },
     backGradDark: `hsla(44, 50%, 49%, 0.3)`,
     backGradLight: `hsla(42, 94%, 96%, 0.97)`,
+    gradDark: `hsla(44, 50%, 49%, 0.3)`,
+    gradLight: `hsla(42, 94%, 96%, 0.97)`,
+    DayOrNight: `true`,
     
     backgroundImage: () => {
         const {gradDark, gradLight} = lightTheme;
         return `linear-gradient(to top, ${gradDark}, ${gradLight})`;
     },
-    gradDark: `hsla(44, 50%, 49%, 0.3)`,
-    gradLight: `hsla(42, 94%, 96%, 0.97)`,
-    DayOrNight: `true`,
+    
     backGrad: () => {
         const {gradDark, gradLight} = lightTheme;
         return `linear-gradient(to top, ${gradDark}, ${gradLight})`;
     },
-    background: 'repeating-conic-gradient(hsla(42, 94%, 36%, 0.4) 0 .00005%, hsl(84, 71%, 106%, 0.3) 0 .00017%) 0 0 / 1300px 6600px',
+    // background: 'repeating-conic-gradient(hsla(42, 94%, 36%, 0.4) 0 .00005%, hsl(84, 71%, 106%, 0.3) 0 .00017%) 0 0 / 1800px 3000px',
+        background: isSafari 
+        ? 'repeating-conic-gradient(hsla(42, 94%, 36%, 0.3) 0deg 0.26deg, hsla(84, 71%, 85%, 0.3) 0.16deg 0.58deg) 0 0 / 140px 100px'
+        : 'repeating-conic-gradient(hsla(42, 94%, 36%, 0.4) 0 .00005%, hsl(84, 71%, 106%, 0.3) 0 .00017%) 0 0 / 1300px 6600px',
     fill:'rgba(21, 19, 11, 0.12)',
     stroke:"rgba(10, 10, 2, 0.4)",
     boxShadow: '0 0px 16px rgba(169, 77, 65,0.5)',
