@@ -25,6 +25,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     const wordSpeed =1200;
     let cloudsAll;
     let rain;
+    let divisor = 2;
     if (weatherData) {
         if (weatherData.clouds && typeof weatherData.clouds.all === 'number') {
             cloudsAll = weatherData.clouds.all; // Ejemplo: 0 a 100
@@ -185,15 +186,16 @@ const p5SketchForest = (p, theme, weatherData) => {
         canvas = p.createCanvas(width, height);
         p.pixelDensity(p.displayDensity());
         p.noStroke();
-        glass = p.createGraphics(N / 2, N / 2);
         bosque.init();
         lastMouseY = p.mouseY;
         let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobileDevice) {
+            divisor = 4;
             canvas.elt.addEventListener("touchmove", handleTouchMove, { passive: false });
         } else {
             canvas.elt.addEventListener("mousemove", handleMouseMove);
         }
+        glass = p.createGraphics(N/divisor , N/divisor );
         //console.log(weatherData);
     };
     const updateBackground = () => {
