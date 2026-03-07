@@ -179,6 +179,13 @@ const p5SketchForest = (p, theme, weatherData) => {
     }
    
     // updateTheme(theme);
+    const initializeForestScene = () => {
+        bosque.bosque = [];
+        bosque.init();
+        glass = p.createGraphics(N / divisor, N / divisor);
+        lastMouseY = p.mouseY;
+    };
+
     p.setup = () => {
         let renderTarget = p._userNode;
         let computedStyle = getComputedStyle(renderTarget);
@@ -187,8 +194,7 @@ const p5SketchForest = (p, theme, weatherData) => {
         canvas = p.createCanvas(width, height);
         p.pixelDensity(p.displayDensity());
         p.noStroke();
-        bosque.init();
-        lastMouseY = p.mouseY;
+        initializeForestScene();
 
         isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
         console.log('Es Safari?', isSafari);
@@ -200,7 +206,6 @@ const p5SketchForest = (p, theme, weatherData) => {
         } else {
             canvas.elt.addEventListener("mousemove", handleMouseMove);
         }
-        glass = p.createGraphics(N/divisor , N/divisor );
         //console.log(weatherData);
     };
     const updateBackground = () => {
@@ -247,7 +252,11 @@ const p5SketchForest = (p, theme, weatherData) => {
     };
     p.windowResized = () => {
         let renderTarget = p._userNode;
-        p.resizeCanvas(renderTarget.offsetWidth, renderTarget.offsetHeight);
+        const computedStyle = getComputedStyle(renderTarget);
+        const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
+        const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
+        p.resizeCanvas(width, height);
+        initializeForestScene();
     };
     const arbol = (x, y, z) => ({
         x: p.random(p.width) - p.width / 2,

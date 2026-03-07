@@ -45,15 +45,19 @@ export const Window = ({showNav, videoData, slidesData, id, VideoComponent, head
       setDisplayContent(null);
     }, [city]);
 
+  const [sketchStarted, setSketchStarted] = useState(false);
+
   const VideoComponentToRender = VideoComponent === 'InteractiveSketch' ? InteractiveSketch : Video;
   const shouldShowInput = showNav && VideoComponent === 'InteractiveSketch';
+
   return (
     <GridContainer>
       <GridLayout
         nav={showNav ? <Nav /> : null}
         headText={shouldShowInput ? <HeadTextPage text={headText} showInput={true} onCityChange={setCity} fetchWeather={fetchWeather} displayContent={displayContent}/> : <HeadTextPage text={headText}/>}
-        videoSection={<VideoComponentToRender {...videoData} weatherData={weatherData}/>}
-        slidswrapper={<Slider slides={slidesData} windowId={id} />}                
+        videoSection={<VideoComponentToRender {...videoData} weatherData={weatherData} onFullScreenChange={setSketchStarted}/>}
+        slidswrapper={<Slider slides={slidesData} windowId={id} />}
+        sketchStarted={sketchStarted}
       />
     </GridContainer>
   );

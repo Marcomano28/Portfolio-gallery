@@ -211,6 +211,17 @@ const p5SketchRoom = (p, theme, weatherData) => {
             p.saveCanvas(canvas, 'miImagen4', 'jpg');
         }
     }
+
+    p.windowResized = () => {
+        const renderTarget = p._userNode;
+        if (!renderTarget) return;
+        const computedStyle = getComputedStyle(renderTarget);
+        const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
+        const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
+        p.resizeCanvas(width, height);
+        initSubdivision();
+        lastMouse = p.createVector(p.mouseX, p.mouseY);
+    };
     
     function frst(x, y, wsz) {
         let hw = 0;

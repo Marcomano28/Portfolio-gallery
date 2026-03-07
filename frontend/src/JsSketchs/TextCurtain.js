@@ -105,6 +105,31 @@ const p5SketchCurtain = (p , theme, weatherData) => {
     let windAngle;
     let yGridFraction;
 
+    function buildCurtain() {
+        nodes.length = 0;
+        links = [];
+        cuts.length = 0;
+        letterIndex = 0;
+        yGridFraction = p.height <= 376 ? 1.4 : 2;
+        const yGrid = p.ceil(xGrid / yGridFraction);
+
+        for (let j = 0; j <= yGrid; j++) {
+            for (let i = 0; i <= xGrid; i++) {
+                let xx = p.map(i, 0, xGrid, border, p.width - border);
+                let yy = p.map(j, 0, yGrid, border, p.height * (yGrid / xGrid) - border);
+                const fix = j == 0 ? true : false;
+                nodes.push(new node(xx, yy, fix));
+            }
+        }
+
+        for (let i = 0; i < nodes.length; i++) {
+            const thisOne = nodes[i];
+            const others = nodes.slice(i + 1);
+            const nexts = others.filter((target) => target.pos.dist(thisOne.pos) <= (p.width / xGrid) * 1.5);
+            nexts.forEach((target) => (thisOne.fix && target.fix) || links.push(new link(thisOne, target)));
+        }
+    }
+
     p.setup = () => {   
         let renderTarget = p._userNode;
         let computedStyle = getComputedStyle(renderTarget);
@@ -122,22 +147,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         margin = 10;
         p.background(ColoresC[1]);
         filter = new makeFilter();
-         yGridFraction = p.height <= 376 ? 1.4 : 2;
-        const yGrid = p.ceil(xGrid / yGridFraction);
-        for (let j = 0; j <= yGrid; j++) {
-            for (let i = 0; i <= xGrid; i++) {
-                let xx = p.map(i, 0, xGrid, border, p.width - border);
-                let yy = p.map(j, 0, yGrid, border, p.height * (yGrid / xGrid) - border);
-                const fix = j == 0 ? true : false;
-                nodes.push(new node(xx, yy, fix));
-            }
-        }
-        for (let i = 0; i < nodes.length; i++) {
-            const thisOne = nodes[i];
-            const others = nodes.slice(i + 1);
-            const nexts = others.filter((target) => target.pos.dist(thisOne.pos) <= (p.width / xGrid) * 1.5);
-            nexts.forEach((target) => (thisOne.fix && target.fix) || links.push(new link(thisOne, target)));
-        }
+        buildCurtain();
         wind = p.createVector(0,0);
         windAngle = 0;
         //console.log(weatherData);
@@ -174,7 +184,7 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         gravity = p.width / 150;
         text_size = p.int(p.height/ 38);
         cutRadio = p.int(p.width / 70);
-        yGridFraction = p.height <= 376 ? 1.4 : 2;
+        buildCurtain();
       };
     
       function initializeCanvas() {

@@ -2,9 +2,11 @@ import styled from "styled-components";
 import { device } from "../../utils/breakPoints";
 
 export const ScreenContainer = styled.div` 
-       border: 3px solid violet;  
+       border: 3px solid rgba(238, 130, 238, 0.4);  
        height: 65%;
        width: 100%;
+       position: relative;
+       overflow: hidden;
        display: flex;
        align-items: start;
        justify-content: center;
@@ -33,7 +35,7 @@ export const ScreenContainer = styled.div`
 export const Pane = styled.div`
         /* border: 2px solid tomato;      */
         width: 100%;
-        height: 60%;
+        height: 100%;
         position: absolute;
         top: 0;
         left: 0px;
@@ -51,7 +53,7 @@ export const Pane = styled.div`
        } 
        @media ${device.laptop} { // 1024
         width: 80%;
-        height: 74%;
+        height: 100%;
        }
        @media ${device.laptopL} { // 1440
        }
@@ -63,7 +65,7 @@ export const SomeVideo = styled.video`
         /* border: 2px solid blue; */
         width: 100%;
         height: 100%; 
-        padding-bottom: 1.6rem;
+        object-fit: cover;
         border-radius: 10px;
         z-index: 6;
         box-shadow: ${props => props.theme.screenShadow};
@@ -72,7 +74,6 @@ export const SomeVideo = styled.video`
        @media ${device.tablet} { // 768
        } 
        @media ${device.laptop} { // 1024
-        padding-bottom: 0.8rem;
        }
        @media ${device.laptopL} { // 1440
        }

@@ -212,6 +212,17 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
             p.saveCanvas(canvas, 'miImagen3', 'jpg');
         }
     }
+
+    p.windowResized = () => {
+        const renderTarget = p._userNode;
+        if (!renderTarget) return;
+        const computedStyle = getComputedStyle(renderTarget);
+        const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
+        const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
+        p.resizeCanvas(width, height);
+        yy = 0;
+    };
+
     p.updateTheme = updateTheme;
 }
 

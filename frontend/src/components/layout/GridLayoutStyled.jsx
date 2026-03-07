@@ -186,6 +186,7 @@ export const PanelVideo = styled.div.attrs({ 'data-area': 'video' })`
        
        }
   `}  
+
 `;
 
 // Panel de slides
@@ -219,4 +220,100 @@ export const PanelSlides = styled.div.attrs({ 'data-area': 'slides' })`
      @media ${device.desktop} { // 2560
      
      }
+`;
+
+export const SidePanelWrapper = styled.div`
+  display: contents;
+
+  ${(props) =>
+    props.$isStarted &&
+    `
+    position: fixed;
+    top: 1rem;
+    left: 0.75rem;
+    width: calc(100vw - 1.5rem);
+    height: calc(100vh - 2rem);
+    z-index: 10000;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+
+    @media ${device.mobileL} {
+      top: 0.75rem;
+      left: 0.5rem;
+      width: calc(100vw - 1rem);
+      height: calc(100vh - 1.5rem);
+    }
+
+    @media ${device.tablet} {
+      top: 1rem;
+      left: 0.75rem;
+      width: min(52vw, calc(100vw - 1.5rem));
+      height: calc(100vh - 2rem);
+    }
+
+    @media ${device.laptop} {
+      top: 3rem;
+      left: 1rem;
+      width: calc(38vw - 1rem);
+      height: calc(100vh - 6rem);
+    }
+
+    @media ${device.desktopL} {
+      width: calc(35vw - 1rem);
+    }
+  `}
+
+  ${(props) =>
+    props.$isStarted && props.$isHidden &&
+    `
+    opacity: 0;
+    pointer-events: none;
+  `}
+
+  & > [data-area='nav'] {
+    flex: 0 0 auto;
+  }
+
+  & > [data-area='text'] {
+    flex: 0 0 auto;
+  }
+
+  & > [data-area='slides'] {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+`;
+
+export const DismissButton = styled.button`
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(236, 236, 236, 0.42);
+  background-color: rgba(20, 20, 20, 0.42);
+  color: rgba(248, 248, 248, 0.95);
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10001;
+  transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 5px 16px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(6px);
+
+  &:hover {
+    background-color: rgba(8, 8, 8, 0.5);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
 `;

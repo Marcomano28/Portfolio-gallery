@@ -5,6 +5,7 @@ import { useDeviceOrientation } from '../customHooks/useDeviceOrientation';
 
 export const Video = ({ src, title, title1, title2, title3, title4}) => {
     const videoRef = useRef(null);
+    const containerRef = useRef(null);
     const isLandscapeMobile = useDeviceOrientation();
 
     useEffect(() => {
@@ -13,17 +14,36 @@ export const Video = ({ src, title, title1, title2, title3, title4}) => {
         }
     }, []);
 
+    useEffect(() => {
+        if (!containerRef.current || !videoRef.current) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (!entry.isIntersecting && videoRef.current) {
+                    videoRef.current.pause();
+                }
+            },
+            { threshold: 0.2 }
+        );
+
+        observer.observe(containerRef.current);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
+
   return (
     <>
         {isLandscapeMobile ? (
-          <ScreenContainer $isLandscapeMobile={isLandscapeMobile}>
+          <ScreenContainer ref={containerRef} $isLandscapeMobile={isLandscapeMobile}>
             <Pane></Pane>
             <SomeVideo ref={videoRef} src={src} controls>
             </SomeVideo>
           </ScreenContainer>
         ) : (
           <>
-            <ScreenContainer>
+            <ScreenContainer ref={containerRef}>
              <Pane></Pane>
              <SomeVideo ref={videoRef} src={src} controls>
              </SomeVideo>
