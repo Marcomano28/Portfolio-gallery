@@ -1,5 +1,4 @@
-import styled, { css } from "styled-components";
-import { device } from "../../utils/breakPoints";
+import styled, { css } from "styled-components"; import { device } from "../../utils/breakPoints";
 
 export const CanvasSection = styled.div`
   width: 100%;
