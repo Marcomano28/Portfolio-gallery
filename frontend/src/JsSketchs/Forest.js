@@ -55,6 +55,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     let intensity;
     let bgColor;
     let isSafari;
+    let offset = 220;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
 
     p.preload = () => {
@@ -196,16 +197,16 @@ const p5SketchForest = (p, theme, weatherData) => {
         p.noStroke();
         initializeForestScene();
 
-        isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        console.log('Es Safari?', isSafari);
+        // isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        // console.log('Es Safari?', isSafari);
 
-        let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobileDevice) {
-            divisor = 4;
-            canvas.elt.addEventListener("touchmove", handleTouchMove, { passive: false });
-        } else {
-            canvas.elt.addEventListener("mousemove", handleMouseMove);
-        }
+        // let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        // if (isMobileDevice) {
+        //     divisor = 4;
+        //     canvas.elt.addEventListener("touchmove", handleTouchMove, { passive: false });
+        // } else {
+        //     canvas.elt.addEventListener("mousemove", handleMouseMove);
+        // }
         //console.log(weatherData);
     };
     const updateBackground = () => {
@@ -224,20 +225,20 @@ const p5SketchForest = (p, theme, weatherData) => {
         p.updateGlass();
     };
 
-    const handleMouseMove = (event) => {
-        if (bosque.isRunning) {
-            lastMouseY = event.clientY; 
-        }
-    };
+    // const handleMouseMove = (event) => {
+    //     if (bosque.isRunning) {
+    //         lastMouseY = event.clientY; 
+    //     }
+    // };
 
-    const handleTouchMove = (event) => {
-        event.preventDefault(); // Prevenir el scroll de la página
+    // const handleTouchMove = (event) => {
+    //     event.preventDefault(); // Prevenir el scroll de la página
 
-        if (bosque.isRunning) {
-            const touch = event.touches[0];
-            lastMouseY = touch.clientY; // Actualizar `lastMouseY` según la posición del toque
-        }
-    };
+    //     if (bosque.isRunning) {
+    //         const touch = event.touches[0];
+    //         lastMouseY = touch.clientY; // Actualizar `lastMouseY` según la posición del toque
+    //     }
+    // };
     p.updateTheme = (newTheme) => {
         if (!weatherData) {
             updateTheme(newTheme);
@@ -289,7 +290,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             p.fill(120, 102);
             lastMouseY = p.lerp(lastMouseY, p.mouseY, lerpFactor);
             for (const arbol of this.bosque) {
-                let mx = (lastMouseY - p.width / 2) * 0.3;
+                let mx = ((lastMouseY + offset) - p.height / 2) * 0.3;
                 let treeX = arbol.x / arbol.z;
                 let treeY = ((68 + mx) / arbol.z) - mx;
                 let treeWidth = (arbol.y / arbol.z) * 0.8;
@@ -317,7 +318,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             if (!this.isRunning) return;
             lastMouseY = p.lerp(lastMouseY, p.mouseY, lerpFactor);
             for (const arbol of this.bosque) {
-                let mx = ((lastMouseY) - p.width / 2) * 0.3;
+                let mx = ((lastMouseY + offset) - p.height / 2) * 0.3;
                 let treeX = arbol.x / arbol.z;
                 let treeY = ((76 + mx) / arbol.z) - mx;
                 let treeWidth = ((arbol.y * 0.45)/ arbol.z) ;

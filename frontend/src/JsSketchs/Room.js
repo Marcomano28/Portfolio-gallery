@@ -12,9 +12,9 @@ const p5SketchRoom = (p, theme, weatherData) => {
     let wsz = 150;
     let L = wsz * 2;
     let lastMouse = 0;
-    let lerpFactor = 0.3;
+    let lerpFactor = 0.1;
     let canvas;
-    let strokeW = 0.2;
+    let strokeW = 0.14;
     let day, onWeather = false;
     let lighter, backCol, dark, light;
     let cloudsAll;
@@ -88,11 +88,12 @@ const p5SketchRoom = (p, theme, weatherData) => {
         let computedStyle = getComputedStyle(renderTarget);
         let width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
         let height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
+        p.setAttributes('antialias', true); 
         canvas = p.createCanvas(width, height, p.WEBGL);
         initSubdivision();
         p.pixelDensity(p.displayDensity());
         p5.disableFriendlyErrors = true;
-        p.smooth();
+        p.smooth(8);
         lastMouse = p.createVector(p.mouseX, p.mouseY);
     }
     p.draw = () => {
@@ -102,8 +103,8 @@ const p5SketchRoom = (p, theme, weatherData) => {
         t = p.frameCount * 0.1;
         lastMouse.x = p.lerp(lastMouse.x, p.mouseX, lerpFactor);
         lastMouse.y = p.lerp(lastMouse.y, p.mouseY, lerpFactor);
-        let fsc = frst((lastMouse.x - p.width / 2) * 2, (lastMouse.y - p.height / 2) * 2, wsz * 2);
-        p.translate(0, 0, -wsz * 2.3);
+        let fsc = frst((lastMouse.x - p.width / 2) * 0.4, (lastMouse.y - p.height / 2) * 0.8, wsz * 2);
+        p.translate(0, 0, -wsz * 2.4);
         if (pointCount < maxPoints && shouldDo(newPointProbability)) {
             let triangleIndex = randomInt(subdivision.size());
             let triangle = subdivision.get(triangleIndex);
@@ -234,8 +235,9 @@ const p5SketchRoom = (p, theme, weatherData) => {
         cmc.add(cmcoff);
         let cmup = p.createVector(0, 1, 0);
         p.camera(cmy.x, cmy.y, cmy.z, cmc.x, cmc.y, cmc.z, cmup.x, cmup.y, cmup.z);
-        let fnr = 200;
-        let ffr = 100000;
+        let fnr = 300;
+        // let ffr = 100000;
+        let ffr = 55000;
         let cmd = cmy.dist(cmc);
         let hypo = p.sqrt(p.pow(cmd + wsz, 2) + p.pow(wsz, 2));
         let tana = p.tan(p.asin(wsz / hypo));
@@ -290,8 +292,12 @@ const p5SketchRoom = (p, theme, weatherData) => {
             let girishCol = p.color((0)* scaleValue + col / 2, col * scaleValue, col * scaleValue - col / 3, 120);
             let onWeatherColor = p.color(bgR+col*scaleValue, bgG+col/colStroke, bgB*scaleValue+colStroke/2);
             if(theme === 'dark'){
-            p.strokeWeight(1.4 * strokeW / scaleValue);
-            p.stroke(onWeather ? onWeatherColor : girishCol);
+            // p.strokeWeight(1.4 * strokeW / scaleValue);
+            // p.strokeWeight(Math.max(0.2, 0.7 * strokeW / scaleValue));
+            p.strokeWeight(p.map(scaleValue, 1, 0, 0.2, 1.2));
+            let c = onWeather ? onWeatherColor : girishCol;
+            p.stroke(p.red(c) * scaleValue, p.green(c) * scaleValue, p.blue(c) * scaleValue, p.alpha(c));
+            // p.stroke(onWeather ? onWeatherColor : girishCol);
             p.push();
             p.translate(mean.x, mean.y,(scaleValue * 30 )-30);
             if (doRotate) {
@@ -301,8 +307,11 @@ const p5SketchRoom = (p, theme, weatherData) => {
             drawShapeByMeanOffset(shape, mean);
             p.pop();
           } else {
-            p.strokeWeight(strokeW / scaleValue);
-            p.stroke(255 * scaleValue + colight / 2, colight * scaleValue, colight * scaleValue - colight / 3);
+            p.strokeWeight(p.map(scaleValue, 1, 0, 0.2, 1.2));
+            // p.strokeWeight(strokeW / scaleValue);
+            // p.strokeWeight(Math.max(0.2, strokeW / scaleValue));
+            // p.stroke(255 * scaleValue + colight / 2, colight * scaleValue, colight * scaleValue - colight / 3);
+            p.stroke(p.red(p.color(255 * scaleValue + colight / 2, colight * scaleValue, colight * scaleValue - colight / 3)) * scaleValue, p.green(p.color(255 * scaleValue + colight / 2, colight * scaleValue, colight * scaleValue - colight / 3)) * scaleValue, p.blue(p.color(255 * scaleValue + colight / 2, colight * scaleValue, colight * scaleValue - colight / 3)) * scaleValue);
             p.push();
             p.translate(mean.x, mean.y);
             if (doRotate) {
@@ -345,8 +354,11 @@ const p5SketchRoom = (p, theme, weatherData) => {
             let onWeatherColor = p.color((humidity*scaleValue)+col, windAng/(col)*scaleValue, bgB+col*scaleValue, 120);
             if(theme === 'dark'){
                 day ? p.fill((dark*scaleValue)-col): p.noFill();
-                p.strokeWeight(1.4*strokeW / scaleValue);
-                p.stroke(onWeather ? onWeatherColor : girishCol);
+                p.strokeWeight(p.map(scaleValue, 1, 0, 0.2, 1.2));
+                // p.strokeWeight(1.4*strokeW / scaleValue);
+                // p.strokeWeight(Math.max(0.2, 0.7 * strokeW / scaleValue));
+                let c = onWeather ? onWeatherColor : girishCol;
+                p.stroke(p.red(c) * scaleValue, p.green(c) * scaleValue, p.blue(c) * scaleValue, p.alpha(c));
                 p.push();
                 p.translate(mean.x, mean.y,(zPosition * 20)+ offCorrection);
                 if (doRotate) {
@@ -357,8 +369,11 @@ const p5SketchRoom = (p, theme, weatherData) => {
                 p.pop();
             }else{
                 p.noFill();
-                p.strokeWeight(strokeW / scaleValue);
-                p.stroke(255 * scaleValue + col / 2, colight * scaleValue, colight * scaleValue - colight / 2);
+                p.strokeWeight(p.map(scaleValue, 1, 0, 0.2, 1.2));
+                // p.strokeWeight(strokeW / scaleValue);
+                // p.strokeWeight(Math.max(0.2, strokeW / scaleValue));
+                // p.stroke(255 * scaleValue + col / 2, colight * scaleValue, colight * scaleValue - colight / 2);
+                p.stroke(p.red(p.color(255 * scaleValue + col / 2, colight * scaleValue, colight * scaleValue - colight / 2)) * scaleValue, p.green(p.color(255 * scaleValue + col / 2, colight * scaleValue, colight * scaleValue - colight / 2)) * scaleValue, p.blue(p.color(255 * scaleValue + col / 2, colight * scaleValue, colight * scaleValue - colight / 2)) * scaleValue);
                 p.push();
                 p.translate(mean.x, mean.y);
                 if (doRotate) {
