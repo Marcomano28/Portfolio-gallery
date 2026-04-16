@@ -1,5 +1,5 @@
 import { useRef, useEffect } from "react";
-import { ScreenContainer, Title, Title1, Title2, Title3, Title4, Text, SomeVideo, Pane } from "./VideoStyled"
+import { ScreenContainer, Title, Title1, Title2, Title3, Title4, Text, SomeVideo } from "./VideoStyled"
 import PropTypes from 'prop-types';
 import { useDeviceOrientation } from '../customHooks/useDeviceOrientation';
 
@@ -37,14 +37,12 @@ export const Video = ({ src, title, title1, title2, title3, title4}) => {
     <>
         {isLandscapeMobile ? (
           <ScreenContainer ref={containerRef} $isLandscapeMobile={isLandscapeMobile}>
-            <Pane></Pane>
             <SomeVideo ref={videoRef} src={src} controls>
             </SomeVideo>
           </ScreenContainer>
         ) : (
           <>
             <ScreenContainer ref={containerRef}>
-             <Pane></Pane>
              <SomeVideo ref={videoRef} src={src} controls>
              </SomeVideo>
             </ScreenContainer>

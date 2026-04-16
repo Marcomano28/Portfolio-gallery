@@ -32,35 +32,6 @@ export const ScreenContainer = styled.div`
        @media ${device.desktop} { // 2560
        }
 `
-export const Pane = styled.div`
-        /* border: 2px solid tomato;      */
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0;
-        left: 0px;
-        border-radius: 20px;
-        z-index: 1;
-        margin-top: 0;
-        background: linear-gradient(
-          to right,
-          rgba(42, 57, 60, 0.65),
-          rgba(40, 49, 12, 0.45)
-       ); 
-       @media ${device.mobileL} { // 425
-       }
-       @media ${device.tablet} { // 768
-       } 
-       @media ${device.laptop} { // 1024
-        width: 80%;
-        height: 100%;
-       }
-       @media ${device.laptopL} { // 1440
-       }
-       @media ${device.desktop} { // 2560
-       }  
-`;
-
 export const SomeVideo = styled.video`
         /* border: 2px solid blue; */
         width: 100%;
