@@ -3,6 +3,8 @@ import { useEffect} from 'react';
 const useResizeCheck = (ref, callback) => {
     useEffect(() => {
         const observeTarget = ref.current;
+        if (!observeTarget) return;
+
         const resizeObserver = new ResizeObserver((entries) => {
             callback(entries);
         });

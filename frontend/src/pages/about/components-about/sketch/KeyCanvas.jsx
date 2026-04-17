@@ -10,8 +10,15 @@ import p5 from "p5";
     
     useResizeCheck(canvasRef ,(entries) => {
       const {width, height} = entries[0].contentRect;
+      if(width <= 0 || height <= 0){
+        return;
+      }
       if(window.myP5Instance){
-        window.myP5Instance.resizeCanvas(width, height);
+        if(typeof window.myP5Instance.windowResized === 'function'){
+          window.myP5Instance.windowResized();
+        } else {
+          window.myP5Instance.resizeCanvas(width, height);
+        }
       }
     });
     useEffect(() => {
@@ -21,7 +28,10 @@ import p5 from "p5";
         mySketch.updateTheme(theme);
       }
        return () => {
-            // canvas.remove();
+            mySketch.remove();
+            if(window.myP5Instance === mySketch){
+              window.myP5Instance = null;
+            }
         };
     },[sketch]);
 

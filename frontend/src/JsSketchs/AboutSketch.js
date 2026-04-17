@@ -6,6 +6,22 @@ const sketchAbout =(p, theme) => {
     let canvas;
     let day;
     let newWidth, newHeight; 
+    const getCanvasSize = () => {
+        const renderTarget = p._userNode;
+
+        if (!renderTarget) {
+            return { width: 1, height: 1 };
+        }
+
+        const computedStyle = getComputedStyle(renderTarget);
+        const width = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
+        const height = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
+
+        return {
+            width: Math.max(1, Math.floor(width)),
+            height: Math.max(1, Math.floor(height)),
+        };
+    };
     p.preload = () => {
         //ima = p.loadImage('/public/profil.png');
         ima = p.loadImage(myIma);
@@ -19,19 +35,26 @@ const sketchAbout =(p, theme) => {
     };
     updateTheme(theme);
     
-    const windowResized = () => {
-        let renderTarget = p._userNode; 
-        let computedStyle = getComputedStyle(renderTarget);
-         newWidth = renderTarget.offsetWidth - (parseFloat(computedStyle.paddingLeft) + parseFloat(computedStyle.paddingRight));
-         newHeight = renderTarget.offsetHeight - (parseFloat(computedStyle.paddingTop) + parseFloat(computedStyle.paddingBottom));
-        p.resizeCanvas(newWidth, newHeight);
+    const applyCanvasSize = () => {
+        const nextSize = getCanvasSize();
+        newWidth = nextSize.width;
+        newHeight = nextSize.height;
+
+        if (canvas) {
+            p.resizeCanvas(newWidth, newHeight);
+        } else {
+            canvas = p.createCanvas(newWidth, newHeight);
+        }
+
         if (effect){
             effect.updateDimensions(newWidth, newHeight);
         } 
-        ima.resize(newWidth, newHeight);
-    }
+        if (ima) {
+            ima.resize(newWidth, newHeight);
+        }
+    };
     p.setup = () => {
-        windowResized();
+        applyCanvasSize();
         effect = new Effect();
     }
     class Cell {
@@ -126,7 +149,7 @@ const sketchAbout =(p, theme) => {
         }
 
         createGrid() {
-            let index;
+            let index = 0;
             for (let y = 0; y < newHeight; y += this.cellH) {
                 for (let x = 0; x < newWidth; x += this.cellW) {
                     index++;
@@ -148,18 +171,20 @@ const sketchAbout =(p, theme) => {
         }
     }
     p.mousePressed = () => {
-        p.setup();
+        if (effect) {
+            effect.updateDimensions(newWidth, newHeight);
+        }
     }
     p.draw = () => {
+        if (!effect) return;
         p.clear();
         p.background(0);
         effect.render();
     }
     p.updateTheme = updateTheme;
     p.windowResized = () => {
-        windowResized(); // Adjust canvas size on window resize
+        applyCanvasSize();
     }
     };
 
 export default sketchAbout;
-
