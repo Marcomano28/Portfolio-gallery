@@ -6,6 +6,7 @@ import fnt7 from "../assets/images/EraserRegular.ttf";
 import fntS from "../assets/images/NotoSans-Regular.ttf";
 import fntSS from "../assets/images/NotoSans.ttf";
 const p5SketchTeacher = (p , theme, weatherData) => {
+    let currentTheme = theme;
     let canvas;
     let body_size;
     let legSize;
@@ -121,10 +122,11 @@ const p5SketchTeacher = (p , theme, weatherData) => {
         letra = `You are now in ${name}, having arrived precisely at ${localTime} during the ${isDayCity ? 'day' : 'night'}, when the magic begins. The temperature is around ${temp}°C, and someone is singing: ${sepPoem}.`;
       }
     };
+
+    updateTheme(currentTheme);
     if (weatherData) {
         updateWeatherData(weatherData);  
     } else {
-        updateTheme(theme);
         letra ="ζ(s) = Σ(1/n^s), n=1 hasta ∞ | e^πi + 1 = 0 | ∫ e^(-x^2) dx, -∞ a ∞ | lim (n→∞) (1 + 1/n)^n = e | f(z) = 1/(2πi) ∮c f(w)/(w-z) dw";
     }     
     p.preload = () => {
@@ -345,6 +347,26 @@ const p5SketchTeacher = (p , theme, weatherData) => {
                 onWeather = !onWeather;
             }
         }
+
+    p.updateTheme = (newTheme) => {
+      currentTheme = newTheme;
+      updateTheme(newTheme);
+    };
+
+    p.updateWeatherData = (newWeatherData) => {
+      weatherData = newWeatherData;
+      onWeather = false;
+      updateTheme(currentTheme);
+
+      if (newWeatherData) {
+        updateWeatherData(newWeatherData);
+      } else {
+        letra = "ζ(s) = Σ(1/n^s), n=1 hasta ∞ | e^πi + 1 = 0 | ∫ e^(-x^2) dx, -∞ a ∞ | lim (n→∞) (1 + 1/n)^n = e | f(z) = 1/(2πi) ∮c f(w)/(w-z) dw";
+      }
+
+      initializeTeacherScene();
+    };
+
     function communicateBetweenBalls() {
       for (let i = 0; i < ballArray.length; i++) {
         const current = ballArray[i];
