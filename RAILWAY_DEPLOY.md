@@ -37,8 +37,9 @@ En el servicio de Railway define estas variables:
 ```env
 NODE_ENV=production
 MONGO_URI=tu_uri_de_mongodb
-EMAIL_USER=tu_correo_smtp
-EMAIL_PASS=tu_password_o_app_password
+RESEND_API_KEY=re_xxxxxxxxx
+RESEND_FROM_EMAIL=Portfolio Contact <contacto@tu-dominio-verificado.com>
+CONTACT_TO_EMAIL=tu_correo_personal@gmail.com
 ALLOWED_ORIGINS=https://tu-frontend.vercel.app,https://tu-dominio.com
 ```
 
@@ -46,7 +47,9 @@ Notas:
 
 - `ALLOWED_ORIGINS` acepta varios dominios separados por comas.
 - Si tu frontend sigue en Vercel, incluye ahí el dominio real de Vercel y cualquier dominio personalizado.
-- Si usas Gmail, normalmente conviene usar una app password.
+- `RESEND_FROM_EMAIL` debe usar un dominio que hayas verificado en Resend.
+- `CONTACT_TO_EMAIL` es el correo donde quieres recibir los mensajes del formulario.
+- Si prefieres mantener SMTP para desarrollo local, `EMAIL_USER` y `EMAIL_PASS` siguen funcionando como fallback fuera de Railway.
 
 ## Publicar el backend
 
@@ -88,8 +91,9 @@ Después redepliega el frontend en Vercel para que tome la nueva variable.
 4. Copiar o importar las variables que hoy usas en Heroku:
 
 - `MONGO_URI`
-- `EMAIL_USER`
-- `EMAIL_PASS`
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
+- `CONTACT_TO_EMAIL`
 - `NODE_ENV`
 
 5. Generar el dominio público de Railway.
@@ -108,4 +112,4 @@ Después redepliega el frontend en Vercel para que tome la nueva variable.
 - Si Railway no arranca, revisa primero `MONGO_URI`.
 - Si el frontend no llega al backend, revisa `VITE_API_URL` en Vercel.
 - Si el backend bloquea el navegador, revisa `ALLOWED_ORIGINS`.
-- Si el correo no sale, revisa `EMAIL_USER` y `EMAIL_PASS`.
+- Si el correo no sale, revisa `RESEND_API_KEY`, `RESEND_FROM_EMAIL` y que el dominio esté verificado en Resend.
