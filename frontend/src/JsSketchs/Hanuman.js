@@ -1,6 +1,7 @@
 import { calculateLightIntensity, timeToMinutes } from "./utils/utilsSketchs";
 
 const p5SketchHanuman = (p ,theme, weatherData) => {
+    let currentTheme = theme;
     let a;
     let b;
     let range = 1.1;
@@ -40,7 +41,6 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
         }
     };
     const updateWeatherData = (weatherData) => {
-        console.log(weatherData);
         if (weatherData) {
             t=0.8;
             onWeather = true;
@@ -59,7 +59,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
             const { intensity, reddishTone } = calculateLightIntensity(currentTime, sunriseTime, sunsetTime);
             bgColor = p.color(intensity, intensity - reddishTone*0.2, intensity - reddishTone*0.2);
             //console.log(`Color RGB: ${bgColor.levels}`); 
-            if(theme === 'dark'){
+            if(currentTheme === 'dark'){
                // basicColor = 125;
                traslucid = 0.3;
             }
@@ -78,13 +78,13 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
             // col = weatherData.wind.speed; 
         }
     };
+    updateTheme(currentTheme);
     if (weatherData) {
         updateWeatherData(weatherData);
         basicColor = 255; 
         col = 100;
          
     } else {
-        updateTheme(theme);
         basicColor = 156;
         a = 1/4;
         b = 1/8.6; 
@@ -121,7 +121,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
     function f1(x, y, n = 0) {
         t = 0.8;
         const d = x * x + y * y;
-        if(theme === 'dark'){
+        if(currentTheme === 'dark'){
             a = 1/4;
             b = 1/6;
             const mx = p.map(p.mouseX, 0, p.width, 1.5, 2.3);  //2.5 ***  
@@ -160,7 +160,7 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
     }
     function fx(x, y, n = 0) {
         const d = x * x + y * y; 
-        if(theme === 'dark'){
+        if(currentTheme === 'dark'){
             a = 1/4;
             b = 1/6;
             if (d < 9 && n < 8) {
@@ -223,7 +223,28 @@ const p5SketchHanuman = (p ,theme, weatherData) => {
         yy = 0;
     };
 
-    p.updateTheme = updateTheme;
+    p.updateTheme = (newTheme) => {
+        currentTheme = newTheme;
+        updateTheme(newTheme);
+    };
+
+    p.updateWeatherData = (newWeatherData) => {
+        weatherData = newWeatherData;
+        onWeather = false;
+        updateTheme(currentTheme);
+
+        if (newWeatherData) {
+            updateWeatherData(newWeatherData);
+            basicColor = 255;
+            col = 100;
+        } else {
+            basicColor = 156;
+            a = 1 / 4;
+            b = 1 / 8.6;
+        }
+
+        yy = 0;
+    };
 }
 
 export default p5SketchHanuman;
