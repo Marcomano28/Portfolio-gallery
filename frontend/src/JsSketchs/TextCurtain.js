@@ -2,6 +2,7 @@ import { calculateLightIntensity, timeToMinutes } from "./utils/utilsSketchs";
 import { ColoresA, ColoresB, ColoresC, ColoresNocturnos} from "./utils/utilsSketchs.js";
 
 const p5SketchCurtain = (p , theme, weatherData) => {
+    let currentTheme = theme;
     
     const nodes = [];
     let links = [];
@@ -93,11 +94,10 @@ const p5SketchCurtain = (p , theme, weatherData) => {
         }
     };
     
+    updateTheme(currentTheme);
     if (weatherData) {
         updateWeatherData(weatherData);
-        
     } else {
-        updateTheme(theme);
         windSpeed = 25;
         poem = "TheDreamGoesOverTimeFloatingLikeASailboatNoOneCanOpenSeedsInTheHeartOfThedreamTimeGoesByOnTheDreamSunkenToTheHairYesterdayAndTomorrowTheyEatDarkFlowersOfMourningOnTheSameColumnEmbracedDreamAnTime".split("");
     }
@@ -207,10 +207,24 @@ const p5SketchCurtain = (p , theme, weatherData) => {
       }
 
     p.updateTheme = (newTheme) => {
-        if (!weatherData) {
-            updateTheme(newTheme);
-        }  
-      }
+        currentTheme = newTheme;
+        updateTheme(newTheme);
+    };
+
+    p.updateWeatherData = (newWeatherData) => {
+        weatherData = newWeatherData;
+        onWeather = false;
+        updateTheme(currentTheme);
+
+        if (newWeatherData) {
+            updateWeatherData(newWeatherData);
+        } else {
+            windSpeed = 25;
+            poem = "TheDreamGoesOverTimeFloatingLikeASailboatNoOneCanOpenSeedsInTheHeartOfThedreamTimeGoesByOnTheDreamSunkenToTheHairYesterdayAndTomorrowTheyEatDarkFlowersOfMourningOnTheSameColumnEmbracedDreamAnTime".split("");
+        }
+
+        buildCurtain();
+    };
       
     function generateWindVector(x, y) {
         let time = p.frameCount * 0.05;
