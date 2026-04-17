@@ -39,8 +39,8 @@ export const ColoresB = [
     "3c1642-386375-086375-b2ff9e-1dd3b0".split("-").map((a) => "#" + a + "00"),
 ]; 
 export const ColoresC = [
-     "ffffff".split("-").map((a) => "#" - a),
-    "ffffff07".split("-").map((a) => "#" - a),
+     "ffffff".split("-").map((a) => "#" + a),
+    "ffffff07".split("-").map((a) => "#" + a),
     "7fdeea-a3b7f0-a1e4f7-6d7db6-5a6696".split("-").map((a) => "#" + a),
     "7fdeea-a3b7f0-a1e4f7-6d7db6-5a6696".split("-").map((a) => "#" + a + "00")
     ]; 
