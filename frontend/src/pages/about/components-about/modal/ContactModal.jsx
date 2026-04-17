@@ -1,9 +1,7 @@
 // ContactModal.js
 import { useEffect, useState } from 'react';
 import { StyledModal, StyledModalContent, Input, TexTarea, ModalButton, HeaderContact } from './ContactModalStyled';
-import { apiBaseUrl, getApiUrl } from '../../../../utils/apiBaseUrl';
-
-console.log('API URL:', apiBaseUrl); // Añadido para depuración
+import { getApiUrl } from '../../../../utils/apiBaseUrl';
 
 const ContactModal = ({ isOpen, toggleModal }) => {
   const [formData, setFormData] = useState({
@@ -26,7 +24,6 @@ const ContactModal = ({ isOpen, toggleModal }) => {
   const sendEmail = async () => {
     try {
       const sendEmailUrl = getApiUrl('/send-email');
-      console.log('Sending email to:', sendEmailUrl); // Añadido para depuración
 
       const response = await fetch(sendEmailUrl, {
         method: 'POST',
