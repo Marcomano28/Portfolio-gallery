@@ -9,31 +9,46 @@ import imaUrlRoutes from './routes/imaUrlRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const app = express();
-
-// Configuración de CORS para permitir solicitudes desde múltiples orígenes
-const allowedOrigins = [
+const DEFAULT_ALLOWED_ORIGINS = [
   'http://localhost:5173',
   'http://localhost:5174',
   'http://localhost:3000',
   'https://artcode-gallery.vercel.app',
   'https://portfolio-gallery.vercel.app',
   'https://portfolio-gallery-app-891376441044.herokuapp.com',
-  // Añade aquí cualquier otro dominio que necesites permitir
 ];
 
+const normalizeOrigin = (origin) => typeof origin === 'string' ? origin.trim().replace(/\/+$/, '') : '';
+const configuredOrigins = (process.env.ALLOWED_ORIGINS || '')
+  .split(',')
+  .map(normalizeOrigin)
+  .filter(Boolean);
+const allowedOrigins = new Set([
+  ...DEFAULT_ALLOWED_ORIGINS.map(normalizeOrigin),
+  ...configuredOrigins,
+]);
+
+const app = express();
+app.set('trust proxy', 1);
+
+// Configuración de CORS para permitir solicitudes desde múltiples orígenes
 app.use(cors({
   origin: function(origin, callback) {
     // Permitir solicitudes sin origen (como aplicaciones móviles o curl)
     if (!origin) return callback(null, true);
-    
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      console.log('Origen bloqueado por CORS:', origin);
-      callback(null, true); // Permitir todos los orígenes en desarrollo
+
+    if (process.env.NODE_ENV !== 'production') {
+      return callback(null, true);
     }
+
+    const normalizedOrigin = normalizeOrigin(origin);
+
+    if (allowedOrigins.has(normalizedOrigin)) {
+      return callback(null, true);
+    }
+
+    console.log('Origen bloqueado por CORS:', origin);
+    return callback(null, false);
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

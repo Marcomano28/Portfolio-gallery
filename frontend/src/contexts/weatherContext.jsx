@@ -2,12 +2,7 @@ import { createContext, useState } from "react";
 import moment from "moment-timezone";
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
-
-// Determinar la URL base según el entorno
-const isProduction = window.location.hostname !== 'localhost';
-const baseUrl = isProduction 
-  ? 'https://portfolio-backend-eu-3d0be158a30f.herokuapp.com/api' // URL directa a Heroku
-  : '/api';
+import { apiBaseUrl } from '../utils/apiBaseUrl';
 
 countries.registerLocale(enLocale);
 
@@ -43,7 +38,7 @@ async function getLanguage(countryCode) {
     return [];
   }
 
-  const url = `${baseUrl}/languages/${countryCode}`;
+  const url = `${apiBaseUrl}/languages/${countryCode}`;
   try {
     console.log('Fetching languages from:', url);
     const response = await fetch(url);
@@ -107,7 +102,7 @@ export const WeatherProvider = ({children}) => {
 
             for (let lang of languages) {
               try {
-                const Url = `${baseUrl}/frase/${lang}`;
+                const Url = `${apiBaseUrl}/frase/${lang}`;
                 const fraseResponse = await fetch(Url);
                 if (fraseResponse.ok) {
                   const fraseData = await fraseResponse.json();

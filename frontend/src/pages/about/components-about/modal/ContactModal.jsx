@@ -1,10 +1,9 @@
 // ContactModal.js
 import { useEffect, useState } from 'react';
 import { StyledModal, StyledModalContent, Input, TexTarea, ModalButton, HeaderContact } from './ContactModalStyled';
+import { apiBaseUrl } from '../../../../utils/apiBaseUrl';
 
-// Usar una URL relativa en lugar de la variable de entorno
-const baseUrl = '/api';
-console.log('API URL:', baseUrl); // Añadido para depuración
+console.log('API URL:', apiBaseUrl); // Añadido para depuración
 
 const ContactModal = ({ isOpen, toggleModal }) => {
   const [formData, setFormData] = useState({
@@ -24,30 +23,30 @@ const ContactModal = ({ isOpen, toggleModal }) => {
     sendEmail();
   };
 
-  const sendEmail = () => {
-    console.log('Sending email to:', `${baseUrl}/send-email`); // Añadido para depuración
-    fetch(`${baseUrl}/send-email`, {
-      method: 'POST',
-      headers: {
-        'Content-type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    })
-    .then(response => {
+  const sendEmail = async () => {
+    console.log('Sending email to:', `${apiBaseUrl}/send-email`); // Añadido para depuración
+    try {
+      const response = await fetch(`${apiBaseUrl}/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json().catch(() => null);
+
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(data?.error || 'Network response was not ok');
       }
-        return response.json();
-    })
-    .then(data => {
+
       alert('Message sent successfully: ' + data.message);
       setFormData({ name: '', email: '', message: '' });
-    })
-    .catch((error) => {
+    } catch (error) {
       console.error('Error:', error);
-      alert('There was a problem sending the message.');
-    });
-  }
+      alert(error.message || 'There was a problem sending the message.');
+    }
+  };
   const handleModalTransition = () => {
     const modalContent = document.querySelector('.ReactModal__Content');
     if (modalContent) {
