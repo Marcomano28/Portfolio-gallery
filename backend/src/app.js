@@ -15,7 +15,6 @@ const DEFAULT_ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'https://artcode-gallery.vercel.app',
   'https://portfolio-gallery.vercel.app',
-  'https://portfolio-gallery-app-891376441044.herokuapp.com',
 ];
 
 const normalizeOrigin = (origin) => typeof origin === 'string' ? origin.trim().replace(/\/+$/, '') : '';

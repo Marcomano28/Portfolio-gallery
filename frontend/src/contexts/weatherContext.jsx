@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import moment from "moment-timezone";
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
-import { apiBaseUrl } from '../utils/apiBaseUrl';
+import { apiBaseUrl, getApiUrl } from '../utils/apiBaseUrl';
 
 countries.registerLocale(enLocale);
 
@@ -38,8 +38,8 @@ async function getLanguage(countryCode) {
     return [];
   }
 
-  const url = `${apiBaseUrl}/languages/${countryCode}`;
   try {
+    const url = getApiUrl(`/languages/${countryCode}`);
     console.log('Fetching languages from:', url);
     const response = await fetch(url);
     if (!response.ok) {
@@ -102,7 +102,7 @@ export const WeatherProvider = ({children}) => {
 
             for (let lang of languages) {
               try {
-                const Url = `${apiBaseUrl}/frase/${lang}`;
+                const Url = getApiUrl(`/frase/${lang}`);
                 const fraseResponse = await fetch(Url);
                 if (fraseResponse.ok) {
                   const fraseData = await fraseResponse.json();

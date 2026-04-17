@@ -1,5 +1,3 @@
-const DEFAULT_PRODUCTION_API_URL = 'https://portfolio-backend-eu-3d0be158a30f.herokuapp.com/api';
-
 const normalizeBaseUrl = (value) => {
   if (typeof value !== 'string') {
     return '';
@@ -9,14 +7,30 @@ const normalizeBaseUrl = (value) => {
 };
 
 const resolveApiBaseUrl = () => {
-  const envBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_URL);
+  const viteEnv = import.meta.env ?? {};
+  const envBaseUrl = normalizeBaseUrl(viteEnv.VITE_API_URL);
 
   if (envBaseUrl) {
     return envBaseUrl;
   }
 
   const isLocalhost = typeof window !== 'undefined' && window.location.hostname === 'localhost';
-  return isLocalhost ? '/api' : DEFAULT_PRODUCTION_API_URL;
+
+  if (isLocalhost) {
+    return '/api';
+  }
+
+  console.error('VITE_API_URL is not configured for production.');
+  return '';
 };
 
 export const apiBaseUrl = resolveApiBaseUrl();
+
+export const getApiUrl = (path = '') => {
+  if (!apiBaseUrl) {
+    throw new Error('API base URL is not configured. Set VITE_API_URL in Vercel.');
+  }
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  return `${apiBaseUrl}${normalizedPath}`;
+};
