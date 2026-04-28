@@ -165,7 +165,7 @@ export const InteractiveSketch = ({
       <Canvas
         ref={sketchRef}
         id={canvasId}
-        style={{ display: isActive ? 'block' : 'none' }}
+        $isActive={isActive}
         $isLandscapeMobile={isLandscapeMobile}
         $isFullscreen={isFullscreen}
       />

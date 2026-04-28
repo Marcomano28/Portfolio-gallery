@@ -124,6 +124,7 @@ export const FullscreenButton = styled.button`
 
 export const Canvas = styled.div`
   touch-action: none;
+  display: ${(props) => (props.$isActive ? 'block' : 'none')};
   position: absolute;
   top: 50%;
   left: 50%;
