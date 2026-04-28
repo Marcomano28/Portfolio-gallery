@@ -1,12 +1,15 @@
 // InteractiveSketch.jsx
 import { useContext, useEffect, useRef, useState, useCallback } from 'react';
-import { createPortal } from 'react-dom';
 import {
   Imag,
   Button,
   CanvasSection,
+  Canvas,
+  FullscreenButton,
 } from './InteractiveSketchStyled';
 import { ThemeContext } from '../../contexts/ThemeProvider';
+import { useDeviceOrientation } from '../customHooks/useDeviceOrientation';
+import { Maximize2, Minimize2 } from 'lucide-react';
 import p5 from 'p5';
 
 export const InteractiveSketch = ({
@@ -21,7 +24,9 @@ export const InteractiveSketch = ({
   const sketchRef = useRef(null);
   const { theme } = useContext(ThemeContext);
   const [isActive, setIsActive] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const containerRef = useRef(null);
+  const isLandscapeMobile = useDeviceOrientation();
   const sketchTheme = theme === 'dark' ? 'light' : 'dark';
 
   /* ── p5 instance lifecycle ──────────────────────────── */
@@ -69,10 +74,10 @@ export const InteractiveSketch = ({
   /* ── Notify parent + scroll lock ────────────────────── */
   useEffect(() => {
     if (onFullScreenChange) {
-      onFullScreenChange(isActive);
+      onFullScreenChange(isFullscreen);
     }
 
-    if (isActive) {
+    if (isFullscreen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -81,25 +86,21 @@ export const InteractiveSketch = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isActive, onFullScreenChange]);
+  }, [isFullscreen, onFullScreenChange]);
 
-  /* ── ResizeObserver – resize canvas on fullscreen ───── */
+  /* ── ResizeObserver – resize canvas on run/fullscreen ─ */
   useEffect(() => {
     if (!sketchRef.current || !isActive) return;
 
     const resizeSketch = (width, height) => {
       if (!p5InstanceRef.current) return;
-      p5InstanceRef.current.resizeCanvas(width, height);
       if (typeof p5InstanceRef.current.windowResized === 'function') {
         p5InstanceRef.current.windowResized();
+      } else {
         p5InstanceRef.current.resizeCanvas(width, height);
       }
       if (p5InstanceRef.current.canvas) {
-        p5InstanceRef.current.canvas.style.width = `${width}px`;
-        p5InstanceRef.current.canvas.style.height = `${height}px`;
         p5InstanceRef.current.canvas.style.display = 'block';
-        p5InstanceRef.current.canvas.style.position = 'absolute';
-        p5InstanceRef.current.canvas.style.inset = '0';
       }
     };
 
@@ -130,21 +131,29 @@ export const InteractiveSketch = ({
       window.cancelAnimationFrame(rafId);
       window.clearTimeout(timeoutId);
       if (p5InstanceRef.current?.canvas) {
-        p5InstanceRef.current.canvas.style.width = '';
-        p5InstanceRef.current.canvas.style.height = '';
-        p5InstanceRef.current.canvas.style.position = '';
-        p5InstanceRef.current.canvas.style.inset = '';
+        p5InstanceRef.current.canvas.style.display = '';
       }
     };
-  }, [isActive]);
+  }, [isActive, isFullscreen]);
 
   /* ── Button handler ─────────────────────────────────── */
   const handleButtonClick = useCallback(() => {
-    setIsActive((prev) => !prev);
+    setIsActive((prev) => {
+      const nextIsActive = !prev;
+      if (!nextIsActive) {
+        setIsFullscreen(false);
+      }
+      return nextIsActive;
+    });
   }, []);
 
-  const preview = (
-    <CanvasSection ref={containerRef} $isStarted={false}>
+  const handleFullscreenClick = useCallback(() => {
+    setIsActive(true);
+    setIsFullscreen((prev) => !prev);
+  }, []);
+
+  return (
+    <CanvasSection ref={containerRef} $isFullscreen={isFullscreen}>
       <Imag
         src={src}
         alt="Interactive Image"
@@ -153,72 +162,30 @@ export const InteractiveSketch = ({
           transition: 'opacity 1.5s',
         }}
       />
-      {!isActive && (
-        <Button id={buttonId} onClick={handleButtonClick}>
-          run
-        </Button>
-      )}
-    </CanvasSection>
-  );
-
-  const fullscreenSketch = (
-    <div
-      style={{
-        position: 'fixed',
-        inset: 0,
-        width: '100vw',
-        height: '100vh',
-        background: '#000',
-        zIndex: 9999,
-      }}
-    >
-      <button
-        id={buttonId}
-        onClick={handleButtonClick}
-        style={{
-          position: 'fixed',
-          top: '0.9rem',
-          right: '1rem',
-          zIndex: 10025,
-          minWidth: '64px',
-          padding: '6px 14px',
-          borderRadius: '20px',
-          border: '1px solid rgba(240, 240, 240, 0.26)',
-          backgroundColor: 'rgba(10, 10, 10, 0.34)',
-          color: 'rgba(242, 242, 242, 0.85)',
-          fontSize: '0.72rem',
-          fontWeight: 500,
-          lineHeight: 1,
-          textTransform: 'lowercase',
-          letterSpacing: '0.5px',
-          whiteSpace: 'nowrap',
-          boxShadow: '0 4px 14px rgba(0, 0, 0, 0.24)',
-          backdropFilter: 'blur(5px)',
-          cursor: 'pointer',
-        }}
-      >
-        stop
-      </button>
-      <div
+      <Canvas
         ref={sketchRef}
         id={canvasId}
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100vw',
-          height: '100vh',
-          overflow: 'hidden',
-        }}
+        style={{ display: isActive ? 'block' : 'none' }}
+        $isLandscapeMobile={isLandscapeMobile}
+        $isFullscreen={isFullscreen}
       />
-    </div>
-  );
-
-  return (
-    <>
-      {preview}
-      {isActive && typeof document !== 'undefined'
-        ? createPortal(fullscreenSketch, document.body)
-        : null}
-    </>
+      <Button
+        id={buttonId}
+        type="button"
+        onClick={handleButtonClick}
+        $isFullscreen={isFullscreen}
+      >
+        {isActive ? 'stop' : 'run'}
+      </Button>
+      <FullscreenButton
+        type="button"
+        onClick={handleFullscreenClick}
+        aria-label={isFullscreen ? 'Exit fullscreen' : 'Open fullscreen'}
+        title={isFullscreen ? 'Exit fullscreen' : 'Open fullscreen'}
+        $isFullscreen={isFullscreen}
+      >
+        {isFullscreen ? <Minimize2 size={15} strokeWidth={1.8} /> : <Maximize2 size={15} strokeWidth={1.8} />}
+      </FullscreenButton>
+    </CanvasSection>
   );
 };

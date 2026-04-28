@@ -19,6 +19,7 @@
     "geo-tz": "^8.0.2",
     "i18n-iso-countries": "^7.11.2",
     "iso-3166-1": "^2.1.1",
+    "lucide-react": "^1.12.0",
     "moment-timezone": "^0.5.45",
     "p5": "^1.9.3",
     "react": "^18.2.0",

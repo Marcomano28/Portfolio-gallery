@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { Container, PanelNav, PanelText, PanelVideo, PanelSlides, DismissButton } from './GridLayoutStyled';
 import { useDeviceOrientation } from '../customHooks/useDeviceOrientation.jsx';
 
-export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchStarted }) => {
+export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchFullscreen }) => {
   const isLandscapeMobile = useDeviceOrientation();
   const [slidesHidden, setSlidesHidden] = useState(false);
   const [overlayBounds, setOverlayBounds] = useState({ slides: null });
@@ -11,13 +11,13 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchSt
 
   // Reset overlay visibility when sketch stops
   useEffect(() => {
-    if (!sketchStarted) {
+    if (!sketchFullscreen) {
       setSlidesHidden(false);
     }
-  }, [sketchStarted]);
+  }, [sketchFullscreen]);
 
   useLayoutEffect(() => {
-    if (sketchStarted) return;
+    if (sketchFullscreen) return;
 
     const updateBounds = () => {
       const nextSlidesBounds = slidesRef.current?.getBoundingClientRect();
@@ -44,9 +44,9 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchSt
       window.removeEventListener('scroll', updateBounds);
       window.cancelAnimationFrame(rafId);
     };
-  }, [sketchStarted, isLandscapeMobile, headText, slidswrapper]);
+  }, [sketchFullscreen, isLandscapeMobile, headText, slidswrapper]);
 
-  const overlayPanel = sketchStarted && typeof document !== 'undefined'
+  const overlayPanel = sketchFullscreen && typeof document !== 'undefined'
     ? createPortal(
         <>
           {overlayBounds.slides && (
@@ -84,14 +84,14 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchSt
 
   return (
     <Container $isLandscapeMobile={isLandscapeMobile}>
-      {!sketchStarted && (
+      {!sketchFullscreen && (
         <>
           {nav ? <PanelNav>{nav}</PanelNav> : null}
           <PanelText>{headText}</PanelText>
           <PanelSlides ref={slidesRef}>{slidswrapper}</PanelSlides>
         </>
       )}
-      <PanelVideo $isLandscapeMobile={isLandscapeMobile} $isStarted={sketchStarted}>
+      <PanelVideo $isLandscapeMobile={isLandscapeMobile} $isStarted={sketchFullscreen}>
         {videoSection}
       </PanelVideo>
       {overlayPanel}
