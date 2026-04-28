@@ -65,16 +65,29 @@ const pagesData = [
           {
             id: "window1",
             showNav: true,
-            headText:`"Is it not so..., that points of light suspended in the dark void evoke an ancient awe within us? Like static memories, recollections frozen in eternity..."`,
+            headText:`Evolving Memories: Exploring the fluid boundary between math and dreams through procedural animation.`,
+            videoComponent: "StandardVideo",
+            videoData: {src:'/media/flores.mp4', title:'LONELINESS', title1:'SUSPENCE',
+                        title2:'SPIRAL', title3:'Breathing', title4:'Hole-dream',},
+            slidesData: [{ icon: '1', title: 'TIME', content: `"..the substance I am made of,` },
+                         { icon: '2', title: 'RIVER', content: `..which sweeps me along, but I am the river` },
+                         { icon: '3', title: 'FIRE', content: `that consumes me, but I am the fire."` },
+                        ]
+
+          },
+          {
+            id: "window2",
+            showNav: false,
             videoComponent: "StandardVideo",
             videoData: {src:'/media/casachicacorto.mp4', title:'NIGHT', title1:'IZBA',
                         title2:'STEPS', title3:'Dark', title4:'Dream-deepness',},
             slidesData: [{ icon: '1', title: 'HUMAN', content: '"I have a feeling that inside you somewhere,' },
                          { icon: '2', title: 'PORTRET', content: `...there's somebody nobody knows about"` },
                         ]
+
           },
           {
-            id: "window2",
+            id: "window3",
             showNav: false,
             videoComponent: "StandardVideo",
             videoData: {src:'/media/Crz.mp4', title:'ASCENCION', title1:'RUTT-ETRA',
@@ -82,9 +95,10 @@ const pagesData = [
             slidesData: [{ icon: '1', title: `PORTRET`, content: `"If I won't be myself, who will?` },
                          { icon: '2', title: 'CANVAS', content: `However vast the darkness, we must supply our own light."` },
                         ]
+
           },
           {
-            id: "window3",
+            id: "window4",
             showNav: false,
             videoComponent: "StandardVideo",
             videoData: {src:'/media/samicorto.mp4', title:'ROOM', title1:'INFINITE',
@@ -93,17 +107,7 @@ const pagesData = [
                          { icon: '2', title: '', content: `And if you care, then go all of the way.` },
                          { icon: '3', title: '', content: `The test of a work of art is, in the end, our affection for it` },
                         ]
-          },
-          {
-            id: "window4",
-            showNav: false,
-            videoComponent: "StandardVideo",
-            videoData: {src:'/media/flores.mp4', title:'LONELINESS', title1:'SUSPENCE',
-                        title2:'SPIRAL', title3:'Breathing', title4:'Hole-dream',},
-            slidesData: [{ icon: '1', title: 'TIME', content: `"..the substance I am made of,` },
-                         { icon: '2', title: 'RIVER', content: `..which sweeps me along, but I am the river` },
-                         { icon: '3', title: 'FIRE', content: `that consumes me, but I am the fire."` },
-                        ]
+
           },
         ]
       },
