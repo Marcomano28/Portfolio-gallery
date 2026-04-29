@@ -1,4 +1,5 @@
-import styled, { css } from "styled-components"; import { device } from "../../utils/breakPoints";
+import styled from "styled-components";
+import { device } from "../../utils/breakPoints";
 
 export const CanvasSection = styled.div`
   width: 100%;
@@ -6,16 +7,6 @@ export const CanvasSection = styled.div`
   /* border: 2px solid red; */
   padding-bottom: 2rem;
   position: relative;
-
-  ${(props) => props.$isStarted && css`
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999;
-    background: #000;
-    padding-bottom: 0;
-  `}
 `;
 
 export const Imag = styled.img`
@@ -80,42 +71,42 @@ export const Button = styled.button`
   }
   @media ${device.desktop} {
   }
-
 `;
 
-export const StopButton = styled.button`
-  position: fixed;
-  top: 0.9rem;
-  right: 1rem;
-  z-index: 10025;
-  width: auto;
-  height: auto;
-  min-width: 64px;
-  padding: 6px 14px;
-  border-radius: 20px;
-  border: 1px solid rgba(240, 240, 240, 0.26);
-  background-color: rgba(10, 10, 10, 0.34);
-  color: rgba(242, 242, 242, 0.85);
-  font-size: 0.72rem;
-  font-weight: 500;
-  line-height: 1;
-  text-transform: lowercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-  writing-mode: horizontal-tb;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
-  backdrop-filter: blur(5px);
+export const FullscreenButton = styled.button`
+  position: absolute;
+  right: 0.78rem;
+  bottom: -0.75rem;
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(150, 150, 77, 0.56);
+  background-color: rgba(40, 67, 53, 0.33);
+  color: rgba(150, 150, 77, 0.76);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
   cursor: pointer;
+  text-shadow: 2px 2px 3px black;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s,
+    box-shadow 0.3s, border-color 0.3s;
 
   &:hover {
-    background-color: rgba(10, 10, 10, 0.48);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
-    transform: translateY(-1px);
+    border-color: rgba(240, 240, 240, 0.2);
+    background-color: rgba(10, 10, 10, 0.08);
+    color: rgba(204, 204, 121, 0.88);
+    box-shadow: none;
+    transform: translateY(-50%) scale(1.04);
   }
 `;
 
 export const Canvas = styled.div`
   touch-action: none;
+  display: ${(props) => (props.$isActive ? 'block' : 'none')};
   position: absolute;
   top: 50%;
   left: 50%;
@@ -142,25 +133,4 @@ export const Canvas = styled.div`
   }
   @media ${device.desktop} {
   }
-
-  /* ── Fullscreen override ── */
-  ${(props) =>
-    props.$isStarted &&
-    css`
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      transform: none;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      & > canvas {
-        display: block;
-        width: 100% !important;
-        height: 100% !important;
-      }
-    `}
 `;

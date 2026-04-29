@@ -1,52 +1,65 @@
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { cloneElement, isValidElement, useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Container, PanelNav, PanelText, PanelVideo, PanelSlides, DismissButton } from './GridLayoutStyled';
 import { useDeviceOrientation } from '../customHooks/useDeviceOrientation.jsx';
 
-export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchStarted }) => {
+export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchFullscreen }) => {
   const isLandscapeMobile = useDeviceOrientation();
   const [slidesHidden, setSlidesHidden] = useState(false);
   const [overlayBounds, setOverlayBounds] = useState({ slides: null });
   const slidesRef = useRef(null);
 
+  const updateOverlayBounds = useCallback(() => {
+    const nextSlidesBounds = slidesRef.current?.getBoundingClientRect();
+    const nextSlides = nextSlidesBounds
+      ? {
+          top: nextSlidesBounds.top,
+          left: nextSlidesBounds.left,
+          width: nextSlidesBounds.width,
+          height: nextSlidesBounds.height,
+        }
+      : null;
+
+    setOverlayBounds((prev) => {
+      const current = prev.slides;
+      const sameBounds =
+        (!current && !nextSlides) ||
+        (current &&
+          nextSlides &&
+          Math.abs(current.top - nextSlides.top) < 0.5 &&
+          Math.abs(current.left - nextSlides.left) < 0.5 &&
+          Math.abs(current.width - nextSlides.width) < 0.5 &&
+          Math.abs(current.height - nextSlides.height) < 0.5);
+
+      return sameBounds ? prev : { slides: nextSlides };
+    });
+  }, []);
+
   // Reset overlay visibility when sketch stops
   useEffect(() => {
-    if (!sketchStarted) {
+    if (!sketchFullscreen) {
       setSlidesHidden(false);
     }
-  }, [sketchStarted]);
+  }, [sketchFullscreen]);
 
   useLayoutEffect(() => {
-    if (sketchStarted) return;
+    if (sketchFullscreen) return;
 
-    const updateBounds = () => {
-      const nextSlidesBounds = slidesRef.current?.getBoundingClientRect();
-
-      setOverlayBounds({
-        slides: nextSlidesBounds
-          ? {
-              top: nextSlidesBounds.top,
-              left: nextSlidesBounds.left,
-              width: nextSlidesBounds.width,
-              height: nextSlidesBounds.height,
-            }
-          : null,
-      });
-    };
-
-    updateBounds();
-    const rafId = window.requestAnimationFrame(updateBounds);
-    window.addEventListener('resize', updateBounds);
-    window.addEventListener('scroll', updateBounds, { passive: true });
+    updateOverlayBounds();
+    const rafId = window.requestAnimationFrame(updateOverlayBounds);
+    window.addEventListener('resize', updateOverlayBounds);
 
     return () => {
-      window.removeEventListener('resize', updateBounds);
-      window.removeEventListener('scroll', updateBounds);
+      window.removeEventListener('resize', updateOverlayBounds);
       window.cancelAnimationFrame(rafId);
     };
-  }, [sketchStarted, isLandscapeMobile, headText, slidswrapper]);
+  }, [sketchFullscreen, isLandscapeMobile, headText, slidswrapper, updateOverlayBounds]);
 
-  const overlayPanel = sketchStarted && typeof document !== 'undefined'
+  const videoSectionWithOverlayCapture = isValidElement(videoSection)
+    ? cloneElement(videoSection, { onBeforeFullscreen: updateOverlayBounds })
+    : videoSection;
+
+  const overlayPanel = sketchFullscreen && typeof document !== 'undefined'
     ? createPortal(
         <>
           {overlayBounds.slides && (
@@ -84,15 +97,15 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchSt
 
   return (
     <Container $isLandscapeMobile={isLandscapeMobile}>
-      {!sketchStarted && (
+      {!sketchFullscreen && (
         <>
           {nav ? <PanelNav>{nav}</PanelNav> : null}
           <PanelText>{headText}</PanelText>
           <PanelSlides ref={slidesRef}>{slidswrapper}</PanelSlides>
         </>
       )}
-      <PanelVideo $isLandscapeMobile={isLandscapeMobile} $isStarted={sketchStarted}>
-        {videoSection}
+      <PanelVideo $isLandscapeMobile={isLandscapeMobile} $isStarted={sketchFullscreen}>
+        {videoSectionWithOverlayCapture}
       </PanelVideo>
       {overlayPanel}
     </Container>
