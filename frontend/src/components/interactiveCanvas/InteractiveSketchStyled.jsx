@@ -75,29 +75,32 @@ export const Button = styled.button`
 
 export const FullscreenButton = styled.button`
   position: absolute;
-  right: 0.55rem;
-  bottom: 0;
+  right: 0.78rem;
+  bottom: -0.75rem;
   transform: translateY(-50%);
   z-index: 3;
   width: 30px;
   height: 30px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(240, 240, 240, 0.2);
-  background-color: rgba(10, 10, 10, 0.34);
-  color: rgba(242, 242, 242, 0.78);
+  border: 1px solid rgba(240, 240, 240, 0.14);
+  background-color: transparent;
+  color: rgba(112, 112, 67, 0.76);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
+  box-shadow: none;
   backdrop-filter: blur(5px);
   cursor: pointer;
-  transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  text-shadow: 2px 2px 3px black;
+  transition: background-color 0.3s, color 0.3s, transform 0.3s,
+    box-shadow 0.3s, border-color 0.3s;
 
   &:hover {
-    background-color: rgba(10, 10, 10, 0.48);
-    color: rgba(242, 242, 242, 0.95);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
+    border-color: rgba(240, 240, 240, 0.2);
+    background-color: rgba(10, 10, 10, 0.08);
+    color: rgba(204, 204, 121, 0.88);
+    box-shadow: none;
     transform: translateY(-50%) scale(1.04);
   }
 `;
