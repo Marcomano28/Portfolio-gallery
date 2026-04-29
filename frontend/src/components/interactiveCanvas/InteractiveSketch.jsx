@@ -89,7 +89,7 @@ export const InteractiveSketch = ({
           }
 
           p5InstanceRef.current = new p5(
-            (p) => scriptSrc(p, sketchTheme, weatherData),
+            (p) => scriptSrc(p, sketchTheme, weatherData, { isFullscreen }),
             sketchRef.current
           );
           mountedNodeRef.current = sketchRef.current;

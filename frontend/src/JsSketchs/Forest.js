@@ -195,8 +195,16 @@ void main() {
 }
 `;
 
-const p5SketchForest = (p, theme, weatherData) => {
+const p5SketchForest = (p, theme, weatherData, options = {}) => {
+    const useShaderGlass = options.isFullscreen === true;
+    const getRainValue = (data) => {
+        if (!data || !data.rain) return 0;
+        return data.rain['1h'] || data.rain.lh || data.rain['3h'] || 0;
+    };
 
+    let N = 150;
+    let A = 20;
+    let divisor = 2;
     const num_trees = 102;
     const wordSpeed = 1200;
     let cloudsAll = 50;
@@ -204,11 +212,18 @@ const p5SketchForest = (p, theme, weatherData) => {
     if (weatherData) {
         if (weatherData.clouds && typeof weatherData.clouds.all === 'number') {
             cloudsAll = weatherData.clouds.all;
+            N = Math.ceil(p.map(cloudsAll, 0, 100, 300, 50));
+            if (N > 250) A = 1;
         }
-        if (weatherData.rain && typeof weatherData.rain.lh === 'number') {
-            rain = weatherData.rain.lh;
+        const rainVal = getRainValue(weatherData);
+        if (typeof rainVal === 'number' && rainVal > 0) {
+            rain = Math.ceil(p.map(rainVal, 0, 10, 0, 30));
+            N -= rain;
+            A += rain;
         }
     }
+    let grid;
+    let agents;
     let glass;
     let rainShader;
     let mouseOffsetAccum = 0;
@@ -231,6 +246,11 @@ const p5SketchForest = (p, theme, weatherData) => {
     let isSafari;
     let offset = 220;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
+    const resetClassicGlass = () => {
+        grid = Array.from(new Array(N), () => new Array(N).fill(0));
+        agents = Array(A).fill().map(() => ({ x: 0, y: 0 }));
+    };
+    resetClassicGlass();
 
     p.preload = () => {
         const baseUrl = '/assets/';
@@ -323,7 +343,7 @@ const p5SketchForest = (p, theme, weatherData) => {
             
             // Extract rainfall correctly natively from API structure mapping into drop chance 
             if (weatherData.rain) {
-                let rainVal = weatherData.rain['1h'] || weatherData.rain.lh || weatherData.rain['3h'] || 0;
+                let rainVal = getRainValue(weatherData);
                 
                 if (rainVal === 0) {
                     rainAmount = 0.0; // Absolutamente nada de lluvia si marca explícitamente 0
@@ -373,15 +393,21 @@ const p5SketchForest = (p, theme, weatherData) => {
         bosque.bosque = [];
         bosque.init();
 
-        if (!glass) {
-            glass = p.createGraphics(p.width, p.height, p.WEBGL);
-            rainShader = glass.createShader(rainVert, rainFrag);
+        if (useShaderGlass) {
+            if (!glass) {
+                glass = p.createGraphics(p.width, p.height, p.WEBGL);
+                rainShader = glass.createShader(rainVert, rainFrag);
+            } else {
+                glass.resizeCanvas(p.width, p.height);
+            }
+
+            rainTimeAccum = 0;
+            mouseOffsetAccum = 0;
         } else {
-            glass.resizeCanvas(p.width, p.height);
+            resetClassicGlass();
+            glass = p.createGraphics(N / divisor, N / divisor);
         }
 
-        rainTimeAccum = 0;
-        mouseOffsetAccum = 0;
         lastMouseY = p.mouseY;
     };
 
@@ -535,7 +561,7 @@ const p5SketchForest = (p, theme, weatherData) => {
         bosque.drwく();
         p.pop();
     };
-    p.updateGlass = () => {
+    const updateShaderGlass = () => {
         let targetMouseSpeed = (p.mouseX - p.width / 2) * 0.002;
         // Dampen the reaction to the mouse so it feels more like a physical car turning
         smoothedMouseSpeed = p.lerp(smoothedMouseSpeed, targetMouseSpeed, 0.05);
@@ -584,6 +610,62 @@ const p5SketchForest = (p, theme, weatherData) => {
         glass.rect(-glass.width / 2, -glass.height / 2, glass.width, glass.height);
 
         p.image(glass, 0, 0, p.width, p.height);
+    };
+
+    const updateClassicGlass = () => {
+        for (let i = agents.length; i--;) {
+            const agent = agents[i];
+            const r = p.noise(i + p.frameCount / 199) * 20;
+            agent.x -= (p.mouseX - p.width / 2) * 0.002;
+            agent.x = (agent.x + p.cos(r) + N * 2) % N;
+            agent.y = (agent.y + p.sin(r) + 1 + N) % N;
+            grid[p.int(agent.x)][p.int(agent.y)] = 2;
+        }
+
+        let old = [];
+        for (let x = N; x--;) old[x] = grid[x].slice();
+
+        for (let x = N; x--;) {
+            for (let y = N; y--;) {
+                let sum =
+                    +old[x][(y - 1 + N) % N]
+                    + old[x][(y + 1) % N]
+                    + old[x][y] * 2
+                    + old[(x + 1) % N][y]
+                    + old[(x - 1 + N) % N][y];
+                grid[x][y] = (sum == numDrops) + (sum == 4 / col);
+            }
+        }
+
+        if (onWeather) {
+            let addLight = isDayCity ? 100 : -20;
+            let r = Math.ceil(p.red(bgColor)) + addLight;
+            let g = Math.ceil(p.green(bgColor)) + addLight;
+            let b = Math.ceil(p.blue(bgColor)) + addLight;
+            glass.background(r, g, b, 20);
+        }
+        glass.background(46 * col, 56 * col, 63 * col, traslucid);
+
+        glass.loadPixels();
+        for (let x = N; x--;) {
+            for (let y = N; y--;) {
+                const index = (x + y * N) * 4;
+                glass.pixels[index + 3] = grid[x][y] ? 255 : onWeather ? 10 : 40 * col;
+                if (grid[x][y] > p.frameCount % 200) {
+                    grid[x][y] = 0;
+                }
+            }
+        }
+        glass.updatePixels();
+        p.image(glass, 0, 0, p.width, p.height);
+    };
+
+    p.updateGlass = () => {
+        if (useShaderGlass) {
+            updateShaderGlass();
+            return;
+        }
+        updateClassicGlass();
     };
     p.updateTheme = updateTheme;
 }
