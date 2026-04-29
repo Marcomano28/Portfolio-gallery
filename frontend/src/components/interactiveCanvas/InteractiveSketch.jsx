@@ -9,7 +9,7 @@ import {
 } from './InteractiveSketchStyled';
 import { ThemeContext } from '../../contexts/ThemeProvider';
 import { useDeviceOrientation } from '../customHooks/useDeviceOrientation';
-import { Maximize2, Minimize2 } from 'lucide-react';
+import { Maximize2 } from 'lucide-react';
 import p5 from 'p5';
 
 export const InteractiveSketch = ({
@@ -149,7 +149,7 @@ export const InteractiveSketch = ({
 
   const handleFullscreenClick = useCallback(() => {
     setIsActive(true);
-    setIsFullscreen((prev) => !prev);
+    setIsFullscreen(true);
   }, []);
 
   return (
@@ -177,15 +177,16 @@ export const InteractiveSketch = ({
       >
         {isActive ? 'stop' : 'run'}
       </Button>
-      <FullscreenButton
-        type="button"
-        onClick={handleFullscreenClick}
-        aria-label={isFullscreen ? 'Exit fullscreen' : 'Open fullscreen'}
-        title={isFullscreen ? 'Exit fullscreen' : 'Open fullscreen'}
-        $isFullscreen={isFullscreen}
-      >
-        {isFullscreen ? <Minimize2 size={15} strokeWidth={1.8} /> : <Maximize2 size={15} strokeWidth={1.8} />}
-      </FullscreenButton>
+      {!isFullscreen && (
+        <FullscreenButton
+          type="button"
+          onClick={handleFullscreenClick}
+          aria-label="Open fullscreen"
+          title="Open fullscreen"
+        >
+          <Maximize2 size={15} strokeWidth={1.8} />
+        </FullscreenButton>
+      )}
     </CanvasSection>
   );
 };

@@ -13,6 +13,7 @@ export const CanvasSection = styled.div`
     inset: 0;
     width: 100vw;
     height: 100vh;
+    height: 100dvh;
     z-index: 9999;
     background: #000;
     padding-bottom: 0;
@@ -117,8 +118,7 @@ export const FullscreenButton = styled.button`
   }
 
   ${(props) => props.$isFullscreen && css`
-    right: 1rem;
-    bottom: 1rem;
+    display: none;
   `}
 `;
 
@@ -155,18 +155,19 @@ export const Canvas = styled.div`
   ${(props) =>
     props.$isFullscreen &&
     css`
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      transform: none;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      transform: translate(-50%, -50%);
       padding: 0;
       overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      display: block;
 
       & > canvas {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100% !important;
         height: 100% !important;
