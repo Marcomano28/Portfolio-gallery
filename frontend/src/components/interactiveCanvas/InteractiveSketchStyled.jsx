@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { device } from "../../utils/breakPoints";
 
 export const CanvasSection = styled.div`
@@ -7,18 +7,6 @@ export const CanvasSection = styled.div`
   /* border: 2px solid red; */
   padding-bottom: 2rem;
   position: relative;
-
-  ${(props) => props.$isFullscreen && css`
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    z-index: 9999;
-    background: #000;
-    padding-bottom: 0;
-    overflow: hidden;
-  `}
 `;
 
 export const Imag = styled.img`
@@ -83,10 +71,6 @@ export const Button = styled.button`
   }
   @media ${device.desktop} {
   }
-
-  ${(props) => props.$isFullscreen && css`
-    bottom: 1rem;
-  `}
 `;
 
 export const FullscreenButton = styled.button`
@@ -116,10 +100,6 @@ export const FullscreenButton = styled.button`
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     transform: translateY(-50%) scale(1.04);
   }
-
-  ${(props) => props.$isFullscreen && css`
-    display: none;
-  `}
 `;
 
 export const Canvas = styled.div`
@@ -151,26 +131,4 @@ export const Canvas = styled.div`
   }
   @media ${device.desktop} {
   }
-
-  ${(props) =>
-    props.$isFullscreen &&
-    css`
-      top: 50%;
-      left: 50%;
-      width: 100vw;
-      height: 100vh;
-      height: 100dvh;
-      transform: translate(-50%, -50%);
-      padding: 0;
-      overflow: hidden;
-      display: block;
-
-      & > canvas {
-        position: absolute;
-        inset: 0;
-        display: block;
-        width: 100% !important;
-        height: 100% !important;
-      }
-    `}
 `;
