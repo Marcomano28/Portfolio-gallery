@@ -20,6 +20,7 @@ export const InteractiveSketch = ({
   weatherData,
   scriptSrc,
   onFullScreenChange,
+  onBeforeFullscreen,
 }) => {
   const p5InstanceRef = useRef(null);
   const sketchRef = useRef(null);
@@ -27,6 +28,7 @@ export const InteractiveSketch = ({
   const { theme } = useContext(ThemeContext);
   const [isActive, setIsActive] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const containerRef = useRef(null);
   const isLandscapeMobile = useDeviceOrientation();
   const sketchTheme = theme === 'dark' ? 'light' : 'dark';
@@ -39,12 +41,38 @@ export const InteractiveSketch = ({
     mountedNodeRef.current = null;
   }, []);
 
+  /* ── Pause inline sketches when their window leaves view ─ */
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(containerRef.current);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible && isActive && !isFullscreen) {
+      removeSketchInstance();
+      setIsActive(false);
+    }
+  }, [isVisible, isActive, isFullscreen, removeSketchInstance]);
+
   /* ── p5 instance lifecycle ──────────────────────────── */
   useEffect(() => {
     let rafId;
     let timeoutId;
+    const canRunSketch = isActive && (isVisible || isFullscreen);
 
-    if (isActive && sketchRef.current) {
+    if (canRunSketch && sketchRef.current) {
       if (p5InstanceRef.current && mountedNodeRef.current !== sketchRef.current) {
         p5InstanceRef.current.remove();
         p5InstanceRef.current = null;
@@ -87,7 +115,7 @@ export const InteractiveSketch = ({
       if (rafId) window.cancelAnimationFrame(rafId);
       if (timeoutId) window.clearTimeout(timeoutId);
     };
-  }, [isActive, isFullscreen, sketchTheme, weatherData, scriptSrc]);
+  }, [isActive, isVisible, isFullscreen, sketchTheme, weatherData, scriptSrc]);
 
   /* ── Notify parent + scroll lock ────────────────────── */
   useEffect(() => {
@@ -106,9 +134,9 @@ export const InteractiveSketch = ({
     };
   }, [isFullscreen, onFullScreenChange]);
 
-  /* ── ResizeObserver – resize canvas on run/fullscreen ─ */
+  /* ── ResizeObserver – resize canvas in fullscreen ───── */
   useEffect(() => {
-    if (!sketchRef.current || !isActive) return;
+    if (!sketchRef.current || !isActive || !isFullscreen) return;
 
     const resizeSketch = (width, height) => {
       if (!p5InstanceRef.current) return;
@@ -123,10 +151,8 @@ export const InteractiveSketch = ({
         p5InstanceRef.current.canvas.style.width = `${width}px`;
         p5InstanceRef.current.canvas.style.height = `${height}px`;
         p5InstanceRef.current.canvas.style.display = 'block';
-        if (isFullscreen) {
-          p5InstanceRef.current.canvas.style.position = 'absolute';
-          p5InstanceRef.current.canvas.style.inset = '0';
-        }
+        p5InstanceRef.current.canvas.style.position = 'absolute';
+        p5InstanceRef.current.canvas.style.inset = '0';
       }
     };
 
@@ -179,10 +205,13 @@ export const InteractiveSketch = ({
   }, [isActive, removeSketchInstance]);
 
   const handleFullscreenClick = useCallback(() => {
+    if (onBeforeFullscreen) {
+      onBeforeFullscreen();
+    }
     removeSketchInstance();
     setIsActive(true);
     setIsFullscreen(true);
-  }, [removeSketchInstance]);
+  }, [onBeforeFullscreen, removeSketchInstance]);
 
   const fullscreenSketch = isFullscreen && typeof document !== 'undefined'
     ? createPortal(

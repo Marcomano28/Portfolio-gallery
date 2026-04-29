@@ -1,4 +1,4 @@
-import { useState, useEffect, useLayoutEffect, useRef } from 'react';
+import { cloneElement, isValidElement, useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import { Container, PanelNav, PanelText, PanelVideo, PanelSlides, DismissButton } from './GridLayoutStyled';
 import { useDeviceOrientation } from '../customHooks/useDeviceOrientation.jsx';
@@ -8,6 +8,32 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchFu
   const [slidesHidden, setSlidesHidden] = useState(false);
   const [overlayBounds, setOverlayBounds] = useState({ slides: null });
   const slidesRef = useRef(null);
+
+  const updateOverlayBounds = useCallback(() => {
+    const nextSlidesBounds = slidesRef.current?.getBoundingClientRect();
+    const nextSlides = nextSlidesBounds
+      ? {
+          top: nextSlidesBounds.top,
+          left: nextSlidesBounds.left,
+          width: nextSlidesBounds.width,
+          height: nextSlidesBounds.height,
+        }
+      : null;
+
+    setOverlayBounds((prev) => {
+      const current = prev.slides;
+      const sameBounds =
+        (!current && !nextSlides) ||
+        (current &&
+          nextSlides &&
+          Math.abs(current.top - nextSlides.top) < 0.5 &&
+          Math.abs(current.left - nextSlides.left) < 0.5 &&
+          Math.abs(current.width - nextSlides.width) < 0.5 &&
+          Math.abs(current.height - nextSlides.height) < 0.5);
+
+      return sameBounds ? prev : { slides: nextSlides };
+    });
+  }, []);
 
   // Reset overlay visibility when sketch stops
   useEffect(() => {
@@ -19,32 +45,19 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchFu
   useLayoutEffect(() => {
     if (sketchFullscreen) return;
 
-    const updateBounds = () => {
-      const nextSlidesBounds = slidesRef.current?.getBoundingClientRect();
-
-      setOverlayBounds({
-        slides: nextSlidesBounds
-          ? {
-              top: nextSlidesBounds.top,
-              left: nextSlidesBounds.left,
-              width: nextSlidesBounds.width,
-              height: nextSlidesBounds.height,
-            }
-          : null,
-      });
-    };
-
-    updateBounds();
-    const rafId = window.requestAnimationFrame(updateBounds);
-    window.addEventListener('resize', updateBounds);
-    window.addEventListener('scroll', updateBounds, { passive: true });
+    updateOverlayBounds();
+    const rafId = window.requestAnimationFrame(updateOverlayBounds);
+    window.addEventListener('resize', updateOverlayBounds);
 
     return () => {
-      window.removeEventListener('resize', updateBounds);
-      window.removeEventListener('scroll', updateBounds);
+      window.removeEventListener('resize', updateOverlayBounds);
       window.cancelAnimationFrame(rafId);
     };
-  }, [sketchFullscreen, isLandscapeMobile, headText, slidswrapper]);
+  }, [sketchFullscreen, isLandscapeMobile, headText, slidswrapper, updateOverlayBounds]);
+
+  const videoSectionWithOverlayCapture = isValidElement(videoSection)
+    ? cloneElement(videoSection, { onBeforeFullscreen: updateOverlayBounds })
+    : videoSection;
 
   const overlayPanel = sketchFullscreen && typeof document !== 'undefined'
     ? createPortal(
@@ -92,7 +105,7 @@ export const GridLayout = ({ nav, headText, videoSection, slidswrapper, sketchFu
         </>
       )}
       <PanelVideo $isLandscapeMobile={isLandscapeMobile} $isStarted={sketchFullscreen}>
-        {videoSection}
+        {videoSectionWithOverlayCapture}
       </PanelVideo>
       {overlayPanel}
     </Container>

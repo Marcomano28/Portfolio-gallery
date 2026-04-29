@@ -83,14 +83,13 @@ export const FullscreenButton = styled.button`
   height: 30px;
   padding: 0;
   border-radius: 50%;
-  border: 1px solid rgba(240, 240, 240, 0.14);
-  background-color: transparent;
-  color: rgba(112, 112, 67, 0.76);
+  border: 1px solid rgba(150, 150, 77, 0.56);
+  background-color: rgba(40, 67, 53, 0.33);
+  color: rgba(150, 150, 77, 0.76);
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: none;
-  backdrop-filter: blur(5px);
   cursor: pointer;
   text-shadow: 2px 2px 3px black;
   transition: background-color 0.3s, color 0.3s, transform 0.3s,
