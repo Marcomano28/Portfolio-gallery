@@ -64,6 +64,8 @@ export const Container = styled.div`
       "nav video"
       "text video"
       "slides video";
+    max-width: 1800px;
+    margin-inline: auto;
     padding: 3rem 1rem; 
   }
   @media ${device.desktop4k} { // 3840 physical, including scaled 4K displays
@@ -73,6 +75,8 @@ export const Container = styled.div`
       "nav video"
       "text video"
       "slides video";
+    max-width: 1800px;
+    margin-inline: auto;
     padding: 3rem 1rem;  
   }
 `} 
