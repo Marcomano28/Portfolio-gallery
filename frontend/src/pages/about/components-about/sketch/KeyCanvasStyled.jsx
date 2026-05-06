@@ -78,11 +78,11 @@ export const MyImgSketch = styled.div`
              height: 40vw;              
          } 
          @media (min-width: 3840px) { 
-          margin:0.2rem;
+             margin:0.2rem;
              margin-top:2rem;
              margin-left:1rem;
-             width: 40vw;
-             height: 40vw;               
+             width: min(40vw, 72rem);
+             height: min(40vw, 72rem);               
          } 
          @media (min-width: 4096px) {                
          } 
@@ -130,6 +130,8 @@ export const MiCanvas = styled.div`
             @media (min-width: 2560px) {              
              } 
             @media (min-width: 3840px) {               
+              width: min(40vw, 72rem);
+              height: min(40vw, 72rem);
              } 
             @media (min-width: 4096px) {                
              } 
