@@ -64,7 +64,7 @@ export const Container = styled.div`
       "nav video"
       "text video"
       "slides video";
-    max-width: 1800px;
+    max-width: 1440px;
     margin-inline: auto;
     padding: 3rem 1rem; 
   }
@@ -75,7 +75,7 @@ export const Container = styled.div`
       "nav video"
       "text video"
       "slides video";
-    max-width: 1800px;
+    max-width: 1440px;
     margin-inline: auto;
     padding: 3rem 1rem;  
   }
