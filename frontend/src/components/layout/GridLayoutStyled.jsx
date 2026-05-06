@@ -67,7 +67,7 @@ export const Container = styled.div`
     padding: 3rem 1rem; 
   }
   @media ${device.desktopL} { // 3840
-    grid-template-columns: 35% 65%; 
+    grid-template-columns: 38% 62%; 
     grid-template-rows: 10% 40% 50%;
     grid-template-areas:
       "nav video"
@@ -262,7 +262,7 @@ export const SidePanelWrapper = styled.div`
     }
 
     @media ${device.desktopL} {
-      width: calc(35vw - 1rem);
+      width: calc(38vw - 1rem);
     }
   `}
 
