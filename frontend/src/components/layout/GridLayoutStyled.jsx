@@ -66,7 +66,7 @@ export const Container = styled.div`
       "slides video";
     padding: 3rem 1rem; 
   }
-  @media ${device.desktopL} { // 3840
+  @media ${device.desktop4k} { // 3840 physical, including scaled 4K displays
     grid-template-columns: 38% 62%; 
     grid-template-rows: 10% 40% 50%;
     grid-template-areas:
@@ -261,7 +261,7 @@ export const SidePanelWrapper = styled.div`
       height: calc(100vh - 6rem);
     }
 
-    @media ${device.desktopL} {
+    @media ${device.desktop4k} {
       width: calc(38vw - 1rem);
     }
   `}

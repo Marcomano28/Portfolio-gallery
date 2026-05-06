@@ -6,7 +6,7 @@ export const Input = styled.input`
       &:checked + label{
         height: 70vw;
 
-        @media ${device.desktopL} { // 3840
+        @media ${device.desktop4k} { // 3840 physical, including scaled 4K displays
           height: clamp(14rem, 38vh, 42rem);
         }
       }
