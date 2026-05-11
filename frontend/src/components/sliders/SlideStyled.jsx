@@ -5,10 +5,6 @@ export const Input = styled.input`
        display: none;
       &:checked + label{
         height: 70vw;
-
-        @media ${device.desktop} { // 2560 and scaled 4K displays
-          height: clamp(14rem, 38vh, 42rem);
-        }
       }
       &:checked + label .description {
         opacity: 1 !important;
@@ -21,6 +17,7 @@ export const Input = styled.input`
         
         } 
         @media ${device.laptop} { // 1024
+          
          
         }
         @media ${device.laptopL} { // 1440

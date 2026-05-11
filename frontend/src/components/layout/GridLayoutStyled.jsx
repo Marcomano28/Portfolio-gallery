@@ -64,19 +64,15 @@ export const Container = styled.div`
       "nav video"
       "text video"
       "slides video";
-    max-width: 1440px;
-    margin-inline: auto;
     padding: 3rem 1rem; 
   }
-  @media ${device.desktop4k} { // 3840 physical, including scaled 4K displays
-    grid-template-columns: 38% 62%; 
+  @media ${device.desktopL} { // 3840
+    grid-template-columns: 35% 65%; 
     grid-template-rows: 10% 40% 50%;
     grid-template-areas:
       "nav video"
       "text video"
       "slides video";
-    max-width: 1440px;
-    margin-inline: auto;
     padding: 3rem 1rem;  
   }
 `} 
@@ -265,8 +261,8 @@ export const SidePanelWrapper = styled.div`
       height: calc(100vh - 6rem);
     }
 
-    @media ${device.desktop4k} {
-      width: calc(38vw - 1rem);
+    @media ${device.desktopL} {
+      width: calc(35vw - 1rem);
     }
   `}
 

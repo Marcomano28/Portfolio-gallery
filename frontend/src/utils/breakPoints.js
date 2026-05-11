@@ -17,6 +17,5 @@ const size = {
     laptop: `(min-width: ${size.laptop})`,
     laptopL: `(min-width: ${size.laptopL})`,
     desktop: `(min-width: ${size.desktop})`,
-    desktopL: `(min-width: ${size.desktopL})`,
-    desktop4k: `(min-width: ${size.desktopL}), (min-width: 1920px) and (min-resolution: 1.5dppx)`
+    desktopL: `(min-width: ${size.desktopL})`
   };

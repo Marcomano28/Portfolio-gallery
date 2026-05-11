@@ -187,7 +187,7 @@ export const MainText = styled.h2`
                        
           }
          @media (min-width: 1440px) {
-            font-size: clamp(1.6rem, 1.9vw, 3.5rem);       
+            font-size: 1.9vw;       
           } 
 `;
 export const Button = styled.button`
