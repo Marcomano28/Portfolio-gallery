@@ -32,4 +32,27 @@ export const GlobalStyles = createGlobalStyle`
                      radial-gradient(circle at 0    50%, white 5%, silver 5%, silver 15%, white 15%, white 20%, silver 20%, silver 29%,
                                      white 29%, white 34%, silver 34%, silver 44%, white 44%, white 49%, transparent 49%, transparent);        
 }
+
+html {
+    scrollbar-width: thin;
+    scrollbar-color: ${({ theme }) => theme.scrollbarThumb} ${({ theme }) => theme.scrollbarTrack};
+}
+
+body::-webkit-scrollbar {
+    width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+    background: ${({ theme }) => theme.scrollbarTrack};
+}
+
+body::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.scrollbarThumb};
+    border: 2px solid ${({ theme }) => theme.scrollbarTrack};
+    border-radius: 999px;
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: ${({ theme }) => theme.scrollbarThumbHover};
+}
 `

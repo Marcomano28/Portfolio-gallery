@@ -61,4 +61,7 @@ export const darkTheme = {
     inputButtonColor: 'rgba(175, 164, 187, 0.417)',
     navButtonColor: 'rgba(160, 157, 66, 0.617)',
     textCityColor: 'linear-gradient(180deg, rgb(121, 111, 22),rgb(40, 38, 144) )',
+    scrollbarTrack: 'rgba(3, 4, 3, 0.68)',
+    scrollbarThumb: 'rgba(112, 112, 67, 0.5)',
+    scrollbarThumbHover: 'rgba(180, 180, 92, 0.72)',
 };

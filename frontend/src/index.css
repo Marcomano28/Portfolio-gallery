@@ -11,26 +11,3 @@
   margin: 0;
   box-sizing: border-box;
 }
-
-html {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(170, 169, 143, 0.45) rgba(8, 12, 10, 0.35);
-}
-
-body::-webkit-scrollbar {
-  width: 10px;
-}
-
-body::-webkit-scrollbar-track {
-  background: rgba(8, 12, 10, 0.35);
-}
-
-body::-webkit-scrollbar-thumb {
-  background: rgba(170, 169, 143, 0.38);
-  border: 2px solid rgba(8, 12, 10, 0.35);
-  border-radius: 999px;
-}
-
-body::-webkit-scrollbar-thumb:hover {
-  background: rgba(204, 204, 121, 0.55);
-}

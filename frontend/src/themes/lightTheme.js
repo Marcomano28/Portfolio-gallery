@@ -73,4 +73,7 @@ export const lightTheme = {
     inputButtonColor: 'rgba(87, 83, 8, 0.617)',
     navButtonColor: 'rgba(215, 214, 187, 0.617)',
     textCityColor: 'linear-gradient(180deg, rgb(225, 163, 96),rgb(24, 50, 88))',
+    scrollbarTrack: 'rgba(8, 12, 10, 0.35)',
+    scrollbarThumb: 'rgba(170, 169, 143, 0.38)',
+    scrollbarThumbHover: 'rgba(204, 204, 121, 0.55)',
 };	
