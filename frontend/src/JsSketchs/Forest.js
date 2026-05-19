@@ -228,7 +228,7 @@ const p5SketchForest = (p, theme, weatherData) => {
     let numDrops;
     let intensity;
     let bgColor;
-    let isSafari;
+    let isSafari = false;
     let offset = 220;
     const easing = BezierEasing(0.42, 0, 0.58, 1);
 
@@ -395,8 +395,7 @@ const p5SketchForest = (p, theme, weatherData) => {
         p.noStroke();
         initializeForestScene();
 
-        // isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-        // console.log('Es Safari?', isSafari);
+        isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
         // let isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         // if (isMobileDevice) {
