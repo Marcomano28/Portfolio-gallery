@@ -38,7 +38,7 @@ const pagesData = [
           id: "window3",
           showNav: false,
           videoComponent: "StandardVideo",
-          videoData: {src:'/media/catarata.mp4', title:'WATER', title1:'DREAM', title2:'RUN',
+          videoData: {src:'/media/cascada.webm', title:'WATER', title1:'DREAM', title2:'RUN',
                       title3:'Night', title4:'Space-deepness', },
           slidesData: [{ icon: '1', title: 'AMADO', content: `"Self abandoned, self forgot,` },
                        { icon: '2', title: '', content: `all ceased, and I was not,` },
